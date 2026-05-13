@@ -96,7 +96,7 @@ main { padding:28px 32px 48px; max-width:880px; }
     <h1>Adobe Release Tracker</h1>
     <span class="header-sub">23 apps · suivi hebdomadaire</span>
   </div>
-  <span class="tag-updated">updated 2026-05-12</span>
+  <span class="tag-updated">updated 2026-05-13</span>
 </header>
 <aside>
   <div id="sidebar-apps"></div>
@@ -147,7 +147,7 @@ const APPS = {
 };
 
 const DATA = {
-illustrator:{lastChecked:"2026-05-12",releases:[
+illustrator:{lastChecked:"2026-05-13",releases:[
   {version:"30.4",name:"Version mai 2026",date:"Mai 2026",features:[
     {name:"Generative Expand — étendre images au-delà de leurs bords originaux",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/expand-artwork-with-generative-expand.html"},
     {name:"Remove Background — isoler sujets rasters en un clic via IA",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-vector-artwork-from-images.html"},
@@ -204,11 +204,11 @@ illustrator:{lastChecked:"2026-05-12",releases:[
   ]},
 ]},
 
-photoshop:{lastChecked:"2026-05-12",releases:[
-  {version:"27.6",name:"Version avril 2026",date:"Avr. 2026",features:[
+photoshop:{lastChecked:"2026-05-13",releases:[
+  {version:"27.6",name:"Version avril 2026",date:"Avr. 2026",isNew:true,features:[
+    {name:"🆕 Co-édition en temps réel — éditer le même fichier Photoshop simultanément avec plusieurs partenaires via Creative Cloud",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
     {name:"Rotation d'objet — pivoter/incliner calques 2D sur le canevas + remplissage IA",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
-    {name:"Suppression des reflets — retirer reflets de vitre, sortie sur calque séparé",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
-    {name:"Détecter les distractions (mode général) — détecter & supprimer le désordre",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
+    {name:"Suppression des reflets — retirer reflets de vitre, sortie sur calque séparé",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},    {name:"Détecter les distractions (mode général) — détecter & supprimer le désordre",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
     {name:"Nettoyage des calques — supprimer calques vides, renommage auto par contenu",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
     {name:"Panneau Utilisation des crédits génératifs — suivi en temps réel",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
     {name:"Multi-modèles : Firefly Image 5, Gemini 3.1 (Nano Banana 2), FLUX",url:"https://helpx.adobe.com/photoshop/using/generate-image-using-generative-fill.html"},
@@ -234,7 +234,7 @@ photoshop:{lastChecked:"2026-05-12",releases:[
   ]},
 ]},
 
-indesign:{lastChecked:"2026-05-12",releases:[
+indesign:{lastChecked:"2026-05-13",releases:[
   {version:"20.x",name:"InDesign 2026 — MAX",date:"Oct. 2025",features:[
     {name:"Flex Layout — mises en page dynamiques adaptatives multi-format",url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html"},
     {name:"Édition PDF universel — modifier des PDFs créés avec n'importe quel outil",url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html"},
@@ -249,7 +249,7 @@ indesign:{lastChecked:"2026-05-12",releases:[
   ]},
 ]},
 
-fresco:{lastChecked:"2026-05-12",releases:[
+fresco:{lastChecked:"2026-05-13",releases:[
   {version:"7.2",name:"Version février 2026",date:"Fév. 2026",features:[
     {name:"Panneau Éléments mis à jour — grands aperçus, 3 nouvelles catégories, 400+ actifs",url:"https://helpx.adobe.com/fresco/using/whats-new.html"},
     {name:"Améliorations du pose — épinglage automatique des points lors du drag",url:"https://helpx.adobe.com/fresco/using/whats-new.html"},
@@ -264,7 +264,7 @@ fresco:{lastChecked:"2026-05-12",releases:[
   ]},
 ]},
 
-express:{lastChecked:"2026-05-12",releases:[
+express:{lastChecked:"2026-05-13",releases:[
   {version:"2026.x",name:"Mises à jour 2026",date:"2026",features:[
     {name:"Générer une présentation (Acrobat × Express) — diapositives depuis un prompt IA",url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
     {name:"Animation — nouvel onglet Animation dans les projets Express",url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
@@ -279,7 +279,10 @@ express:{lastChecked:"2026-05-12",releases:[
   ]},
 ]},
 
-premiere:{lastChecked:"2026-05-12",releases:[
+premiere:{lastChecked:"2026-05-13",releases:[
+  {version:"26.2.2",name:"Hotfix mai 2026",date:"8 Mai 2026",isNew:true,features:[
+    {name:"🆕 Correction d'un problème de stabilité critique causant des freezes/hangs dans Premiere 26.2 et 26.2.0",url:"https://helpx.adobe.com/premiere/desktop/whats-new/release-notes.html"},
+  ]},
   {version:"25.x (NAB)",name:"Mise à jour NAB 2026",date:"Avr. 2026",features:[
     {name:"Color Mode — mode d'étalonnage dédié, refonte totale de l'expérience colorimétrique",url:"https://helpx.adobe.com/premiere/desktop/whats-new/whats-new.html"},
     {name:"Frame.io Drive — monter projets Frame.io comme disque local, streaming à la demande",url:"https://helpx.adobe.com/premiere/desktop/whats-new/whats-new.html"},
@@ -297,9 +300,13 @@ premiere:{lastChecked:"2026-05-12",releases:[
   ]},
 ]},
 
-aftereffects:{lastChecked:"2026-05-12",releases:[
-  {version:"26.2.1",name:"Version avril 2026",date:"Avr. 2026",features:[
-    {name:"Corrections de bugs et améliorations de stabilité",url:"https://helpx.adobe.com/after-effects/release-note/release-notes-after-effects.html"},
+aftereffects:{lastChecked:"2026-05-13",releases:[
+  {version:"26.2.1",name:"Version avril 2026",date:"Avr. 2026",isNew:true,features:[
+    {name:"🆕 Quick Apply — rechercher et appliquer instantanément effets, presets ou commandes de menu",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
+    {name:"🆕 Object Matte IA — sélectionner, isoler et tracker des sujets en un clic dans la composition",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
+    {name:"🆕 Displacement support pour les matériaux 3D — pousser un mesh en 3D via des données de hauteur",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
+    {name:"🆕 Proportional Scrubbing — ajuster proportionnellement plusieurs calques en draggant une valeur",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
+    {name:"Corrections de bugs et améliorations de stabilité (26.2.1)",url:"https://helpx.adobe.com/after-effects/release-note/release-notes-after-effects.html"},
   ]},
   {version:"26.0",name:"After Effects 2026 — MAX",date:"Oct. 2025",features:[
     {name:"Intégration Frame.io Drive — accès streaming aux médias depuis AE",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
@@ -315,7 +322,7 @@ aftereffects:{lastChecked:"2026-05-12",releases:[
   ]},
 ]},
 
-audition:{lastChecked:"2026-05-12",releases:[
+audition:{lastChecked:"2026-05-13",releases:[
   {version:"26.0",name:"Version janvier 2026",date:"Janv. 2026",features:[
     {name:"Support natif Windows on ARM (ARM64) — Qualcomm Snapdragon X Series",url:"https://helpx.adobe.com/audition/using/whats-new/2026.html"},
     {name:"Améliorations de stabilité et de performance",url:"https://helpx.adobe.com/audition/using/whats-new/2026.html"},
@@ -326,7 +333,7 @@ audition:{lastChecked:"2026-05-12",releases:[
   ]},
 ]},
 
-mediaencoder:{lastChecked:"2026-05-12",releases:[
+mediaencoder:{lastChecked:"2026-05-13",releases:[
   {version:"26.2",name:"Version avril 2026",date:"Avr. 2026",features:[
     {name:"Nouvelle fonctionnalité et améliorations (voir notes de version officielles)",url:"https://helpx.adobe.com/media-encoder/using/whats-new.html"},
   ]},
@@ -337,7 +344,7 @@ mediaencoder:{lastChecked:"2026-05-12",releases:[
   ]},
 ]},
 
-characteranimator:{lastChecked:"2026-05-12",releases:[
+characteranimator:{lastChecked:"2026-05-13",releases:[
   {version:"26.0",name:"Version janvier 2026",date:"Janv. 2026",features:[
     {name:"Améliorations de stabilité — pas de nouvelles fonctionnalités dans cette version",url:"https://helpx.adobe.com/adobe-character-animator/using/whats-new.html"},
   ]},
@@ -347,7 +354,7 @@ characteranimator:{lastChecked:"2026-05-12",releases:[
   ]},
 ]},
 
-lightroom:{lastChecked:"2026-05-12",releases:[
+lightroom:{lastChecked:"2026-05-13",releases:[
   {version:"Desktop 9.3",name:"Version avril 2026",date:"Avr. 2026",features:[
     {name:"Mises à jour IA en arrière-plan — Denoise, Sync sans bloquer le workflow",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
     {name:"Mood Boards — tableaux d'ambiance partageables via Firefly",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
@@ -369,7 +376,7 @@ lightroom:{lastChecked:"2026-05-12",releases:[
   ]},
 ]},
 
-lightroomclassic:{lastChecked:"2026-05-12",releases:[
+lightroomclassic:{lastChecked:"2026-05-13",releases:[
   {version:"15.3",name:"Version avril 2026",date:"Avr. 2026",features:[
     {name:"Mises à jour IA en arrière-plan — Sync, Copy/Paste, presets sans bloquer",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
     {name:"Tri assisté par IA amélioré — meilleure reconnaissance faible profondeur de champ",url:"https://helpx.adobe.com/lightroom-classic/using/using-ai-assisted-culling-in-lightroom-classic.html"},
@@ -391,7 +398,7 @@ lightroomclassic:{lastChecked:"2026-05-12",releases:[
   ]},
 ]},
 
-bridge:{lastChecked:"2026-05-12",releases:[
+bridge:{lastChecked:"2026-05-13",releases:[
   {version:"16.0.x",name:"Bridge 2026",date:"Oct. 2025+",features:[
     {name:"Corrections de sécurité et de stabilité",url:"https://helpx.adobe.com/bridge/desktop/whats-new/whats-new.html"},
   ]},
@@ -406,7 +413,7 @@ bridge:{lastChecked:"2026-05-12",releases:[
   ]},
 ]},
 
-acrobat:{lastChecked:"2026-05-12",releases:[
+acrobat:{lastChecked:"2026-05-13",releases:[
   {version:"Continu avr.–mai 2026",name:"Mises à jour récentes 2026",date:"Avr.–Mai 2026",features:[
     {name:"PDF Spaces — partager un Space avec IA Assistant personnalisé",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
     {name:"AI Assistant tâches PDF en langage naturel — réorganiser, headers, watermarks",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
@@ -428,7 +435,7 @@ acrobat:{lastChecked:"2026-05-12",releases:[
   ]},
 ]},
 
-firefly:{lastChecked:"2026-05-12",releases:[
+firefly:{lastChecked:"2026-05-13",releases:[
   {version:"2026 (Q1-Q2)",name:"Mises à jour 2026",date:"Janv.–Mai 2026",features:[
     {name:"Firefly AI Assistant (bêta) — multi-step workflows en langage naturel",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
     {name:"Create Workflows — pipelines de production visuels et réutilisables",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
@@ -451,7 +458,7 @@ firefly:{lastChecked:"2026-05-12",releases:[
   ]},
 ]},
 
-substance3dpainter:{lastChecked:"2026-05-12",releases:[
+substance3dpainter:{lastChecked:"2026-05-13",releases:[
   {version:"12.0",name:"Painter 12.0 — GDC 2026",date:"Mars 2026",features:[
     {name:"Warp to Geometry — appliquer des décals sur géométrie complexe et surfaces irrégulières",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-0"},
     {name:"Flatten Layers — aplatir les calques directement dans la pile de calques",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-0"},
@@ -473,7 +480,7 @@ substance3dpainter:{lastChecked:"2026-05-12",releases:[
   ]},
 ]},
 
-substance3ddesigner:{lastChecked:"2026-05-12",releases:[
+substance3ddesigner:{lastChecked:"2026-05-13",releases:[
   {version:"16.0",name:"Designer 16.0 — mars 2026",date:"Mars 2026",features:[
     {name:"Shape Splatter v2 — dispersion de formes 3D (SDF) au lieu de 2D",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
     {name:"Nouveaux outils SDF — créer des formes 3D personnalisées via Signed Distance Fields",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
@@ -489,7 +496,7 @@ substance3ddesigner:{lastChecked:"2026-05-12",releases:[
   ]},
 ]},
 
-substance3dstager:{lastChecked:"2026-05-12",releases:[
+substance3dstager:{lastChecked:"2026-05-13",releases:[
   {version:"3.1.x",name:"Version 3.1.x — 2025",date:"Jan.–Nov. 2025",features:[
     {name:"Corrections de vulnérabilités de sécurité (versions 3.1.4, 3.1.2, 3.1.1)",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/all-changes.html"},
     {name:"Arrêt du support Creative Cloud Libraries — prévu dans une version future",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/all-changes.html"},
@@ -506,7 +513,7 @@ substance3dstager:{lastChecked:"2026-05-12",releases:[
 ]},
 
 // ─── BETA ENTRIES ────────────────────────────────────────────────────────────
-illustratorbeta:{lastChecked:"2026-05-12",isBeta:true,releases:[
+illustratorbeta:{lastChecked:"2026-05-13",isBeta:true,releases:[
   {version:"30.5.x",name:"Builds actifs (mai 2026)",date:"Mai 2026",isBeta:true,features:[
     {name:"Sketch to Vector — convertir croquis ou images en artwork vectoriel/raster avec prompt",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
     {name:"GenAI Hub — tableau de bord centralisé des crédits génératifs dans Illustrator",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
@@ -523,7 +530,7 @@ illustratorbeta:{lastChecked:"2026-05-12",isBeta:true,releases:[
   ]},
 ]},
 
-photoshopbeta:{lastChecked:"2026-05-12",isBeta:true,releases:[
+photoshopbeta:{lastChecked:"2026-05-13",isBeta:true,releases:[
   {version:"28.x",name:"Photoshop Beta (actif)",date:"2026",isBeta:true,features:[
     {name:"Dynamic Text — mettre en forme du texte en cercle, arc ou arche automatiquement",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-photoshop-beta-on-desktop.html"},
     {name:"Firefly Fill & Expand (bêta) — nouveau modèle IA pour Generative Fill et Generative Expand",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-photoshop-beta-on-desktop.html"},
@@ -533,7 +540,7 @@ photoshopbeta:{lastChecked:"2026-05-12",isBeta:true,releases:[
   ]},
 ]},
 
-indesignbeta:{lastChecked:"2026-05-12",isBeta:true,releases:[
+indesignbeta:{lastChecked:"2026-05-13",isBeta:true,releases:[
   {version:"21.x Beta",name:"InDesign Beta (actif)",date:"2025-2026",isBeta:true,features:[
     {name:"AI Assistant (bêta publique) — partenaire conversationnel pour créer et modifier des documents",url:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html"},
     {name:"Generate Text — créer, reformuler, raccourcir ou allonger du texte existant via IA",url:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html"},
@@ -544,7 +551,7 @@ indesignbeta:{lastChecked:"2026-05-12",isBeta:true,releases:[
   ]},
 ]},
 
-premierebeta:{lastChecked:"2026-05-12",isBeta:true,releases:[
+premierebeta:{lastChecked:"2026-05-13",isBeta:true,releases:[
   {version:"26.x Beta",name:"Premiere Beta (actif)",date:"2025-2026",isBeta:true,features:[
     {name:"Color Mode (bêta publique) — mode d'étalonnage dédié construit pour les éditeurs",url:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html"},
     {name:"Export FCP XML et OTIO — interopérabilité avec d'autres suites de montage",url:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html"},
@@ -555,7 +562,7 @@ premierebeta:{lastChecked:"2026-05-12",isBeta:true,releases:[
   ]},
 ]},
 
-illustratorweb:{lastChecked:"2026-05-12",isBeta:true,releases:[
+illustratorweb:{lastChecked:"2026-05-13",isBeta:true,releases:[
   {version:"Web Beta",name:"Illustrator on the Web (bêta)",date:"En cours",isBeta:true,features:[
     {name:"Espace de travail simplifié — interface moderne et accessible dans le navigateur",url:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html"},
     {name:"Quick Pen Tool (bêta) — dessiner des formes personnalisées directement dans le navigateur",url:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html"},
