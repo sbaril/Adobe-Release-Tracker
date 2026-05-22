@@ -82,6 +82,9 @@ main { padding:28px 32px 48px; max-width:880px; }
 .f-link { font-size:13px; color:var(--text); text-decoration:none; line-height:1.5; transition:color .1s; }
 .f-link:hover { color:#93c5fd; }
 .info-bar { margin-top:16px; padding:10px 14px; background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); font-size:12px; color:var(--muted); line-height:1.6; display:flex; gap:9px; align-items:flex-start; }
+.relnotes-item { display:flex; align-items:center; gap:9px; padding:7px 15px; border-top:1px solid var(--border); background:var(--bg); }
+.relnotes-link { font-size:12px; color:var(--hint); text-decoration:none; display:flex; align-items:center; gap:5px; font-style:italic; transition:color .1s; }
+.relnotes-link:hover { color:var(--muted); }
 
 ::-webkit-scrollbar { width:4px; }
 ::-webkit-scrollbar-track { background:transparent; }
@@ -121,29 +124,29 @@ const GROUPS = [
 ];
 
 const APPS = {
-  illustrator:       {name:"Illustrator",         color:"#FF9A00",icon:"Ai", url:"https://helpx.adobe.com/illustrator/desktop/new-features/whats-new.html"},
-  photoshop:         {name:"Photoshop",            color:"#31A8FF",icon:"Ps", url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
-  indesign:          {name:"InDesign",             color:"#FF3366",icon:"Id", url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html"},
-  fresco:            {name:"Fresco",               color:"#FF7BAC",icon:"Fr", url:"https://helpx.adobe.com/fresco/using/whats-new.html"},
-  express:           {name:"Express",              color:"#FF0000",icon:"Xd", url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
-  premiere:          {name:"Premiere",             color:"#9B8FFF",icon:"Pr", url:"https://helpx.adobe.com/premiere/desktop/whats-new/whats-new.html"},
-  aftereffects:      {name:"After Effects",        color:"#B8A9FF",icon:"Ae", url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
-  audition:          {name:"Audition",             color:"#00D4D8",icon:"Au", url:"https://helpx.adobe.com/audition/using/whats-new.html"},
-  mediaencoder:      {name:"Media Encoder",        color:"#9A5FFF",icon:"Me", url:"https://helpx.adobe.com/media-encoder/using/whats-new.html"},
-  characteranimator: {name:"Character Animator",   color:"#1EA6E0",icon:"Ch", url:"https://helpx.adobe.com/adobe-character-animator/using/whats-new.html"},
-  lightroom:         {name:"Lightroom",            color:"#5EC4FF",icon:"Lr", url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
-  lightroomclassic:  {name:"Lightroom Classic",    color:"#A0CFFF",icon:"Lc", url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
-  bridge:            {name:"Bridge",               color:"#C4A0FF",icon:"Br", url:"https://helpx.adobe.com/bridge/desktop/whats-new/whats-new.html"},
-  acrobat:           {name:"Acrobat",              color:"#FF4444",icon:"Ac", url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
-  firefly:           {name:"Firefly",              color:"#FF6D00",icon:"Ff", url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
-  substance3dpainter:{name:"Substance Painter",    color:"#E67E22",icon:"Sp", url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
-  substance3ddesigner:{name:"Substance Designer",  color:"#F39C12",icon:"Sd", url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
-  substance3dstager: {name:"Substance Stager",     color:"#D4A017",icon:"Ss", url:"https://helpx.adobe.com/substance-3d-stager/release-notes/all-changes.html"},
-  illustratorbeta:   {name:"Illustrator Beta",     color:"#FF9A00",icon:"Ai", url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html", isBeta:true},
-  photoshopbeta:     {name:"Photoshop Beta",       color:"#31A8FF",icon:"Ps", url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-photoshop-beta-on-desktop.html", isBeta:true},
-  indesignbeta:      {name:"InDesign Beta",        color:"#FF3366",icon:"Id", url:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html", isBeta:true},
-  premierebeta:      {name:"Premiere Beta",        color:"#9B8FFF",icon:"Pr", url:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html", isBeta:true},
-  illustratorweb:    {name:"Illustrator Web",      color:"#FFB347",icon:"Aw", url:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html", isBeta:true},
+  illustrator:       {name:"Illustrator",         color:"#FF9A00",icon:"Ai", url:"https://helpx.adobe.com/illustrator/desktop/new-features/whats-new.html",                                              releaseNotesUrl:"https://helpx.adobe.com/illustrator/desktop/new-features/release-notes.html"},
+  photoshop:         {name:"Photoshop",            color:"#31A8FF",icon:"Ps", url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html",                    releaseNotesUrl:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
+  indesign:          {name:"InDesign",             color:"#FF3366",icon:"Id", url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html",                                                releaseNotesUrl:"https://helpx.adobe.com/indesign/desktop/new-features/release-notes.html"},
+  fresco:            {name:"Fresco",               color:"#FF7BAC",icon:"Fr", url:"https://helpx.adobe.com/fresco/using/whats-new.html",                                                                  releaseNotesUrl:"https://helpx.adobe.com/fresco/using/release-notes.html"},
+  express:           {name:"Express",              color:"#FF0000",icon:"Xd", url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html",                                                         releaseNotesUrl:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
+  premiere:          {name:"Premiere",             color:"#9B8FFF",icon:"Pr", url:"https://helpx.adobe.com/premiere/desktop/whats-new/whats-new.html",                                                   releaseNotesUrl:"https://helpx.adobe.com/premiere/desktop/whats-new/release-notes.html"},
+  aftereffects:      {name:"After Effects",        color:"#B8A9FF",icon:"Ae", url:"https://helpx.adobe.com/after-effects/using/whats-new.html",                                                          releaseNotesUrl:"https://helpx.adobe.com/after-effects/release-note/release-notes-after-effects.html"},
+  audition:          {name:"Audition",             color:"#00D4D8",icon:"Au", url:"https://helpx.adobe.com/audition/using/whats-new.html",                                                               releaseNotesUrl:"https://helpx.adobe.com/audition/release-note/release-notes-audition.html"},
+  mediaencoder:      {name:"Media Encoder",        color:"#9A5FFF",icon:"Me", url:"https://helpx.adobe.com/media-encoder/using/whats-new.html",                                                          releaseNotesUrl:"https://helpx.adobe.com/media-encoder/release-note/release-notes-media-encoder.html"},
+  characteranimator: {name:"Character Animator",   color:"#1EA6E0",icon:"Ch", url:"https://helpx.adobe.com/adobe-character-animator/using/whats-new.html",                                              releaseNotesUrl:"https://helpx.adobe.com/adobe-character-animator/release-note/release-notes.html"},
+  lightroom:         {name:"Lightroom",            color:"#5EC4FF",icon:"Lr", url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html",                                                          releaseNotesUrl:"https://helpx.adobe.com/lightroom-cc/using/release-notes.html"},
+  lightroomclassic:  {name:"Lightroom Classic",    color:"#A0CFFF",icon:"Lc", url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html",                                                      releaseNotesUrl:"https://helpx.adobe.com/lightroom-classic/help/release-notes.html"},
+  bridge:            {name:"Bridge",               color:"#C4A0FF",icon:"Br", url:"https://helpx.adobe.com/bridge/desktop/whats-new/whats-new.html",                                                    releaseNotesUrl:"https://helpx.adobe.com/bridge/desktop/whats-new/release-notes.html"},
+  acrobat:           {name:"Acrobat",              color:"#FF4444",icon:"Ac", url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html",                                   releaseNotesUrl:"https://helpx.adobe.com/acrobat/desktop/whats-new/release-notes-acrobat-desktop.html"},
+  firefly:           {name:"Firefly",              color:"#FF6D00",icon:"Ff", url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html",                                          releaseNotesUrl:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
+  substance3dpainter:{name:"Substance Painter",    color:"#E67E22",icon:"Sp", url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes",                   releaseNotesUrl:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
+  substance3ddesigner:{name:"Substance Designer",  color:"#F39C12",icon:"Sd", url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes",                  releaseNotesUrl:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
+  substance3dstager: {name:"Substance Stager",     color:"#D4A017",icon:"Ss", url:"https://helpx.adobe.com/substance-3d-stager/release-notes/all-changes.html",                                        releaseNotesUrl:"https://helpx.adobe.com/substance-3d-stager/release-notes/all-changes.html"},
+  illustratorbeta:   {name:"Illustrator Beta",     color:"#FF9A00",icon:"Ai", url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html",                           releaseNotesUrl:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html", isBeta:true},
+  photoshopbeta:     {name:"Photoshop Beta",       color:"#31A8FF",icon:"Ps", url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-photoshop-beta-on-desktop.html",                   releaseNotesUrl:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html", isBeta:true},
+  indesignbeta:      {name:"InDesign Beta",        color:"#FF3366",icon:"Id", url:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html",                                                 releaseNotesUrl:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html", isBeta:true},
+  premierebeta:      {name:"Premiere Beta",        color:"#9B8FFF",icon:"Pr", url:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html",                                              releaseNotesUrl:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html", isBeta:true},
+  illustratorweb:    {name:"Illustrator Web",      color:"#FFB347",icon:"Aw", url:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html",                                  releaseNotesUrl:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html", isBeta:true},
 };
 
 const DATA = {
@@ -675,6 +678,7 @@ function buildMain(){
       </div>
       <div class="features-list ${isOpen?"open":""}" id="fl-${key}">
         ${rel.features.map(f=>`<div class="feature-item"><svg class="f-arrow" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg><a href="${f.url}" target="_blank" class="f-link">${f.name}</a></div>`).join("")}
+        ${app.releaseNotesUrl ? `<div class="relnotes-item"><a href="${app.releaseNotesUrl}" target="_blank" class="relnotes-link"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Notes de version complètes →</a></div>` : ""}
       </div>`;
     card.querySelector(".release-header").addEventListener("click",()=>{
       openReleases.has(key)?openReleases.delete(key):openReleases.add(key);
