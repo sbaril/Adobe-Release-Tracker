@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,24 +12,28 @@
   --bg:#0e0e10; --bg2:#18181c; --bg3:#222228;
   --border:rgba(255,255,255,0.08); --border2:rgba(255,255,255,0.14);
   --text:#f0eff4; --muted:#8a8a9a; --hint:#55555f;
-  --radius:10px; --radius-lg:14px;
-  --beta:#fbbf24;
+  --radius:10px; --radius-lg:14px; --beta:#fbbf24;
+  --header-h:54px;
 }
 body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; font-weight:400; line-height:1.6; min-height:100vh; }
+
+/* ── Desktop layout ─────────────────────────────────────────────────────── */
 .layout { display:grid; grid-template-columns:240px 1fr; grid-template-rows:auto 1fr; min-height:100vh; }
 
-header { grid-column:1/-1; border-bottom:1px solid var(--border); padding:0 28px; height:54px; display:flex; align-items:center; justify-content:space-between; background:var(--bg); position:sticky; top:0; z-index:10; }
-.header-title { display:flex; align-items:center; gap:10px; }
-.logo { width:28px; height:28px; background:linear-gradient(135deg,#FF9A00,#FF3366); border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:500; color:white; font-family:'DM Mono',monospace; }
-header h1 { font-size:14px; font-weight:500; }
-.header-sub { font-size:12px; color:var(--muted); margin-left:14px; }
-.tag-updated { font-size:11px; color:var(--muted); font-family:'DM Mono',monospace; border:1px solid var(--border); padding:3px 8px; border-radius:6px; }
+header { grid-column:1/-1; border-bottom:1px solid var(--border); padding:0 28px; height:var(--header-h); display:flex; align-items:center; justify-content:space-between; background:var(--bg); position:sticky; top:0; z-index:30; }
+.header-title { display:flex; align-items:center; gap:10px; min-width:0; }
+.logo { width:28px; height:28px; background:linear-gradient(135deg,#FF9A00,#FF3366); border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:500; color:white; font-family:'DM Mono',monospace; flex-shrink:0; }
+header h1 { font-size:14px; font-weight:500; white-space:nowrap; }
+.header-sub { font-size:12px; color:var(--muted); margin-left:14px; white-space:nowrap; }
+.tag-updated { font-size:11px; color:var(--muted); font-family:'DM Mono',monospace; border:1px solid var(--border); padding:3px 8px; border-radius:6px; white-space:nowrap; flex-shrink:0; }
+.hamburger { display:none; background:none; border:none; cursor:pointer; color:var(--muted); padding:6px; border-radius:6px; flex-shrink:0; }
+.hamburger:hover { color:var(--text); background:var(--bg2); }
 
-aside { border-right:1px solid var(--border); padding:14px 0 24px; background:var(--bg); position:sticky; top:54px; height:calc(100vh - 54px); overflow-y:auto; }
+/* Desktop sidebar */
+aside { border-right:1px solid var(--border); padding:14px 0 24px; background:var(--bg); position:sticky; top:var(--header-h); height:calc(100vh - var(--header-h)); overflow-y:auto; }
 .section-label { font-size:10px; font-weight:500; color:var(--hint); letter-spacing:.08em; text-transform:uppercase; padding:10px 16px 4px; display:flex; align-items:center; gap:6px; }
 .section-label.beta-label { color:#92620a; }
 .beta-dot { width:6px; height:6px; border-radius:50%; background:var(--beta); flex-shrink:0; }
-
 .app-btn { display:flex; align-items:center; gap:9px; width:100%; padding:7px 16px; background:none; border:none; color:var(--muted); cursor:pointer; font-family:'DM Sans',sans-serif; font-size:12.5px; font-weight:400; text-align:left; transition:color .12s,background .12s; border-left:2px solid transparent; }
 .app-btn:hover { color:var(--text); background:var(--bg2); }
 .app-btn.active { color:var(--text); background:var(--bg2); font-weight:500; }
@@ -41,24 +45,40 @@ aside { border-right:1px solid var(--border); padding:14px 0 24px; background:va
 .ext-link { display:flex; align-items:center; gap:6px; padding:6px 10px; border-radius:7px; font-family:'DM Sans',sans-serif; font-size:11px; color:var(--muted); text-decoration:none; border:1px solid var(--border2); background:var(--bg2); transition:color .12s; width:100%; justify-content:center; }
 .ext-link:hover { color:var(--text); }
 
+/* Mobile drawer overlay */
+.drawer-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:40; backdrop-filter:blur(2px); }
+.drawer-overlay.open { display:block; }
+.mobile-drawer {
+  display:none; position:fixed; bottom:0; left:0; right:0; z-index:50;
+  background:var(--bg2); border-top:1px solid var(--border2);
+  border-radius:16px 16px 0 0;
+  max-height:80vh; overflow-y:auto;
+  transform:translateY(100%); transition:transform .28s cubic-bezier(.4,0,.2,1);
+  padding:0 0 env(safe-area-inset-bottom,16px);
+}
+.mobile-drawer.open { transform:translateY(0); }
+.drawer-handle { width:36px; height:4px; background:var(--border2); border-radius:2px; margin:12px auto 8px; }
+.drawer-title { font-size:11px; font-weight:500; color:var(--hint); letter-spacing:.08em; text-transform:uppercase; padding:4px 16px 8px; }
+
+/* Active app chip — mobile only */
+.active-chip { display:none; }
+
+/* Main content */
 main { padding:28px 32px 48px; max-width:880px; }
 .app-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:20px; gap:16px; }
 .app-header-left { display:flex; align-items:center; gap:12px; }
 .app-icon-lg { width:42px; height:42px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-family:'DM Mono',monospace; font-size:12px; font-weight:500; flex-shrink:0; }
-.app-name { font-size:17px; font-weight:500; display:flex; align-items:center; gap:8px; }
+.app-name { font-size:17px; font-weight:500; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
 .beta-badge-title { font-size:11px; font-weight:500; padding:2px 7px; border-radius:4px; background:#fbbf2422; color:var(--beta); border:1px solid #fbbf2444; letter-spacing:.03em; font-style:normal; }
 .app-meta { font-size:12px; color:var(--muted); margin-top:2px; }
-.btn { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:7px; font-family:'DM Sans',sans-serif; font-size:12px; cursor:pointer; border:1px solid var(--border2); background:var(--bg2); color:var(--muted); text-decoration:none; transition:color .12s,background .12s; }
+.btn { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:7px; font-family:'DM Sans',sans-serif; font-size:12px; cursor:pointer; border:1px solid var(--border2); background:var(--bg2); color:var(--muted); text-decoration:none; transition:color .12s,background .12s; white-space:nowrap; }
 .btn:hover { color:var(--text); background:var(--bg3); }
-
 .beta-notice { margin-bottom:20px; padding:12px 15px; background:#fbbf2410; border:1px solid #fbbf2430; border-radius:var(--radius); font-size:12px; color:#c89a30; line-height:1.6; display:flex; gap:9px; align-items:flex-start; }
 .beta-notice-icon { flex-shrink:0; margin-top:1px; }
-
 .stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:20px; }
 .stat-card { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:12px 14px; }
 .stat-label { font-size:11px; color:var(--muted); margin-bottom:4px; }
 .stat-value { font-size:20px; font-weight:500; font-family:'DM Mono',monospace; }
-
 .releases-list { display:flex; flex-direction:column; gap:7px; }
 .release-card { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; transition:border-color .12s; }
 .release-card:hover { border-color:var(--border2); }
@@ -89,6 +109,70 @@ main { padding:28px 32px 48px; max-width:880px; }
 ::-webkit-scrollbar { width:4px; }
 ::-webkit-scrollbar-track { background:transparent; }
 ::-webkit-scrollbar-thumb { background:var(--border2); border-radius:4px; }
+
+/* ── Mobile ─────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  :root { --header-h:50px; }
+
+  /* Single-column layout */
+  .layout { grid-template-columns:1fr; grid-template-rows:auto 1fr; }
+
+  /* Header */
+  header { padding:0 16px; }
+  .header-sub { display:none; }
+  .tag-updated { font-size:10px; padding:2px 6px; }
+  .hamburger { display:flex; align-items:center; justify-content:center; margin-left:8px; }
+
+  /* Hide desktop sidebar */
+  aside { display:none; }
+
+  /* Show mobile drawer */
+  .mobile-drawer { display:block; }
+
+  /* Active app chip bar below header */
+  .active-chip {
+    display:flex; align-items:center; gap:8px;
+    padding:8px 16px; border-bottom:1px solid var(--border);
+    background:var(--bg); position:sticky; top:var(--header-h); z-index:20;
+  }
+  .active-chip-icon { width:20px; height:20px; border-radius:4px; display:flex; align-items:center; justify-content:center; font-family:'DM Mono',monospace; font-size:7px; font-weight:500; flex-shrink:0; }
+  .active-chip-name { font-size:13px; font-weight:500; flex:1; }
+  .active-chip-change { font-size:11px; color:var(--muted); display:flex; align-items:center; gap:4px; background:none; border:none; cursor:pointer; padding:4px 8px; border-radius:6px; border:1px solid var(--border); font-family:'DM Sans',sans-serif; }
+
+  /* Main content tighter */
+  main { padding:16px 16px 80px; }
+  .app-header { flex-direction:column; gap:10px; margin-bottom:16px; }
+  .app-header-left { gap:10px; }
+  .app-icon-lg { width:36px; height:36px; font-size:10px; }
+  .app-name { font-size:15px; }
+  .app-meta { font-size:11px; }
+
+  /* Stats: 2+1 on small screens */
+  .stats-row { grid-template-columns:repeat(2,1fr); gap:8px; margin-bottom:16px; }
+  .stats-row .stat-card:last-child { grid-column:span 2; }
+  .stat-value { font-size:18px; }
+  .stat-label { font-size:10px; }
+
+  /* Release cards */
+  .release-header { padding:10px 13px; gap:8px; }
+  .v-badge { font-size:9px; }
+  .rel-name { font-size:12px; }
+  .rel-date { font-size:10px; }
+  .feature-item { padding:8px 13px; gap:8px; }
+  .f-link { font-size:12px; }
+  .relnotes-item { padding:8px 13px; }
+
+  /* Bigger tap targets */
+  .release-header { min-height:48px; }
+  .app-btn { min-height:46px; padding:10px 16px; font-size:13px; }
+  .app-icon { width:26px; height:26px; font-size:9px; }
+
+  /* Info bar */
+  .info-bar { font-size:11px; margin-top:14px; }
+
+  /* Beta notice */
+  .beta-notice { font-size:11px; }
+}
 </style>
 </head>
 <body>
@@ -97,10 +181,26 @@ main { padding:28px 32px 48px; max-width:880px; }
   <div class="header-title">
     <div class="logo">ART</div>
     <h1>Adobe Release Tracker</h1>
-    <span class="header-sub">23 apps · suivi hebdomadaire</span>
+    <span class="header-sub">23 apps · weekly tracker</span>
   </div>
-  <span class="tag-updated">updated 2026-06-04</span>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <span class="tag-updated">updated 2026-06-04</span>
+    <button class="hamburger" id="hamburger-btn" aria-label="Open app list">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
 </header>
+
+<!-- Active app chip — visible on mobile only -->
+<div class="active-chip" id="active-chip">
+  <span class="active-chip-icon" id="chip-icon"></span>
+  <span class="active-chip-name" id="chip-name"></span>
+  <button class="active-chip-change" id="chip-change-btn">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    Change app
+  </button>
+</div>
+
 <aside>
   <div id="sidebar-apps"></div>
   <div class="sidebar-divider"></div>
@@ -111,489 +211,511 @@ main { padding:28px 32px 48px; max-width:880px; }
     </a>
   </div>
 </aside>
+
+<!-- Mobile drawer overlay -->
+<div class="drawer-overlay" id="drawer-overlay"></div>
+
+<!-- Mobile bottom drawer -->
+<div class="mobile-drawer" id="mobile-drawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-title">Select an app</div>
+  <div id="drawer-apps"></div>
+  <div style="height:16px"></div>
+</div>
+
 <main id="main-content"></main>
 </div>
 <script>
 const GROUPS = [
-  { label:"Création graphique", ids:["illustrator","photoshop","indesign","fresco","express"] },
-  { label:"Vidéo & Audio",      ids:["premiere","aftereffects","audition","mediaencoder","characteranimator"] },
-  { label:"Photo & Gestion",    ids:["lightroom","lightroomclassic","bridge","acrobat"] },
-  { label:"IA générative",      ids:["firefly"] },
-  { label:"Substance 3D",       ids:["substance3dpainter","substance3ddesigner","substance3dstager"] },
-  { label:"Bêta & Préversion",  ids:["illustratorbeta","photoshopbeta","indesignbeta","premierebeta","illustratorweb"], isBeta:true },
+  { label:"Graphic Design",   ids:["illustrator","photoshop","indesign","fresco","express"] },
+  { label:"Video & Audio",    ids:["premiere","aftereffects","audition","mediaencoder","characteranimator"] },
+  { label:"Photo & DAM",      ids:["lightroom","lightroomclassic","bridge","acrobat"] },
+  { label:"Generative AI",    ids:["firefly"] },
+  { label:"Substance 3D",     ids:["substance3dpainter","substance3ddesigner","substance3dstager"] },
+  { label:"Beta & Preview",   ids:["illustratorbeta","photoshopbeta","indesignbeta","premierebeta","illustratorweb"], isBeta:true },
 ];
 
 const APPS = {
-  illustrator:       {name:"Illustrator",         color:"#FF9A00",icon:"Ai", url:"https://helpx.adobe.com/illustrator/desktop/new-features/whats-new.html",                                              releaseNotesUrl:"https://helpx.adobe.com/illustrator/desktop/new-features/release-notes.html"},
-  photoshop:         {name:"Photoshop",            color:"#31A8FF",icon:"Ps", url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html",                    releaseNotesUrl:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
-  indesign:          {name:"InDesign",             color:"#FF3366",icon:"Id", url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html",                                                releaseNotesUrl:"https://helpx.adobe.com/indesign/desktop/new-features/release-notes.html"},
-  fresco:            {name:"Fresco",               color:"#FF7BAC",icon:"Fr", url:"https://helpx.adobe.com/fresco/using/whats-new.html",                                                                  releaseNotesUrl:"https://helpx.adobe.com/fresco/using/release-notes.html"},
-  express:           {name:"Express",              color:"#FF0000",icon:"Xd", url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html",                                                         releaseNotesUrl:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
-  premiere:          {name:"Premiere",             color:"#9B8FFF",icon:"Pr", url:"https://helpx.adobe.com/premiere/desktop/whats-new/whats-new.html",                                                   releaseNotesUrl:"https://helpx.adobe.com/premiere/desktop/whats-new/release-notes.html"},
-  aftereffects:      {name:"After Effects",        color:"#B8A9FF",icon:"Ae", url:"https://helpx.adobe.com/after-effects/using/whats-new.html",                                                          releaseNotesUrl:"https://helpx.adobe.com/after-effects/release-note/release-notes-after-effects.html"},
-  audition:          {name:"Audition",             color:"#00D4D8",icon:"Au", url:"https://helpx.adobe.com/audition/using/whats-new.html",                                                               releaseNotesUrl:"https://helpx.adobe.com/audition/release-note/release-notes-audition.html"},
-  mediaencoder:      {name:"Media Encoder",        color:"#9A5FFF",icon:"Me", url:"https://helpx.adobe.com/media-encoder/using/whats-new.html",                                                          releaseNotesUrl:"https://helpx.adobe.com/media-encoder/release-note/release-notes-media-encoder.html"},
-  characteranimator: {name:"Character Animator",   color:"#1EA6E0",icon:"Ch", url:"https://helpx.adobe.com/adobe-character-animator/using/whats-new.html",                                              releaseNotesUrl:"https://helpx.adobe.com/adobe-character-animator/release-note/release-notes.html"},
-  lightroom:         {name:"Lightroom",            color:"#5EC4FF",icon:"Lr", url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html",                                                          releaseNotesUrl:"https://helpx.adobe.com/lightroom-cc/using/release-notes.html"},
-  lightroomclassic:  {name:"Lightroom Classic",    color:"#A0CFFF",icon:"Lc", url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html",                                                      releaseNotesUrl:"https://helpx.adobe.com/lightroom-classic/help/release-notes.html"},
-  bridge:            {name:"Bridge",               color:"#C4A0FF",icon:"Br", url:"https://helpx.adobe.com/bridge/desktop/whats-new/whats-new.html",                                                    releaseNotesUrl:"https://helpx.adobe.com/bridge/desktop/whats-new/release-notes.html"},
-  acrobat:           {name:"Acrobat",              color:"#FF4444",icon:"Ac", url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html",                                   releaseNotesUrl:"https://helpx.adobe.com/acrobat/desktop/whats-new/release-notes-acrobat-desktop.html"},
-  firefly:           {name:"Firefly",              color:"#FF6D00",icon:"Ff", url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html",                                          releaseNotesUrl:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
-  substance3dpainter:{name:"Substance Painter",    color:"#E67E22",icon:"Sp", url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes",                   releaseNotesUrl:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
-  substance3ddesigner:{name:"Substance Designer",  color:"#F39C12",icon:"Sd", url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes",                  releaseNotesUrl:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
-  substance3dstager: {name:"Substance Stager",     color:"#D4A017",icon:"Ss", url:"https://helpx.adobe.com/substance-3d-stager/release-notes/all-changes.html",                                        releaseNotesUrl:"https://helpx.adobe.com/substance-3d-stager/release-notes/all-changes.html"},
-  illustratorbeta:   {name:"Illustrator Beta",     color:"#FF9A00",icon:"Ai", url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html",                           releaseNotesUrl:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html", isBeta:true},
-  photoshopbeta:     {name:"Photoshop Beta",       color:"#31A8FF",icon:"Ps", url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-photoshop-beta-on-desktop.html",                   releaseNotesUrl:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html", isBeta:true},
-  indesignbeta:      {name:"InDesign Beta",        color:"#FF3366",icon:"Id", url:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html",                                                 releaseNotesUrl:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html", isBeta:true},
-  premierebeta:      {name:"Premiere Beta",        color:"#9B8FFF",icon:"Pr", url:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html",                                              releaseNotesUrl:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html", isBeta:true},
-  illustratorweb:    {name:"Illustrator Web",      color:"#FFB347",icon:"Aw", url:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html",                                  releaseNotesUrl:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html", isBeta:true},
+  illustrator:        {name:"Illustrator",          color:"#FF9A00",icon:"Ai", url:"https://helpx.adobe.com/illustrator/desktop/new-features/whats-new.html",                                             releaseNotesUrl:"https://helpx.adobe.com/illustrator/desktop/new-features/release-notes.html"},
+  photoshop:          {name:"Photoshop",             color:"#31A8FF",icon:"Ps", url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html",                   releaseNotesUrl:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
+  indesign:           {name:"InDesign",              color:"#FF3366",icon:"Id", url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html",                                               releaseNotesUrl:"https://helpx.adobe.com/indesign/desktop/new-features/release-notes.html"},
+  fresco:             {name:"Fresco",                color:"#FF7BAC",icon:"Fr", url:"https://helpx.adobe.com/fresco/using/whats-new.html",                                                                 releaseNotesUrl:"https://helpx.adobe.com/fresco/using/release-notes.html"},
+  express:            {name:"Express",               color:"#FF0000",icon:"Xd", url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html",                                                        releaseNotesUrl:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
+  premiere:           {name:"Premiere",              color:"#9B8FFF",icon:"Pr", url:"https://helpx.adobe.com/premiere/desktop/whats-new/whats-new.html",                                                  releaseNotesUrl:"https://helpx.adobe.com/premiere/desktop/whats-new/release-notes.html"},
+  aftereffects:       {name:"After Effects",         color:"#B8A9FF",icon:"Ae", url:"https://helpx.adobe.com/after-effects/using/whats-new.html",                                                         releaseNotesUrl:"https://helpx.adobe.com/after-effects/release-note/release-notes-after-effects.html"},
+  audition:           {name:"Audition",              color:"#00D4D8",icon:"Au", url:"https://helpx.adobe.com/audition/using/whats-new.html",                                                              releaseNotesUrl:"https://helpx.adobe.com/audition/release-note/release-notes-audition.html"},
+  mediaencoder:       {name:"Media Encoder",         color:"#9A5FFF",icon:"Me", url:"https://helpx.adobe.com/media-encoder/using/whats-new.html",                                                         releaseNotesUrl:"https://helpx.adobe.com/media-encoder/release-note/release-notes-media-encoder.html"},
+  characteranimator:  {name:"Character Animator",    color:"#1EA6E0",icon:"Ch", url:"https://helpx.adobe.com/adobe-character-animator/using/whats-new.html",                                             releaseNotesUrl:"https://helpx.adobe.com/adobe-character-animator/release-note/release-notes.html"},
+  lightroom:          {name:"Lightroom",             color:"#5EC4FF",icon:"Lr", url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html",                                                         releaseNotesUrl:"https://helpx.adobe.com/lightroom-cc/using/release-notes.html"},
+  lightroomclassic:   {name:"Lightroom Classic",     color:"#A0CFFF",icon:"Lc", url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html",                                                     releaseNotesUrl:"https://helpx.adobe.com/lightroom-classic/help/whats-new/release-notes.html"},
+  bridge:             {name:"Bridge",                color:"#C4A0FF",icon:"Br", url:"https://helpx.adobe.com/bridge/desktop/whats-new/whats-new.html",                                                   releaseNotesUrl:"https://helpx.adobe.com/bridge/desktop/whats-new/release-notes.html"},
+  acrobat:            {name:"Acrobat",               color:"#FF4444",icon:"Ac", url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html",                                  releaseNotesUrl:"https://helpx.adobe.com/acrobat/desktop/whats-new/release-notes-acrobat-desktop.html"},
+  firefly:            {name:"Firefly",               color:"#FF6D00",icon:"Ff", url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html",                                         releaseNotesUrl:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
+  substance3dpainter: {name:"Substance Painter",     color:"#E67E22",icon:"Sp", url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes",                  releaseNotesUrl:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
+  substance3ddesigner:{name:"Substance Designer",    color:"#F39C12",icon:"Sd", url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes",                 releaseNotesUrl:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
+  substance3dstager:  {name:"Substance Stager",      color:"#D4A017",icon:"Ss", url:"https://helpx.adobe.com/substance-3d-stager/release-notes/all-changes.html",                                       releaseNotesUrl:"https://helpx.adobe.com/substance-3d-stager/release-notes/all-changes.html"},
+  illustratorbeta:    {name:"Illustrator Beta",      color:"#FF9A00",icon:"Ai", url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html",                          releaseNotesUrl:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html", isBeta:true},
+  photoshopbeta:      {name:"Photoshop Beta",        color:"#31A8FF",icon:"Ps", url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-photoshop-beta-on-desktop.html",                  releaseNotesUrl:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html", isBeta:true},
+  indesignbeta:       {name:"InDesign Beta",         color:"#FF3366",icon:"Id", url:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html",                                                releaseNotesUrl:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html", isBeta:true},
+  premierebeta:       {name:"Premiere Beta",         color:"#9B8FFF",icon:"Pr", url:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html",                                            releaseNotesUrl:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html", isBeta:true},
+  illustratorweb:     {name:"Illustrator Web",       color:"#FFB347",icon:"Aw", url:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html",                                releaseNotesUrl:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html", isBeta:true},
 };
 
 const DATA = {
+
 illustrator:{lastChecked:"2026-06-04",releases:[
-  {version:"30.4",name:"Version mai 2026",date:"Mai 2026",isNew:true,features:[
-    {name:"🆕 Snapping Quick Access Panel — basculer entre Snap to Grid, Snap to Pixel, Snap to Point et Smart Guides depuis la barre de contrôle, avec accès direct aux préférences d'alignement et Snap to Glyph",url:"https://helpx.adobe.com/illustrator/desktop/measure-and-align/grids-and-guides/work-with-smart-guides.html"},
-    {name:"🆕 Snap to Perpendicular — aligner les endpoints à angle droit sur des chemins droits pour des connexions géométriques précises",url:"https://helpx.adobe.com/illustrator/desktop/measure-and-align/grids-and-guides/work-with-smart-guides.html"},
-    {name:"🆕 Snap to Tangent — dessiner des lignes qui touchent une courbe en exactement un point, idéal pour logos et dessins techniques",url:"https://helpx.adobe.com/illustrator/desktop/measure-and-align/grids-and-guides/work-with-smart-guides.html"},
-    {name:"Generative Expand — étendre images au-delà de leurs bords originaux",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/expand-artwork-with-generative-expand.html"},
-    {name:"Remove Background — isoler sujets rasters en un clic via IA",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-vector-artwork-from-images.html"},
-    {name:"Editable AI Text — modifier le texte généré en live text sans reconvertir",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-scenes-subjects-and-icons.html"},
-    {name:"Typographie japonaise — nouveaux préréglages Mojikumi (BetaGumi, TsumeGumi)",url:"https://helpx.adobe.com/illustrator/desktop/design-with-text/fonts-and-scripts/about-adobe-asian-composers.html"},
-    {name:"GPT Image 4o & Gemini 2.5 dans Generative Shape Fill",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-shape-fills.html"},
-    {name:"Gemini 3 (Nano Banana Pro) & Imagen 4 dans Text to Vector Graphic",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-scenes-subjects-and-icons.html"},
-    {name:"Export TIFF via Export for Screens — nouveau format haute qualité",url:"https://helpx.adobe.com/illustrator/desktop/save-and-export/export-files-to-different-formats/export-for-screens.html"},
-    {name:"Mise à l'échelle Relative / Absolue dans Transformation Individuelle",url:"https://helpx.adobe.com/illustrator/desktop/manage-objects/reshape-transform-objects/scale-objects.html"},
+  {version:"30.4",name:"May 2026 release",date:"May 2026",isNew:true,features:[
+    {name:"🆕 Snapping Quick Access panel — toggle Snap to Grid, Snap to Pixel, Snap to Point and Smart Guides from the Control bar, with direct access to alignment preferences and Snap to Glyph",url:"https://helpx.adobe.com/illustrator/desktop/measure-and-align/grids-and-guides/work-with-smart-guides.html"},
+    {name:"🆕 Snap to Perpendicular — align endpoints at right angles to straight paths for precise geometric connections",url:"https://helpx.adobe.com/illustrator/desktop/measure-and-align/grids-and-guides/work-with-smart-guides.html"},
+    {name:"🆕 Snap to Tangent — draw lines that touch a curve at exactly one point, ideal for logos and technical drawings",url:"https://helpx.adobe.com/illustrator/desktop/measure-and-align/grids-and-guides/work-with-smart-guides.html"},
+    {name:"Generative Expand — generate vector graphics to expand artwork beyond its original borders",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/expand-artwork-with-generative-expand.html"},
+    {name:"Remove Background — generate vector artwork from raster images to isolate subjects in one click",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-vector-artwork-from-images.html"},
+    {name:"Editable AI Text — edit AI-generated text directly as live text without reconverting",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-scenes-subjects-and-icons.html"},
+    {name:"Japanese typography improvements — new Mojikumi presets (BetaGumi, TsumeGumi)",url:"https://helpx.adobe.com/illustrator/desktop/design-with-text/fonts-and-scripts/about-adobe-asian-composers.html"},
+    {name:"Use GPT Image 4o and Gemini 2.5 (Nano Banana) in Generative Shape Fill (unavailable in mainland China)",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-shape-fills.html"},
+    {name:"Use Gemini 3 (Nano Banana Pro) and Imagen 4 in Text to Vector Graphic (unavailable in mainland China)",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-scenes-subjects-and-icons.html"},
+    {name:"Export artboards and assets in TIFF format using Export for Screens",url:"https://helpx.adobe.com/illustrator/desktop/save-and-export/export-files-to-different-formats/export-for-screens.html"},
+    {name:"Apply proportional or exact scaling using Relative and Absolute options in Transform Each",url:"https://helpx.adobe.com/illustrator/desktop/manage-objects/reshape-transform-objects/scale-objects.html"},
   ]},
-  {version:"30.3",name:"Version mars 2026",date:"Mars 2026",features:[
-    {name:"Turntable — vues multi-angles de vecteurs et rasters, export GIF",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/view-artwork-from-any-angle.html"},
-    {name:"Auto Select — recommandation intelligente de modèle + 4 variations par prompt",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/use-auto-select.html"},
-    {name:"Style Reference cross-modèles dans Text to Vector Graphic",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-scenes-subjects-and-icons.html"},
-    {name:"Export direct vers Adobe Cloud depuis Export for Screens",url:"https://helpx.adobe.com/illustrator/desktop/save-and-export/export-files-to-different-formats/export-for-screens.html"},
-    {name:"Export vers Firefly Boards depuis l'espace de travail Illustrator",url:"https://helpx.adobe.com/illustrator/desktop/save-and-export/export-to-other-apps/export-assets-to-firefly-boards.html"},
+  {version:"30.3",name:"March 2026 release",date:"Mar. 2026",isNew:false,features:[
+    {name:"Turntable — view 2D objects from new angles, export as GIF",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/view-artwork-from-any-angle.html"},
+    {name:"Auto Select — intelligent model recommendation with up to 4 variations per prompt",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/use-auto-select.html"},
+    {name:"Style Reference across partner models (GPT Image 4o, Ideogram 3, Gemini) in Text to Vector Graphic",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-scenes-subjects-and-icons.html"},
+    {name:"Export Illustrator files directly to Adobe Cloud storage for easy access and reuse",url:"https://helpx.adobe.com/illustrator/desktop/save-and-export/export-files-to-different-formats/export-for-screens.html"},
+    {name:"Export assets directly from the Illustrator workspace into Firefly Boards",url:"https://helpx.adobe.com/illustrator/desktop/save-and-export/export-to-other-apps/export-assets-to-firefly-boards.html"},
   ]},
-  {version:"30.2",name:"Version février 2026",date:"Fév. 2026",features:[
-    {name:"Generative Shape Fill — GPT Image 4o & Gemini 2.5 disponibles",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-shape-fills.html"},
-    {name:"Conversion solide → dégradé avec préréglages contextuels color-aware",url:"https://helpx.adobe.com/illustrator/desktop/paint-and-fill/create-and-edit-gradients/gradients-overview.html"},
-    {name:"Widget Hide Grid distinct pour masquer la grille de perspective",url:"https://helpx.adobe.com/illustrator/desktop/manage-objects/reshape-transform-objects/about-perspective-drawing.html"},
-    {name:"Export vers Firefly Boards pour créer mood boards et maquettes",url:"https://helpx.adobe.com/illustrator/desktop/save-and-export/export-to-other-apps/export-assets-to-firefly-boards.html"},
+  {version:"30.2",name:"February 2026 release",date:"Feb. 2026",isNew:false,features:[
+    {name:"Generative Shape Fill — GPT Image 4o and Gemini 2.5 (Nano Banana) now available",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-shape-fills.html"},
+    {name:"Solid-to-gradient conversion with context-aware, color-aware presets",url:"https://helpx.adobe.com/illustrator/desktop/paint-and-fill/create-and-edit-gradients/gradients-overview.html"},
+    {name:"Hide Grid widget — dedicated control for hiding the perspective grid",url:"https://helpx.adobe.com/illustrator/desktop/manage-objects/reshape-transform-objects/about-perspective-drawing.html"},
+    {name:"Export assets to Firefly Boards for mood boards and mockups",url:"https://helpx.adobe.com/illustrator/desktop/save-and-export/export-to-other-apps/export-assets-to-firefly-boards.html"},
   ]},
-  {version:"30.1",name:"Version décembre 2025",date:"Déc. 2025",features:[
-    {name:"GPT Image 4o, Ideogram 3, Gemini 2.5 dans Text to Vector Graphic",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/partner-models-overview.html"},
-    {name:"Mises à jour couleurs et corrections de bugs",url:"https://helpx.adobe.com/illustrator/desktop/new-features/release-notes.html"},
+  {version:"30.1",name:"December 2025 release",date:"Dec. 2025",isNew:false,features:[
+    {name:"GPT Image 4o, Ideogram 3, Gemini 2.5 (Nano Banana) available in Text to Vector Graphic",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/partner-models-overview.html"},
+    {name:"Color-related improvements and bug fixes",url:"https://helpx.adobe.com/illustrator/desktop/new-features/release-notes.html"},
   ]},
-  {version:"30.0",name:"Illustrator 2026 — MAX",date:"Oct. 2025",features:[
-    {name:"Navigateur de polices repensé — filtres améliorés, gestion via CC Libraries",url:"https://helpx.adobe.com/illustrator/desktop/design-with-text/fonts-and-scripts/find-and-apply-fonts.html"},
-    {name:"Dithering de dégradé & mode de fusion Perceptual",url:"https://helpx.adobe.com/illustrator/desktop/paint-and-fill/create-and-edit-gradients/gradients-overview.html"},
-    {name:"Menu IA générative centralisé (toolbar + Objet > Générative)",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-scenes-subjects-and-icons.html"},
-    {name:"Firefly Vector 4 & Vector 3 — choix du modèle dans Text to Vector",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-scenes-subjects-and-icons.html"},
-    {name:"Projects — espaces de collaboration partagés multi-applis",url:"https://helpx.adobe.com/illustrator/desktop/add-and-import-files/start-a-new-file/organize-share-and-collaborate-using-projects.html"},
-    {name:"Place from Adobe Cloud — accès direct à l'historique des générations Firefly",url:"https://helpx.adobe.com/illustrator/desktop/add-and-import-files/import-from-other-apps/place-and-edit-adobe-firefly-output-in-app.html"},
-    {name:"Performance : démarrage 3× plus rapide, sauvegardes incrémentielles 6× plus rapides",url:"https://helpx.adobe.com/illustrator/desktop/new-features/performance-enhancements.html"},
-    {name:"Gestion plans de travail — ajout/duplication depuis canevas, renommage groupé",url:"https://helpx.adobe.com/illustrator/desktop/create-manage-artboards/add-edit-artboards/add-new-artboards.html"},
-    {name:"Magnétisme amélioré — guides intelligents, accrochage sur objets pivotés",url:"https://helpx.adobe.com/illustrator/desktop/measure-and-align/grids-and-guides/work-with-smart-guides.html"},
+  {version:"30.0",name:"Illustrator 2026 — MAX",date:"Oct. 2025",isNew:false,features:[
+    {name:"Refreshed font browser — improved filters, manage fonts via CC Libraries",url:"https://helpx.adobe.com/illustrator/desktop/design-with-text/fonts-and-scripts/find-and-apply-fonts.html"},
+    {name:"Gradient dithering and Perceptual blending mode — eliminate banding",url:"https://helpx.adobe.com/illustrator/desktop/paint-and-fill/create-and-edit-gradients/gradients-overview.html"},
+    {name:"Centralized generative AI menu — toolbar button and Object > Generative",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-scenes-subjects-and-icons.html"},
+    {name:"Firefly Vector 4 and Vector 3 — choose model in Text to Vector Graphic",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-scenes-subjects-and-icons.html"},
+    {name:"Projects — organize, share, and collaborate on files across Creative Cloud apps",url:"https://helpx.adobe.com/illustrator/desktop/add-and-import-files/start-a-new-file/organize-share-and-collaborate-using-projects.html"},
+    {name:"Place from Adobe Cloud — access Firefly generation history directly in Illustrator",url:"https://helpx.adobe.com/illustrator/desktop/add-and-import-files/import-from-other-apps/place-and-edit-adobe-firefly-output-in-app.html"},
+    {name:"Performance: 3× faster launch, 6× faster incremental saves",url:"https://helpx.adobe.com/illustrator/desktop/new-features/performance-enhancements.html"},
+    {name:"Artboard improvements — add/duplicate from canvas, bulk rename, active artboard border",url:"https://helpx.adobe.com/illustrator/desktop/create-manage-artboards/add-edit-artboards/add-new-artboards.html"},
+    {name:"Improved snapping — smarter Smart Guides, snapping for rotated objects",url:"https://helpx.adobe.com/illustrator/desktop/measure-and-align/grids-and-guides/work-with-smart-guides.html"},
   ]},
-  {version:"29.8.1",name:"Version août 2025",date:"Août 2025",features:[
-    {name:"Copier les valeurs de couleur Hex — Color panel, Sélecteur, Nuanciers",url:"https://helpx.adobe.com/illustrator/desktop/manage-colors/select-and-adjust-colors/about-selecting-colors.html"},
-    {name:"Couleurs récemment utilisées sauvegardées dans le panneau Couleur & Nuanciers",url:"https://helpx.adobe.com/illustrator/desktop/manage-colors/use-swatches/about-swatches.html"},
-    {name:"Performances de démarrage améliorées",url:"https://helpx.adobe.com/illustrator/desktop/new-features/performance-enhancements.html"},
+  {version:"29.8.1",name:"August 2025 release",date:"Aug. 2025",isNew:false,features:[
+    {name:"Copy color values (hex) — from Color panel, Color Picker, Swatches dialogs",url:"https://helpx.adobe.com/illustrator/desktop/manage-colors/select-and-adjust-colors/about-selecting-colors.html"},
+    {name:"Recently used colors saved to the Color and Swatches panel",url:"https://helpx.adobe.com/illustrator/desktop/manage-colors/use-swatches/about-swatches.html"},
+    {name:"Improved app launch performance",url:"https://helpx.adobe.com/illustrator/desktop/new-features/performance-enhancements.html"},
   ]},
-  {version:"29.7",name:"Version juillet 2025",date:"Juil. 2025",features:[
-    {name:"Plans de travail — agrandir depuis le bord, renommage multiple, bordure active",url:"https://helpx.adobe.com/illustrator/desktop/create-manage-artboards/add-edit-artboards/add-new-artboards.html"},
-    {name:"Couleur de fond comme point de départ de dégradé automatiquement",url:"https://helpx.adobe.com/illustrator/desktop/paint-and-fill/create-and-edit-gradients/apply-a-predefined-gradient.html"},
-    {name:"Barre de recherche dans les Préférences",url:"https://helpx.adobe.com/illustrator/desktop/get-started/preferences-and-settings/set-app-preferences.html"},
-    {name:"Accessibilité : lecteurs d'écran pour écran d'accueil et Nouveau document",url:"https://helpx.adobe.com/illustrator/desktop/get-started/preferences-and-settings/accessibility-features-in-illustrator.html"},
+  {version:"29.7",name:"July 2025 release",date:"Jul. 2025",isNew:false,features:[
+    {name:"Artboard enhancements — expand from canvas edge, rename multiple artboards, active artboard outline",url:"https://helpx.adobe.com/illustrator/desktop/create-manage-artboards/add-edit-artboards/add-new-artboards.html"},
+    {name:"Apply fill color as gradient start point automatically",url:"https://helpx.adobe.com/illustrator/desktop/paint-and-fill/create-and-edit-gradients/apply-a-predefined-gradient.html"},
+    {name:"Search bar in Preferences — find any setting by keyword",url:"https://helpx.adobe.com/illustrator/desktop/get-started/preferences-and-settings/set-app-preferences.html"},
+    {name:"Accessibility improvements for screen readers on Home screen and New Document dialog",url:"https://helpx.adobe.com/illustrator/desktop/get-started/preferences-and-settings/accessibility-features-in-illustrator.html"},
   ]},
-  {version:"29.6",name:"Version juin 2025",date:"Juin 2025",features:[
-    {name:"Text to Pattern — générer des motifs vectoriels depuis une description textuelle",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-patterns.html"},
-    {name:"Accès à Text to Pattern depuis le panneau Nuanciers",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-patterns.html"},
-    {name:"Performances : effets Calligraphic Brushes et Art Brushes plus rapides",url:"https://helpx.adobe.com/illustrator/desktop/new-features/performance-enhancements.html"},
+  {version:"29.6",name:"June 2025 release",date:"Jun. 2025",isNew:false,features:[
+    {name:"Text to Pattern — generate seamless vector patterns from a text description",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-patterns.html"},
+    {name:"Access Text to Pattern from the Swatches panel",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-patterns.html"},
+    {name:"Performance improvements for Calligraphic Brushes and Art Brushes effects",url:"https://helpx.adobe.com/illustrator/desktop/new-features/performance-enhancements.html"},
   ]},
 ]},
 
 photoshop:{lastChecked:"2026-06-04",releases:[
-  {version:"27.7",name:"Version mai 2026",date:"20 Mai 2026",isNew:true,features:[
-    {name:"🆕 Outil Remove on-device — supprimer des objets localement sans dépendre du cloud",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
-    {name:"🆕 Intégration Firefly Boards — passer directement de PS au moodboarding et comparaison de variations",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
-    {name:"🆕 Unified Account Menu — gestion du compte directement dans l'espace de travail Edit",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
-    {name:"🆕 Save for Web — interface rafraîchie et plus cohérente",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
-    {name:"🆕 Ouvrir JPEG en calque normal + nouveau document sans calque d'arrière-plan par défaut",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
-    {name:"🆕 Canvas HUD diagnostics déplacé dans le menu Vue — canvas plus propre",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
-    {name:"🆕 Performances : réduction de la surcharge de télémétrie",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
+  {version:"27.7",name:"May 2026 release",date:"May 20, 2026",isNew:true,features:[
+    {name:"🆕 On-device Remove tool — use an on-device AI model to process object removals locally without relying on the cloud",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
+    {name:"🆕 Firefly Boards integration — send images to Firefly Boards to explore and organize ideas, then bring them back to Photoshop for editing",url:"https://helpx.adobe.com/photoshop/desktop/generative-ai/open-firefly-boards.html"},
+    {name:"🆕 Unified Account Menu — view and manage your Adobe account, subscription, and generative credits directly from the Edit workspace",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
+    {name:"🆕 Save for Web dialog refreshed with a modern, more consistent interface",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
+    {name:"🆕 New preference: open JPEG files as a regular layer rather than a locked background layer",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
+    {name:"🆕 Start new documents without a default background layer",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
+    {name:"🆕 Canvas HUD diagnostics moved to the View menu for a cleaner canvas",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
+    {name:"🆕 Performance improved by reducing telemetry overhead",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
   ]},
-  {version:"27.6",name:"Version avril 2026",date:"Avr. 2026",isNew:false,features:[
-    {name:"🆕 Co-édition en temps réel — éditer le même fichier Photoshop simultanément avec plusieurs partenaires via Creative Cloud",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
-    {name:"Rotation d'objet — pivoter/incliner calques 2D sur le canevas + remplissage IA",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
-    {name:"Suppression des reflets — retirer reflets de vitre, sortie sur calque séparé",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},    {name:"Détecter les distractions (mode général) — détecter & supprimer le désordre",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
-    {name:"Nettoyage des calques — supprimer calques vides, renommage auto par contenu",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
-    {name:"Panneau Utilisation des crédits génératifs — suivi en temps réel",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
-    {name:"Multi-modèles : Firefly Image 5, Gemini 3.1 (Nano Banana 2), FLUX",url:"https://helpx.adobe.com/photoshop/using/generate-image-using-generative-fill.html"},
-    {name:"Intégration Firefly Boards — envoyer/récupérer images dans le workflow PS",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
-    {name:"Panneau Actions simplifié — catégories, aperçu au survol, personnalisation",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
-    {name:"Texte dynamique — redimensionner/reconfigurer le texte dans des formes",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
-    {name:"Outil Dégradé amélioré — meilleur contrôle couleur, direction, transitions",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
+  {version:"27.6",name:"April 2026 release",date:"Apr. 2026",isNew:false,features:[
+    {name:"Real-time co-editing — edit the same Photoshop file simultaneously with collaborators via Creative Cloud",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
+    {name:"Rotate Object — rotate and tilt pixel layers into new perspectives using on-canvas controls",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
+    {name:"Reflection Removal — remove glass or window reflections, output on a separate layer",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
+    {name:"Find Distractions (General mode) — detect and remove visual clutter with the Remove tool",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
+    {name:"Layer Cleanup — remove empty layers and automatically rename layers based on their content",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
+    {name:"Generative Credits Usage panel — track credits in real time by model and tool",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
+    {name:"Multi-model Generative Fill — Firefly Image 5, Gemini 3.1 (Nano Banana 2), FLUX",url:"https://helpx.adobe.com/photoshop/using/generate-image-using-generative-fill.html"},
+    {name:"Streamlined Actions panel — categories, hover preview, and customization",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
+    {name:"Dynamic Text — resize and reflow text within shapes (Circle, Arch, Bow)",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
+    {name:"Enhanced Gradient tool — more control over color, direction, and transitions",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
   ]},
-  {version:"27.0",name:"Photoshop 2026 — MAX",date:"Oct. 2025",features:[
-    {name:"Harmoniser — fusion IA éclairage, couleurs & ombres entre calques composites",url:"https://helpx.adobe.com/photoshop/using/harmonize.html"},
-    {name:"Mise à l'échelle générative — Topaz Gigapixel intégré, jusqu'à 56 MP",url:"https://helpx.adobe.com/photoshop/using/generative-upscale.html"},
-    {name:"Generative Fill multi-modèles (hors bêta) — Nano Banana, Flux.1 + Firefly",url:"https://helpx.adobe.com/photoshop/using/generate-image-using-generative-fill.html"},
-    {name:"Nouveaux calques de réglage Couleur et Vibrance",url:"https://helpx.adobe.com/photoshop/using/adjustment-fill-layers.html"},
-    {name:"Sélectionner sujet & Supprimer arrière-plan améliorés (local + cloud)",url:"https://helpx.adobe.com/photoshop/using/select-subject.html"},
-    {name:"Projects — espaces de collaboration multi-applis",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
-    {name:"IA agentique (bêta privée, Photoshop Web) — retouches pilotées par chatbot",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
+  {version:"27.3",name:"January 2026 release",date:"Jan. 2026",isNew:false,features:[
+    {name:"Clarity and Dehaze adjustment layer — boost midtone contrast and reduce haze non-destructively",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
+    {name:"Grain adjustment layer — add and refine film grain non-destructively",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
+    {name:"New Firefly models in Generative Fill and Generative Expand — more accurate, higher-quality AI results",url:"https://helpx.adobe.com/photoshop/using/generate-image-using-generative-fill.html"},
+    {name:"Updated Remove tool — faster removal of unwanted objects or people",url:"https://helpx.adobe.com/photoshop/using/remove-distractions.html"},
+    {name:"Reference Image in Generative Fill — use a reference image for more consistent results",url:"https://helpx.adobe.com/photoshop/using/generate-image-using-generative-fill.html"},
   ]},
-  {version:"26.x",name:"Photoshop 2025 — MAX 2024",date:"Oct. 2024",features:[
-    {name:"Firefly Image 3 — Generative Fill & Generative Expand mis à jour",url:"https://helpx.adobe.com/photoshop/using/generate-image-using-generative-fill.html"},
-    {name:"Generative Expand — étendre images avec contenu naturel aux bords",url:"https://helpx.adobe.com/photoshop/using/generative-expand.html"},
-    {name:"Suppression améliorée des distractions via l'outil Supprimer",url:"https://helpx.adobe.com/photoshop/using/remove-distractions.html"},
-    {name:"Camera Raw 17 — Generative Expand dans les transformations géométriques",url:"https://helpx.adobe.com/camera-raw/using/whats-new.html"},
+  {version:"27.0",name:"Photoshop 2026 — MAX",date:"Oct. 2025",isNew:false,features:[
+    {name:"Harmonize — AI blending of lighting, color, and shadows across composite layers",url:"https://helpx.adobe.com/photoshop/using/harmonize.html"},
+    {name:"Generative Upscale — Topaz Gigapixel integration, up to 56 MP",url:"https://helpx.adobe.com/photoshop/using/generative-upscale.html"},
+    {name:"Multi-model Generative Fill (out of beta) — Nano Banana, Flux.1, and Firefly",url:"https://helpx.adobe.com/photoshop/using/generate-image-using-generative-fill.html"},
+    {name:"New Color and Vibrance adjustment layers",url:"https://helpx.adobe.com/photoshop/using/adjustment-fill-layers.html"},
+    {name:"Improved Select Subject and Remove Background (on-device and cloud)",url:"https://helpx.adobe.com/photoshop/using/select-subject.html"},
+    {name:"Projects — organize and collaborate across Creative Cloud apps",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
+    {name:"Agentic AI (private beta, Photoshop Web only) — natural-language-driven editing",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
+  ]},
+  {version:"26.x",name:"Photoshop 2025 — MAX 2024",date:"Oct. 2024",isNew:false,features:[
+    {name:"Firefly Image 3 — Generative Fill and Generative Expand updated",url:"https://helpx.adobe.com/photoshop/using/generate-image-using-generative-fill.html"},
+    {name:"Generative Expand — extend images with natural content at the edges",url:"https://helpx.adobe.com/photoshop/using/generative-expand.html"},
+    {name:"Enhanced distraction removal (wires, people) via Remove tool",url:"https://helpx.adobe.com/photoshop/using/remove-distractions.html"},
+    {name:"Camera Raw 17 — Generative Expand inside geometric transforms",url:"https://helpx.adobe.com/camera-raw/using/whats-new.html"},
   ]},
 ]},
 
 indesign:{lastChecked:"2026-06-04",releases:[
-  {version:"20.x",name:"InDesign 2026 — MAX",date:"Oct. 2025",features:[
-    {name:"Flex Layout — mises en page dynamiques adaptatives multi-format",url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html"},
-    {name:"Édition PDF universel — modifier des PDFs créés avec n'importe quel outil",url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html"},
-    {name:"InCopy on the web (bêta) — édition de texte dans le navigateur sans InDesign",url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html"},
-    {name:"Projects — espaces de collaboration partagés multi-applis",url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html"},
-    {name:"Nœuds Générer du texte & Fusionner des données InDesign",url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html"},
+  {version:"20.x",name:"InDesign 2026 — MAX",date:"Oct. 2025",isNew:false,features:[
+    {name:"Flex Layout — adaptive layouts that automatically reflow content for multi-format publishing",url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html"},
+    {name:"Universal PDF Editing — edit PDFs created with any tool",url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html"},
+    {name:"InCopy on the web (beta) — browser-based text editing without installing InDesign",url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html"},
+    {name:"Projects — shared collaboration spaces across Creative Cloud apps",url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html"},
+    {name:"Generate Text and Merge InDesign Data nodes",url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html"},
   ]},
-  {version:"19.x",name:"InDesign 2025 — MAX 2024",date:"Oct. 2024",features:[
-    {name:"Generative Expand pour images placées",url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html"},
-    {name:"Panneau Propriétés porté depuis Photoshop",url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html"},
-    {name:"Panneau Historique — actions annulables dans l'historique visuel",url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html"},
+  {version:"19.x",name:"InDesign 2025 — MAX 2024",date:"Oct. 2024",isNew:false,features:[
+    {name:"Generative Expand for placed images",url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html"},
+    {name:"Properties panel — ported from Photoshop to InDesign 2025",url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html"},
+    {name:"History panel — visual undo history for all actions",url:"https://helpx.adobe.com/indesign/desktop/new-features/whats-new.html"},
   ]},
 ]},
 
 fresco:{lastChecked:"2026-06-04",releases:[
-  {version:"7.2",name:"Version février 2026",date:"Fév. 2026",features:[
-    {name:"Panneau Éléments mis à jour — grands aperçus, 3 nouvelles catégories, 400+ actifs",url:"https://helpx.adobe.com/fresco/using/whats-new.html"},
-    {name:"Améliorations du pose — épinglage automatique des points lors du drag",url:"https://helpx.adobe.com/fresco/using/whats-new.html"},
+  {version:"7.2",name:"February 2026 release",date:"Feb. 2026",isNew:false,features:[
+    {name:"Updated Elements panel — larger previews, 3 new categories, 400+ assets",url:"https://helpx.adobe.com/fresco/using/whats-new.html"},
+    {name:"Pose improvements — automatic pinning of points while dragging",url:"https://helpx.adobe.com/fresco/using/whats-new.html"},
   ]},
-  {version:"6.6",name:"Version 6.6",date:"Déc. 2025",features:[
-    {name:"Éléments — textures, overlays artistiques et cadres BD gratuits et non-IA",url:"https://helpx.adobe.com/fresco/using/whats-new.html"},
-    {name:"Content Credentials — étiquette 'Créé sans IA générative' pour les exports",url:"https://helpx.adobe.com/fresco/using/content-credentials-fresco.html"},
+  {version:"6.6",name:"Version 6.6",date:"Dec. 2025",isNew:false,features:[
+    {name:"Elements — free non-AI textures, artistic overlays, and comic panel frames",url:"https://helpx.adobe.com/fresco/using/whats-new.html"},
+    {name:"Content Credentials — 'Created without generative AI' label on exports",url:"https://helpx.adobe.com/fresco/using/content-credentials-fresco.html"},
   ]},
-  {version:"5.0",name:"Fresco 5.0 — MAX 2024",date:"Oct. 2024",features:[
-    {name:"Outil Type Vertical — écriture verticale pour langues asiatiques",url:"https://helpx.adobe.com/fresco/using/whats-new.html"},
-    {name:"Intégration Firefly Boards — envoyer des créations vers les boards",url:"https://helpx.adobe.com/fresco/using/whats-new.html"},
+  {version:"5.0",name:"Fresco 5.0 — MAX 2024",date:"Oct. 2024",isNew:false,features:[
+    {name:"Vertical Type tool — vertical text for Asian languages",url:"https://helpx.adobe.com/fresco/using/whats-new.html"},
+    {name:"Firefly Boards integration — send creations directly to Boards",url:"https://helpx.adobe.com/fresco/using/whats-new.html"},
   ]},
 ]},
 
 express:{lastChecked:"2026-06-04",releases:[
-  {version:"2026.x",name:"Mises à jour 2026",date:"2026",features:[
-    {name:"Générer une présentation (Acrobat × Express) — diapositives depuis un prompt IA",url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
-    {name:"Animation — nouvel onglet Animation dans les projets Express",url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
-    {name:"Recherche d'add-ons — barre de recherche pour trouver les meilleurs add-ons",url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
-    {name:"Intégration Google Slides — synchronisation directe depuis Express",url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
-    {name:"Sous-titres, slip edits, pistes multipistes vidéo améliorées",url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
+  {version:"2026.x",name:"2026 updates",date:"2026",isNew:false,features:[
+    {name:"Generate presentation (Acrobat × Express) — create slides from an AI prompt",url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
+    {name:"Animation tab — new Animation section in Express projects",url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
+    {name:"Add-on search — search bar to find the best add-ons",url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
+    {name:"Google Slides integration — sync directly from Express",url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
+    {name:"Video editing: captions, slip edits, improved multi-track support",url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
   ]},
-  {version:"2025.x",name:"Mises à jour 2025",date:"2025",features:[
-    {name:"Brand Intelligence — appliquer les règles de marque pour valider les assets",url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
-    {name:"Quick Guides dans Firefly Boards — workflows structurés pour démarrer",url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
-    {name:"Modèles Adobe Express accessibles depuis Illustrator et InDesign",url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
+  {version:"2025.x",name:"2025 updates",date:"2025",isNew:false,features:[
+    {name:"Brand Intelligence — apply brand guidelines to validate and assemble assets",url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
+    {name:"Quick Guides in Firefly Boards — structured workflows to kick off projects",url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
+    {name:"Adobe Express templates accessible from Illustrator and InDesign",url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
   ]},
 ]},
 
 premiere:{lastChecked:"2026-06-04",releases:[
-  {version:"26.2.2",name:"Hotfix mai 2026",date:"8 Mai 2026",isNew:true,features:[
-    {name:"🆕 Correction d'un problème de stabilité critique causant des freezes/hangs dans Premiere 26.2 et 26.2.0",url:"https://helpx.adobe.com/premiere/desktop/whats-new/release-notes.html"},
+  {version:"25.x (NAB)",name:"NAB 2026 update",date:"Apr. 2026",isNew:false,features:[
+    {name:"Color Mode — dedicated color grading mode, a ground-up rebuild of the color experience",url:"https://helpx.adobe.com/premiere/desktop/whats-new/whats-new.html"},
+    {name:"Frame.io Drive — mount Frame.io projects as a local drive, stream media on demand",url:"https://helpx.adobe.com/premiere/desktop/whats-new/whats-new.html"},
+    {name:"Firefly AI Assistant — conversational multi-app workflow across Premiere, Ps, Lr, Ai",url:"https://helpx.adobe.com/premiere/desktop/whats-new/whats-new.html"},
+    {name:"Kling 3.0 and Kling 3.0 Omni integrated in the Firefly Video Editor",url:"https://helpx.adobe.com/premiere/desktop/whats-new/whats-new.html"},
   ]},
-  {version:"25.x (NAB)",name:"Mise à jour NAB 2026",date:"Avr. 2026",features:[
-    {name:"Color Mode — mode d'étalonnage dédié, refonte totale de l'expérience colorimétrique",url:"https://helpx.adobe.com/premiere/desktop/whats-new/whats-new.html"},
-    {name:"Frame.io Drive — monter projets Frame.io comme disque local, streaming à la demande",url:"https://helpx.adobe.com/premiere/desktop/whats-new/whats-new.html"},
-    {name:"Firefly AI Assistant — workflow conversationnel multi-applis",url:"https://helpx.adobe.com/premiere/desktop/whats-new/whats-new.html"},
-    {name:"Kling 3.0 & Kling 3.0 Omni dans le Firefly Video Editor",url:"https://helpx.adobe.com/premiere/desktop/whats-new/whats-new.html"},
+  {version:"25.0",name:"Premiere 2026 (Sundance)",date:"Jan. 2026",isNew:false,features:[
+    {name:"AI-powered object masking tool",url:"https://helpx.adobe.com/premiere/desktop/whats-new/whats-new.html"},
+    {name:"Renamed: 'Premiere Pro' becomes simply Adobe Premiere",url:"https://helpx.adobe.com/premiere/desktop/whats-new/whats-new.html"},
   ]},
-  {version:"25.0",name:"Premiere 2026 (Sundance)",date:"Janv. 2026",features:[
-    {name:"Outil de masquage d'objets basé sur l'IA",url:"https://helpx.adobe.com/premiere/desktop/whats-new/whats-new.html"},
-    {name:"Renommage : 'Premiere Pro' devient simplement Adobe Premiere",url:"https://helpx.adobe.com/premiere/desktop/whats-new/whats-new.html"},
+  {version:"26.2.2",name:"May 2026 hotfix",date:"May 8, 2026",isNew:true,features:[
+    {name:"🆕 Fix for critical freeze/hang affecting Premiere 26.2 and 26.2.0",url:"https://helpx.adobe.com/premiere/desktop/whats-new/release-notes.html"},
   ]},
-  {version:"24.x",name:"Premiere Pro 2025 — MAX 2024",date:"Oct. 2024",features:[
-    {name:"Generative Extend (bêta) — étendre les clips courts avec contenu IA",url:"https://helpx.adobe.com/premiere-pro/using/whats-new.html"},
-    {name:"Media Intelligence — recherche et tagging de médias par IA",url:"https://helpx.adobe.com/premiere-pro/using/whats-new.html"},
-    {name:"Masques avec tracking IA — suivi automatique des sujets",url:"https://helpx.adobe.com/premiere-pro/using/whats-new.html"},
+  {version:"24.x",name:"Premiere Pro 2025 — MAX 2024",date:"Oct. 2024",isNew:false,features:[
+    {name:"Generative Extend (beta) — extend short clips with AI-generated content",url:"https://helpx.adobe.com/premiere-pro/using/whats-new.html"},
+    {name:"Media Intelligence — AI-powered media search and tagging",url:"https://helpx.adobe.com/premiere-pro/using/whats-new.html"},
+    {name:"AI-powered mask tracking — masks that automatically follow subjects",url:"https://helpx.adobe.com/premiere-pro/using/whats-new.html"},
   ]},
 ]},
 
 aftereffects:{lastChecked:"2026-06-04",releases:[
-  {version:"26.2.1",name:"Version avril 2026",date:"Avr. 2026",isNew:true,features:[
-    {name:"🆕 Quick Apply — rechercher et appliquer instantanément effets, presets ou commandes de menu",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
-    {name:"🆕 Object Matte IA — sélectionner, isoler et tracker des sujets en un clic dans la composition",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
-    {name:"🆕 Displacement support pour les matériaux 3D — pousser un mesh en 3D via des données de hauteur",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
-    {name:"🆕 Proportional Scrubbing — ajuster proportionnellement plusieurs calques en draggant une valeur",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
-    {name:"Corrections de bugs et améliorations de stabilité (26.2.1)",url:"https://helpx.adobe.com/after-effects/release-note/release-notes-after-effects.html"},
+  {version:"26.2.1",name:"April 2026 release",date:"Apr. 2026",isNew:true,features:[
+    {name:"🆕 Quick Apply — instantly search and apply effects, presets, or menu commands",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
+    {name:"🆕 Object Matte (AI) — select, isolate, and track subjects in one click",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
+    {name:"🆕 Displacement support for 3D materials — push a 3D mesh using height data",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
+    {name:"🆕 Proportional Scrubbing — proportionally adjust multiple layers by dragging a value",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
+    {name:"Bug fixes and stability improvements (26.2.1 patch)",url:"https://helpx.adobe.com/after-effects/release-note/release-notes-after-effects.html"},
   ]},
-  {version:"26.0",name:"After Effects 2026 — MAX",date:"Oct. 2025",features:[
-    {name:"Intégration Frame.io Drive — accès streaming aux médias depuis AE",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
-    {name:"Support SVG natif — import comme calques de formes natifs",url:"https://helpx.adobe.com/after-effects/using/import-svg-files.html"},
-    {name:"Vecteurs Illustrator — dégradés, transparence et traits dégradés préservés",url:"https://helpx.adobe.com/after-effects/using/importing-effects-premiere-pro.html"},
-    {name:"Nouvelles capacités 3D via Adobe Substance 3D",url:"https://helpx.adobe.com/after-effects/using/3d-layers.html"},
+  {version:"26.0",name:"After Effects 2026 — MAX",date:"Oct. 2025",isNew:false,features:[
+    {name:"Frame.io Drive integration — stream media on demand directly from After Effects",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
+    {name:"Native SVG support — import as native shape layers (logos, icons)",url:"https://helpx.adobe.com/after-effects/using/import-svg-files.html"},
+    {name:"Illustrator vectors — gradients, transparency, and gradient strokes preserved on conversion",url:"https://helpx.adobe.com/after-effects/using/importing-effects-premiere-pro.html"},
+    {name:"New 3D capabilities via Adobe Substance 3D",url:"https://helpx.adobe.com/after-effects/using/3d-layers.html"},
   ]},
-  {version:"25.x",name:"After Effects 2025 — MAX 2024",date:"Oct. 2024",features:[
-    {name:"Panneau Propriétés — animer plus vite et facilement",url:"https://helpx.adobe.com/after-effects/using/properties-panel.html"},
-    {name:"Variable Font Axes — support complet des polices variables + scripting",url:"https://helpx.adobe.com/after-effects/using/variable-font-axes-support.html"},
-    {name:"Object Matte alimenté par IA — détourage automatique d'objets",url:"https://helpx.adobe.com/after-effects/using/object-matte.html"},
-    {name:"Composition Profiler — informations détaillées sur les performances de rendu",url:"https://helpx.adobe.com/after-effects/using/composition-profiler.html"},
+  {version:"25.x",name:"After Effects 2025 — MAX 2024",date:"Oct. 2024",isNew:false,features:[
+    {name:"Properties panel — animate faster and more easily",url:"https://helpx.adobe.com/after-effects/using/properties-panel.html"},
+    {name:"Variable Font Axes — full support for variable fonts with scripting",url:"https://helpx.adobe.com/after-effects/using/variable-font-axes-support.html"},
+    {name:"Object Matte (AI-powered) — automatic subject isolation",url:"https://helpx.adobe.com/after-effects/using/object-matte.html"},
+    {name:"Composition Profiler — detailed render performance information",url:"https://helpx.adobe.com/after-effects/using/composition-profiler.html"},
   ]},
 ]},
 
 audition:{lastChecked:"2026-06-04",releases:[
-  {version:"26.0",name:"Version janvier 2026",date:"Janv. 2026",features:[
-    {name:"Support natif Windows on ARM (ARM64) — Qualcomm Snapdragon X Series",url:"https://helpx.adobe.com/audition/using/whats-new/2026.html"},
-    {name:"Améliorations de stabilité et de performance",url:"https://helpx.adobe.com/audition/using/whats-new/2026.html"},
+  {version:"26.0",name:"January 2026 release",date:"Jan. 2026",isNew:false,features:[
+    {name:"Native Windows on ARM support (ARM64) — Qualcomm Snapdragon X Series",url:"https://helpx.adobe.com/audition/using/whats-new/2026.html"},
+    {name:"Stability and performance improvements",url:"https://helpx.adobe.com/audition/using/whats-new/2026.html"},
   ]},
-  {version:"25.x",name:"Audition 2025 — MAX 2024",date:"Oct. 2024",features:[
-    {name:"Enhance Speech amélioré — réduction de bruit et amélioration de la voix",url:"https://helpx.adobe.com/audition/using/whats-new.html"},
-    {name:"Améliorations des pistes audio et des effets",url:"https://helpx.adobe.com/audition/using/whats-new.html"},
+  {version:"25.x",name:"Audition 2025 — MAX 2024",date:"Oct. 2024",isNew:false,features:[
+    {name:"Enhanced Enhance Speech — improved noise reduction and voice enhancement",url:"https://helpx.adobe.com/audition/using/whats-new.html"},
+    {name:"Audio track and effects improvements",url:"https://helpx.adobe.com/audition/using/whats-new.html"},
   ]},
 ]},
 
 mediaencoder:{lastChecked:"2026-06-04",releases:[
-  {version:"26.2",name:"Version avril 2026",date:"Avr. 2026",features:[
-    {name:"Nouvelle fonctionnalité et améliorations (voir notes de version officielles)",url:"https://helpx.adobe.com/media-encoder/using/whats-new.html"},
+  {version:"26.2",name:"April 2026 release",date:"Apr. 2026",isNew:false,features:[
+    {name:"New features and improvements (see official release notes for details)",url:"https://helpx.adobe.com/media-encoder/using/whats-new.html"},
   ]},
-  {version:"26.0",name:"Media Encoder 2026 — MAX",date:"Oct. 2025",features:[
-    {name:"GPU-Accelerated Effects — plus de 90 effets et transitions accélérés GPU",url:"https://helpx.adobe.com/media-encoder/using/whats-new.html"},
-    {name:"Content Credentials C2PA — maintien des crédits à l'import/export",url:"https://helpx.adobe.com/media-encoder/using/whats-new/2025-1.html"},
-    {name:"Contrôle des plug-ins audio tiers — activer/désactiver sélectivement",url:"https://helpx.adobe.com/media-encoder/using/whats-new/2025-1.html"},
+  {version:"26.0",name:"Media Encoder 2026 — MAX",date:"Oct. 2025",isNew:false,features:[
+    {name:"GPU-accelerated effects — 90+ effects and transitions accelerated by GPU",url:"https://helpx.adobe.com/media-encoder/using/whats-new.html"},
+    {name:"Content Credentials C2PA — preserve credentials on import and export",url:"https://helpx.adobe.com/media-encoder/using/whats-new/2025-1.html"},
+    {name:"Third-party audio plug-in control — selectively enable or disable plug-ins",url:"https://helpx.adobe.com/media-encoder/using/whats-new/2025-1.html"},
   ]},
 ]},
 
 characteranimator:{lastChecked:"2026-06-04",releases:[
-  {version:"26.0",name:"Version janvier 2026",date:"Janv. 2026",features:[
-    {name:"Améliorations de stabilité — pas de nouvelles fonctionnalités dans cette version",url:"https://helpx.adobe.com/adobe-character-animator/using/whats-new.html"},
+  {version:"26.0",name:"January 2026 release",date:"Jan. 2026",isNew:false,features:[
+    {name:"Stability improvements — no new features in this release",url:"https://helpx.adobe.com/adobe-character-animator/using/whats-new.html"},
   ]},
-  {version:"24.x",name:"Character Animator 2025",date:"Oct. 2024",features:[
-    {name:"Arrière-plan personnalisé — utiliser une image personnalisée comme fond",url:"https://helpx.adobe.com/adobe-character-animator/using/whats-new.html"},
-    {name:"Replays modifiables — mise à jour automatique des instances de replay",url:"https://helpx.adobe.com/adobe-character-animator/using/whats-new.html"},
+  {version:"24.x",name:"Character Animator 2025",date:"Oct. 2024",isNew:false,features:[
+    {name:"Custom background — use a custom image as the scene background",url:"https://helpx.adobe.com/adobe-character-animator/using/whats-new.html"},
+    {name:"Editable replays — automatically update all replay instances",url:"https://helpx.adobe.com/adobe-character-animator/using/whats-new.html"},
   ]},
 ]},
 
 lightroom:{lastChecked:"2026-06-04",releases:[
-  {version:"Desktop 9.3",name:"Version avril 2026",date:"Avr. 2026",features:[
-    {name:"Mises à jour IA en arrière-plan — Denoise, Sync sans bloquer le workflow",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
-    {name:"Mood Boards — tableaux d'ambiance partageables via Firefly",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
-    {name:"12 Préréglages Film — Warm Gold, Soft Ember, Light Sage…",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
-    {name:"Support RAW Sony a7V",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
-    {name:"Android : Describe — édition par texte (Naturel, Vintage, Cinématique…)",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
+  {version:"Desktop 9.3",name:"April 2026 release",date:"Apr. 2026",isNew:false,features:[
+    {name:"Background AI updates — apply Denoise and Sync without blocking your workflow",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
+    {name:"Mood Boards — shareable visual boards powered by Firefly",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
+    {name:"12 Film-Inspired presets — Warm Gold, Soft Ember, Light Sage and more",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
+    {name:"Sony a7V RAW file support",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
+    {name:"Android: Describe — text-based editing (Natural, Vintage, Cinematic, Light & Airy, Warm & Earthy)",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
+    {name:"Faster white balance previews; faster Presets and Profiles panels",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
   ]},
-  {version:"Desktop 8.x",name:"Lightroom 2026 — MAX",date:"Oct. 2025",features:[
-    {name:"Tri intelligent — filtrage par qualité, groupes de similaires",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
-    {name:"Suppression automatique des taches de poussière (desktop)",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
-    {name:"Firefly Boards — canvas infini multi-collaborateurs",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
-    {name:"Edit in Firefly — améliorer les images via prompt ou convertir en vidéo",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
-    {name:"Support WebP — importer, éditer et synchroniser les fichiers WebP",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
+  {version:"Desktop 8.x",name:"Lightroom 2026 — MAX",date:"Oct. 2025",isNew:false,features:[
+    {name:"Smart Photo Sort — quality filtering, groups of similar images",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
+    {name:"Automatic dust spot and imperfection removal (desktop)",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
+    {name:"Firefly Boards — infinite canvas, multi-collaborator, integrations with Ps/Ai/Fresco",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
+    {name:"Edit in Firefly — enhance images via prompt or convert to video",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
+    {name:"WebP support — import, edit, and sync WebP files",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
   ]},
-  {version:"Desktop 7.x",name:"Lightroom 2025 — MAX 2024",date:"Oct. 2024",features:[
-    {name:"Suppression des distractions améliorée — réflexions, personnes, fils, poussière",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
-    {name:"Édition HDR — niveaux tonaux au-delà de la plage SDR",url:"https://helpx.adobe.com/lightroom-cc/using/hdr-editing.html"},
-    {name:"Quick Actions — premières actions rapides IA dans Lightroom",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
+  {version:"Desktop 7.x",name:"Lightroom 2025 — MAX 2024",date:"Oct. 2024",isNew:false,features:[
+    {name:"Enhanced distraction removal — reflections, people, wires, dust",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
+    {name:"HDR editing — tonal levels beyond the SDR range on compatible displays",url:"https://helpx.adobe.com/lightroom-cc/using/hdr-editing.html"},
+    {name:"Quick Actions — first AI-powered quick actions in Lightroom",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
   ]},
 ]},
 
 lightroomclassic:{lastChecked:"2026-06-04",releases:[
-  {version:"15.4",name:"Version mai 2026",date:"16 Avr. 2026",isNew:true,features:[
-    {name:"🆕 Edit in Photoshop — support format PSB + export 16-bit / 32-bit HDR (HDR sRGB, Rec. 2020, Display P3)",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new/release-notes.html"},
-    {name:"🆕 Aperçus haute qualité embarqués visibles avant l'import",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new/release-notes.html"},
-    {name:"🆕 8 nouveaux préréglages Adaptive Landscape — Spring, Summer et autres",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new/release-notes.html"},
-    {name:"🆕 Detect objects — détecte maintenant ombres et reflets pour une suppression plus propre",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new/release-notes.html"},
-    {name:"🆕 Support tethered Leica — appareils supplémentaires supportés",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new/release-notes.html"},
-    {name:"🆕 Performances : aperçus plus rapides (Presets, History, Snapshots) + pause live preview avec Shift",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new/release-notes.html"},
-    {name:"🆕 Préférences External Editing réorganisées et plus intuitives",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new/release-notes.html"},
+  {version:"15.4",name:"May 2026 release",date:"Apr. 16, 2026",isNew:true,features:[
+    {name:"🆕 Edit in Photoshop now supports the PSB file format — export in 16-bit or 32-bit HDR (HDR sRGB, HDR Rec. 2020, HDR Display P3)",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new/release-notes.html"},
+    {name:"🆕 View higher-quality embedded previews while reviewing images before import",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new/release-notes.html"},
+    {name:"🆕 8 new Adaptive Landscape presets — Spring, Summer, and more",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new/release-notes.html"},
+    {name:"🆕 Detect objects — now detects shadows and reflections for cleaner removal",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new/release-notes.html"},
+    {name:"🆕 Tethered capture support added for additional Leica cameras",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new/release-notes.html"},
+    {name:"🆕 Faster previews while hovering over Presets, History, and Snapshots; pause live preview with Shift",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new/release-notes.html"},
+    {name:"🆕 More organized and intuitive External Editing preferences",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new/release-notes.html"},
   ]},
-  {version:"15.3",name:"Version avril 2026",date:"Avr. 2026",isNew:false,features:[
-    {name:"Mises à jour IA en arrière-plan — Sync, Copy/Paste, presets sans bloquer",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
-    {name:"Tri assisté par IA amélioré — meilleure reconnaissance faible profondeur de champ",url:"https://helpx.adobe.com/lightroom-classic/using/using-ai-assisted-culling-in-lightroom-classic.html"},
-    {name:"12 Préréglages Film (catégorie Style)",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
-    {name:"Support RAW Sony a7V",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
-    {name:"Fichiers sidecar XMP/ACR séparés pour images RAW (onglet Local)",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
+  {version:"15.3",name:"April 2026 release",date:"Apr. 2026",isNew:false,features:[
+    {name:"Background AI updates — Sync, Copy/Paste, presets without blocking the workflow",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
+    {name:"AI-assisted culling improvements — better recognition of shallow depth of field",url:"https://helpx.adobe.com/lightroom-classic/using/using-ai-assisted-culling-in-lightroom-classic.html"},
+    {name:"12 Film-Inspired presets (Style category)",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
+    {name:"Sony a7V RAW support",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
+    {name:"Separate XMP/ACR sidecar files for raw images (Local tab)",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
   ]},
-  {version:"15.x",name:"Lightroom Classic 2026 — MAX",date:"Oct. 2025",features:[
-    {name:"Tri intelligent de photos — filtrage qualité, groupes de similaires",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
-    {name:"Renommage de fichiers en lot",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
-    {name:"Suppression automatique des taches de poussière",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
-    {name:"Assisted Culling (Early Access) — sélectionner les meilleures photos d'un lot",url:"https://helpx.adobe.com/lightroom-classic/using/using-ai-assisted-culling-in-lightroom-classic.html"},
+  {version:"15.x",name:"Lightroom Classic 2026 — MAX",date:"Oct. 2025",isNew:false,features:[
+    {name:"Smart Photo Sort — quality filtering, groups of similar images",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
+    {name:"Batch file rename",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
+    {name:"Automatic dust spot removal",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
+    {name:"Assisted Culling (Early Access) — quickly identify the best images from a batch",url:"https://helpx.adobe.com/lightroom-classic/using/using-ai-assisted-culling-in-lightroom-classic.html"},
   ]},
-  {version:"14.x",name:"Lightroom Classic 2025 — MAX 2024",date:"Oct. 2024",features:[
-    {name:"Camera Raw 17 — outil Supprimer avec IA générative et variations",url:"https://helpx.adobe.com/camera-raw/using/whats-new.html"},
-    {name:"Limite de taille du cache de prévisualisations",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
-    {name:"Denoise IA pour les DNG linéaires (Apple ProRAW, Samsung, HDR Pano)",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
-    {name:"Aperçu HDR dans le module Bibliothèque",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
+  {version:"14.x",name:"Lightroom Classic 2025 — MAX 2024",date:"Oct. 2024",isNew:false,features:[
+    {name:"Camera Raw 17 — Remove tool with generative AI and variations",url:"https://helpx.adobe.com/camera-raw/using/whats-new.html"},
+    {name:"Preview cache size limit",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
+    {name:"AI Denoise for linear DNG files (Apple ProRAW, Samsung, HDR Pano)",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
+    {name:"HDR preview in the Library module",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
   ]},
 ]},
 
 bridge:{lastChecked:"2026-06-04",releases:[
-  {version:"16.0.x",name:"Bridge 2026",date:"Oct. 2025+",features:[
-    {name:"Corrections de sécurité et de stabilité",url:"https://helpx.adobe.com/bridge/desktop/whats-new/whats-new.html"},
+  {version:"16.0.x",name:"Bridge 2026",date:"Oct. 2025+",isNew:false,features:[
+    {name:"Security and stability fixes",url:"https://helpx.adobe.com/bridge/desktop/whats-new/whats-new.html"},
   ]},
-  {version:"15.1",name:"Bridge 15.1 — juin 2025",date:"Juin 2025",features:[
-    {name:"Performances améliorées — défilement aux touches fléchées, drag & drop",url:"https://helpx.adobe.com/bridge/desktop/whats-new/whats-new.html"},
-    {name:"Correction de l'erreur de licence Camera Raw depuis Bridge",url:"https://helpx.adobe.com/bridge/desktop/whats-new/whats-new.html"},
+  {version:"15.1",name:"Bridge 15.1 — June 2025",date:"Jun. 2025",isNew:false,features:[
+    {name:"Performance improvements — arrow key scrolling, drag and drop",url:"https://helpx.adobe.com/bridge/desktop/whats-new/whats-new.html"},
+    {name:"Fix for Camera Raw license error when launching from Bridge",url:"https://helpx.adobe.com/bridge/desktop/whats-new/whats-new.html"},
   ]},
-  {version:"15.0",name:"Bridge 2025 — MAX 2024",date:"Oct. 2024",features:[
-    {name:"Quick Actions Express — Supprimer arrière-plan, Trim Video, Convertir en GIF/SVG",url:"https://helpx.adobe.com/bridge/using/whats-new/2025.html"},
-    {name:"Content Credentials — métadonnées inviolables dans les assets exportés",url:"https://helpx.adobe.com/bridge/using/whats-new/2025.html"},
-    {name:"Miniatures HEIC/HEIF sur Windows",url:"https://helpx.adobe.com/bridge/using/whats-new/2025.html"},
+  {version:"15.0",name:"Bridge 2025 — MAX 2024",date:"Oct. 2024",isNew:false,features:[
+    {name:"Quick Actions — Remove Background, Trim Video, Convert to GIF/SVG via Express",url:"https://helpx.adobe.com/bridge/using/whats-new/2025.html"},
+    {name:"Content Credentials — tamper-evident metadata on exported assets",url:"https://helpx.adobe.com/bridge/using/whats-new/2025.html"},
+    {name:"HEIC/HEIF thumbnails on Windows",url:"https://helpx.adobe.com/bridge/using/whats-new/2025.html"},
   ]},
 ]},
 
 acrobat:{lastChecked:"2026-06-04",releases:[
-  {version:"Continu avr.–mai 2026",name:"Mises à jour récentes 2026",date:"Avr.–Mai 2026",features:[
-    {name:"PDF Spaces — partager un Space avec IA Assistant personnalisé",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
-    {name:"AI Assistant tâches PDF en langage naturel — réorganiser, headers, watermarks",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
-    {name:"Éditer des PDFs dans ChatGPT — fusionner, extraire, compresser sans changer d'appli",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
-    {name:"Smart Assistance disponible pour Acrobat gratuit et Reader",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
-    {name:"Acrobat Workflows dans WhatsApp — workflows PDF directement depuis WhatsApp",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
+  {version:"Continuous Apr.–May 2026",name:"Recent 2026 updates",date:"Apr.–May 2026",isNew:false,features:[
+    {name:"PDF Spaces — share a Space with a personalized AI Assistant",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
+    {name:"AI Assistant natural-language PDF tasks — reorganize, add headers, watermarks",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
+    {name:"Edit PDFs in ChatGPT — merge, extract, compress without leaving the app",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
+    {name:"Smart Assistance now available for free Acrobat and Reader",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
+    {name:"Acrobat Workflows in WhatsApp — PDF workflows directly from WhatsApp",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
   ]},
-  {version:"Continu janv.–mars 2026",name:"Mises à jour Q1 2026",date:"Janv.–Mars 2026",features:[
-    {name:"PDF Spaces — hub IA pour organiser, résumer et partager des PDFs",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
-    {name:"Générer une présentation — diapositives depuis prompt dans Adobe Express",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
-    {name:"Générer un podcast — audio de synthèse depuis des documents PDF",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
-    {name:"Connector SharePoint — ajouter des fichiers SharePoint dans un PDF Space",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
+  {version:"Continuous Jan.–Mar. 2026",name:"Q1 2026 updates",date:"Jan.–Mar. 2026",isNew:false,features:[
+    {name:"PDF Spaces — AI hub to organize, summarize, and share PDFs",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
+    {name:"Generate presentation — slides from a prompt in Adobe Express",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
+    {name:"Generate podcast — AI-synthesized audio from PDF documents",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
+    {name:"SharePoint connector — add SharePoint files into a PDF Space",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
   ]},
-  {version:"Continu août–déc. 2025",name:"Acrobat Studio — Q3-Q4 2025",date:"Août–Déc. 2025",features:[
-    {name:"Acrobat Studio — hub IA unifié PDF + création Express + AI Assistants",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
-    {name:"AI Assistant multilingue — espagnol, italien, portugais, japonais, français, allemand",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
-    {name:"AI Highlights — mise en avant automatique du contenu clé selon la lecture",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
-    {name:"Barre de prompt Studio Home — outils, recherche de fichiers, génération d'images",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
+  {version:"Continuous Aug.–Dec. 2025",name:"Acrobat Studio — Q3–Q4 2025",date:"Aug.–Dec. 2025",isNew:false,features:[
+    {name:"Acrobat Studio — unified AI hub for PDF, Express creation, and AI Assistants",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
+    {name:"AI Assistant multilingual — Spanish, Italian, Portuguese, Japanese, French, German",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
+    {name:"AI Highlights — automatically surfaces key content based on reading behavior",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
+    {name:"Studio Home prompt bar — tools, file search, and image generation",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
   ]},
 ]},
 
 firefly:{lastChecked:"2026-06-04",releases:[
-  {version:"2026 (Q1-Q2)",name:"Mises à jour 2026",date:"Janv.–Mai 2026",features:[
-    {name:"Firefly AI Assistant (bêta) — multi-step workflows en langage naturel",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
-    {name:"Create Workflows — pipelines de production visuels et réutilisables",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
-    {name:"Adobe Brand Intelligence — validation d'assets selon les règles de marque",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
-    {name:"Enhance Audio dans Firefly Video Editor — réduction de bruit, isolation voix/musique",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
-    {name:"AI Markup — sélectionner des zones spécifiques pour des retouches ciblées",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
-    {name:"Precision Flow (bêta) — modifier l'ambiance globale d'une image avec variations",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
-    {name:"Quick Cut — premier montage automatique depuis plusieurs clips via prompt",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
-    {name:"Kling 3.0 & partenaires modèles vidéo dans Firefly Video Editor",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
-    {name:"Firefly sur iOS — générer images, vidéos, sons depuis l'app mobile",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
+  {version:"2026 (Q1–Q2)",name:"2026 updates",date:"Jan.–May 2026",isNew:false,features:[
+    {name:"Firefly AI Assistant (public beta) — describe what you want; the assistant orchestrates multi-step workflows across Creative Cloud apps",url:"https://blog.adobe.com/en/publish/2026/04/27/firefly-ai-assistant-public-beta"},
+    {name:"60+ pro-grade tools accessible via the assistant — Auto Tone, Generative Fill, Remove Background, Vectorize, and more",url:"https://blog.adobe.com/en/publish/2026/04/27/firefly-ai-assistant-public-beta"},
+    {name:"Creative Skills — pre-built workflows for batch photo editing, mood boards, portrait retouching, social variations, and product mockups",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
+    {name:"Create Workflows — reusable visual production pipelines",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
+    {name:"Adobe Brand Intelligence — validate assets against brand guidelines",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
+    {name:"Enhance Audio in Firefly Video Editor — noise reduction, voice/music isolation",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
+    {name:"AI Markup — select specific areas of an image for targeted edits",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
+    {name:"Quick Cut — automatic first cut from multiple clips via prompt",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
+    {name:"Kling 3.0 and Kling 3.0 Omni integrated in Firefly Video Editor",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
+    {name:"Firefly on iOS — generate images, videos, and sounds from the mobile app",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
   ]},
-  {version:"MAX 2025 (Q4)",name:"MAX 2025 — oct.–déc. 2025",date:"Oct.–Déc. 2025",features:[
-    {name:"Firefly Video Editor (bêta public) — timeline multi-piste dans le navigateur",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
-    {name:"Prompt-based editing — modifier une partie d'un clip sans tout régénérer",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
-    {name:"Upscaling vidéo IA — monter en résolution jusqu'à 4K",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
-    {name:"Generate Speech (bêta) — voix naturelles, multi-langues, accents",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
-    {name:"Generate Soundtrack — créer des bandes-son selon le mood, genre, tempo",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
-    {name:"FLUX.2 intégré dans Firefly (partenaire)",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
-    {name:"Firefly Design Intelligence — contenu cohérent avec la marque depuis Illustrator",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
+  {version:"MAX 2025 (Q4)",name:"MAX 2025 — Oct.–Dec. 2025",date:"Oct.–Dec. 2025",isNew:false,features:[
+    {name:"Firefly Video Editor (public beta) — multi-track timeline in the browser",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
+    {name:"Prompt-based video editing — modify part of a clip without full regeneration",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
+    {name:"AI video upscaling — scale up to 4K",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
+    {name:"Generate Speech (beta) — natural-sounding voices, multi-language, accents",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
+    {name:"Generate Soundtrack — create music by mood, genre, and tempo",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
+    {name:"FLUX.2 integrated in Firefly (partner model)",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
+    {name:"Firefly Design Intelligence — brand-consistent content from Illustrator",url:"https://helpx.adobe.com/firefly/web/whats-new/new-features/whats-new.html"},
   ]},
 ]},
 
 substance3dpainter:{lastChecked:"2026-06-04",releases:[
-  {version:"12.0",name:"Painter 12.0 — GDC 2026",date:"Mars 2026",features:[
-    {name:"Warp to Geometry — appliquer des décals sur géométrie complexe et surfaces irrégulières",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-0"},
-    {name:"Flatten Layers — aplatir les calques directement dans la pile de calques",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-0"},
-    {name:"Post-effets améliorés — Depth of Field, bloom, glare, lens flares, aberration, vignette",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-0"},
-    {name:"Nouvelle fenêtre Nouveau Projet simplifiée + Project Configuration revampée",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-0"},
-    {name:"Reload Mesh — mettre à jour la géométrie sans reconstruire le projet",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-0"},
+  {version:"12.0",name:"Painter 12.0 — GDC 2026",date:"Mar. 2026",isNew:false,features:[
+    {name:"Warp to Geometry — apply decals on complex geometry and irregular surfaces",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-0"},
+    {name:"Flatten Layers — flatten layers directly in the layer stack",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-0"},
+    {name:"Enhanced post-effects — Depth of Field, bloom, glare, lens flares, aberration, vignette",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-0"},
+    {name:"Simplified New Project dialog and revamped Project Configuration",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-0"},
+    {name:"Reload Mesh — update geometry without rebuilding the project",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-0"},
   ]},
-  {version:"11.3",name:"Painter 11.3 — nov. 2025",date:"Nov. 2025",features:[
-    {name:"Outil Ribbon — nouveau pinceau pour peindre des traits en ruban",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
-    {name:"Symétrie pour les calques de remplissage",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
-    {name:"Support Vulkan complet pour Windows et Linux",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
-    {name:"Performances des bakers améliorées",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
+  {version:"11.3",name:"Painter 11.3 — Nov. 2025",date:"Nov. 2025",isNew:false,features:[
+    {name:"Ribbon brush — new brush for painting ribbon-like strokes",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
+    {name:"Symmetry for fill layers",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
+    {name:"Full Vulkan support for Windows and Linux",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
+    {name:"Improved baker performance",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
   ]},
-  {version:"11.0",name:"Painter 11.0 — mars 2025",date:"Mars 2025",features:[
-    {name:"Auto-update — mise à jour automatique des ressources de la bibliothèque",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
-    {name:"Filled Path Tool — nouvel outil chemin rempli",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
-    {name:"Auto-cage generation (Experimental) — cage automatique pour baking avec high-poly",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
-    {name:"6 nouveaux filtres : stylisation, quantize, anisotropic kuwahara, bevel smooth…",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
+  {version:"11.0",name:"Painter 11.0 — Mar. 2025",date:"Mar. 2025",isNew:false,features:[
+    {name:"Auto-update — automatically update library resources",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
+    {name:"Filled Path Tool — new filled path drawing tool",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
+    {name:"Auto-cage generation (Experimental) — automatic cage for high-poly baking",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
+    {name:"6 new filters: stylize, quantize, anisotropic kuwahara, bevel smooth, and more",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
   ]},
 ]},
 
 substance3ddesigner:{lastChecked:"2026-06-04",releases:[
-  {version:"16.0",name:"Designer 16.0 — mars 2026",date:"Mars 2026",features:[
-    {name:"Shape Splatter v2 — dispersion de formes 3D (SDF) au lieu de 2D",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
-    {name:"Nouveaux outils SDF — créer des formes 3D personnalisées via Signed Distance Fields",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
-    {name:"Support OpenPBR — nouveau standard matériaux, remplacement de MDL",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
-    {name:"Nouveaux moteurs de rendu : GPU Pathtracer + Rasterizer (suppression de l'ancien Iray)",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
-    {name:"VFX Reference Platform CY2026 — mise à jour de compatibilité",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
-    {name:"Nouveau popup Déplacement dans la 3D View — ajuster déplacement et tessellation",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
+  {version:"16.0",name:"Designer 16.0 — Mar. 2026",date:"Mar. 2026",isNew:false,features:[
+    {name:"Shape Splatter v2 — scatter 3D (SDF) shapes instead of 2D",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
+    {name:"New SDF tools — create custom 3D shapes using Signed Distance Fields",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
+    {name:"OpenPBR support — new material standard, replacing MDL",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
+    {name:"New render engines: GPU Pathtracer and Rasterizer (legacy Iray removed)",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
+    {name:"VFX Reference Platform CY2026 compatibility update",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
   ]},
-  {version:"15.x",name:"Designer 15.x — 2025",date:"2025",features:[
-    {name:"Améliorations des workflows de formes procédurales",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
-    {name:"Expansion du support OpenPBR",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
-    {name:"Facilitation de la création d'outils personnalisés pour Painter",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
+  {version:"15.x",name:"Designer 15.x — 2025",date:"2025",isNew:false,features:[
+    {name:"Procedural shape workflow improvements",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
+    {name:"Expanded OpenPBR support",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
+    {name:"Easier creation of custom tools for Substance Painter",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
   ]},
 ]},
 
 substance3dstager:{lastChecked:"2026-06-04",releases:[
-  {version:"3.1.x",name:"Version 3.1.x — 2025",date:"Jan.–Nov. 2025",features:[
-    {name:"Corrections de vulnérabilités de sécurité (versions 3.1.4, 3.1.2, 3.1.1)",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/all-changes.html"},
-    {name:"Arrêt du support Creative Cloud Libraries — prévu dans une version future",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/all-changes.html"},
-    {name:"Plan de sol exclu du workflow Generate — amélioration des résultats",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/all-changes.html"},
+  {version:"3.1.x",name:"Version 3.1.x — 2025",date:"Jan.–Nov. 2025",isNew:false,features:[
+    {name:"Security vulnerability fixes (versions 3.1.4, 3.1.2, 3.1.1)",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/all-changes.html"},
+    {name:"Creative Cloud Libraries support will be discontinued in a future version",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/all-changes.html"},
+    {name:"Ground plane excluded from Generate workflow for better results",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/all-changes.html"},
   ]},
-  {version:"3.1.0",name:"Stager 3.1.0 — jan. 2025",date:"Janv. 2025",features:[
-    {name:"Workflow Text to Background avec guide objects comme référence de structure",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/version-3-1-0.html"},
-    {name:"Workflow 3D Model to Image avec guide objects",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/version-3-1-0.html"},
-    {name:"Text to Model — générer des meshes 3D depuis un prompt texte",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/version-3-1-0.html"},
-    {name:"Barre de tâches contextuelle (Contextual Task Bar)",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/version-3-1-0.html"},
-    {name:"Contrôles de caméra en orbite dans le viewport",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/version-3-1-0.html"},
-    {name:"Text to Model — export lumière d'environnement en .exr et .psd",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/version-3-1-0.html"},
+  {version:"3.1.0",name:"Stager 3.1.0 — Jan. 2025",date:"Jan. 2025",isNew:false,features:[
+    {name:"Text to Background workflow with guide objects as structure reference",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/version-3-1-0.html"},
+    {name:"3D Model to Image workflow with guide objects",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/version-3-1-0.html"},
+    {name:"Text to Model — generate 3D meshes from a text prompt",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/version-3-1-0.html"},
+    {name:"Contextual Task Bar",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/version-3-1-0.html"},
+    {name:"Orbit camera controls in the viewport",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/version-3-1-0.html"},
+    {name:"Export environment light as .exr and .psd",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/version-3-1-0.html"},
   ]},
 ]},
 
-// ─── BETA ENTRIES ────────────────────────────────────────────────────────────
+// ─── BETA ─────────────────────────────────────────────────────────────────────
 illustratorbeta:{lastChecked:"2026-06-04",isBeta:true,releases:[
-  {version:"30.5.x",name:"Builds actifs (mai 2026)",date:"Mai 2026",isBeta:true,features:[
-    {name:"Sketch to Vector — convertir croquis ou images en artwork vectoriel/raster avec prompt",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
-    {name:"GenAI Hub — tableau de bord centralisé des crédits génératifs dans Illustrator",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
-    {name:"Live Text on a Curve — générer du texte courbe entièrement modifiable",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
-    {name:"Magic Wand — mémoire des réglages de tolérance entre les sessions",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
-    {name:"Centrage en un clic (axes X et Y) — nouvel option dans le panneau Alignement",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
-    {name:"Clear Recent File List — effacer les fichiers récents via Fichier > Ouvrir récents",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
-    {name:"Style Reference depuis le système de fichiers local — pas besoin de placer d'abord",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
+  {version:"30.5.x",name:"Active builds — May 2026",date:"May 2026",isBeta:true,features:[
+    {name:"Sketch to Vector — convert sketches or images into vector/raster artwork with a text prompt",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
+    {name:"GenAI Hub — centralized generative AI credits dashboard in Illustrator",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
+    {name:"Live Text on a Curve — generate fully editable curved text",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
+    {name:"Magic Wand memory — tolerance settings persist between sessions",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
+    {name:"Center in one click (X and Y axes) — new option in the Align panel",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
+    {name:"Clear Recent File List — via File > Open Recent",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
+    {name:"Style Reference from local file system — no need to place the file first",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
   ]},
-  {version:"30.4.x",name:"Builds précédents (avr. 2026)",date:"Avr. 2026",isBeta:true,features:[
-    {name:"Snap to Pixel & Rearrange Artboards restauré dans la bêta",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
-    {name:"Image Trace amélioré — coins, régions de texte, T-junctions plus précis",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
-    {name:"Snap to Perpendicular & Snap to Tangent — accrochage aux angles droits et tangentes",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
+  {version:"30.4.x",name:"Previous builds — Apr. 2026",date:"Apr. 2026",isBeta:true,features:[
+    {name:"Snap to Pixel and Rearrange Artboards restored in beta",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
+    {name:"Improved Image Trace — more accurate corners, text regions, T-junctions",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
+    {name:"Snap to Perpendicular and Snap to Tangent geometric snapping",url:"https://helpx.adobe.com/illustrator/desktop/new-features/illustrator-beta-overview.html"},
   ]},
 ]},
 
 photoshopbeta:{lastChecked:"2026-06-04",isBeta:true,releases:[
-  {version:"28.x",name:"Photoshop Beta (actif)",date:"2026",isBeta:true,features:[
-    {name:"Dynamic Text — mettre en forme du texte en cercle, arc ou arche automatiquement",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-photoshop-beta-on-desktop.html"},
-    {name:"Firefly Fill & Expand (bêta) — nouveau modèle IA pour Generative Fill et Generative Expand",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-photoshop-beta-on-desktop.html"},
-    {name:"IA agentique (bêta privée, Photoshop Web) — retouches en langage naturel par chatbot",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-photoshop-beta-on-desktop.html"},
-    {name:"Rotate Object — corriger la perspective de calques 2D sur le canevas (sorti en stable 27.6)",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-photoshop-beta-on-desktop.html"},
-    {name:"Suppression des reflets — anciennement en bêta (sorti en stable 27.6)",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-photoshop-beta-on-desktop.html"},
+  {version:"28.x",name:"Photoshop Beta (active)",date:"2026",isBeta:true,features:[
+    {name:"Dynamic Text — wrap text in Circle, Arch, or Bow shapes automatically",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-photoshop-beta-on-desktop.html"},
+    {name:"Firefly Fill & Expand (beta) — new AI model for Generative Fill and Generative Expand",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-photoshop-beta-on-desktop.html"},
+    {name:"Agentic AI (private beta, Photoshop Web) — natural-language-driven editing via chatbot",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-photoshop-beta-on-desktop.html"},
+    {name:"Rotate Object — now graduated to stable (v27.6)",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-photoshop-beta-on-desktop.html"},
+    {name:"Reflection Removal — now graduated to stable (v27.6)",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-photoshop-beta-on-desktop.html"},
   ]},
 ]},
 
 indesignbeta:{lastChecked:"2026-06-04",isBeta:true,releases:[
-  {version:"21.x Beta",name:"InDesign Beta (actif)",date:"2025-2026",isBeta:true,features:[
-    {name:"AI Assistant (bêta publique) — partenaire conversationnel pour créer et modifier des documents",url:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html"},
-    {name:"Generate Text — créer, reformuler, raccourcir ou allonger du texte existant via IA",url:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html"},
-    {name:"Generative Fill (bêta) — remplir des zones d'image par génération IA",url:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html"},
-    {name:"Génération de texte alt pour les images — alt text automatique et personnalisable",url:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html"},
-    {name:"Labels ARIA dans les styles d'objet — pour l'accessibilité des lecteurs d'écran",url:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html"},
-    {name:"Accessibilité améliorée — accès clavier, navigation EPUB, glossaires accessibles",url:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html"},
+  {version:"21.x Beta",name:"InDesign Beta (active)",date:"2025–2026",isBeta:true,features:[
+    {name:"AI Assistant (public beta) — conversational partner for creating and editing documents",url:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html"},
+    {name:"Generate Text — create, rephrase, shorten, or expand existing text with AI",url:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html"},
+    {name:"Generative Fill (beta) — fill image areas using AI generation",url:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html"},
+    {name:"Automatic alt text generation for images — auto-generated and customizable",url:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html"},
+    {name:"ARIA labels in object styles — for screen reader accessibility",url:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html"},
+    {name:"Accessibility improvements — keyboard access, EPUB navigation, accessible glossaries",url:"https://helpx.adobe.com/indesign/using/indesign-beta-features.html"},
   ]},
 ]},
 
 premierebeta:{lastChecked:"2026-06-04",isBeta:true,releases:[
-  {version:"26.x Beta",name:"Premiere Beta (actif)",date:"2025-2026",isBeta:true,features:[
-    {name:"Color Mode (bêta publique) — mode d'étalonnage dédié construit pour les éditeurs",url:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html"},
-    {name:"Export FCP XML et OTIO — interopérabilité avec d'autres suites de montage",url:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html"},
-    {name:"Auto Reframe à résolution définie — spécifier la résolution lors du recadrage auto",url:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html"},
-    {name:"Drag-drop depuis Adobe Stock directement vers la Timeline ou le panneau Projet",url:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html"},
-    {name:"Label de canal audio sur la timeline — afficher/masquer depuis le menu clé de la timeline",url:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html"},
-    {name:"API scripting pour l'objet Preset et ProjectConverter export/import",url:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html"},
+  {version:"26.x Beta",name:"Premiere Beta (active)",date:"2025–2026",isBeta:true,features:[
+    {name:"Color Mode (public beta) — dedicated color grading mode built for editors",url:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html"},
+    {name:"FCP XML and OTIO export — interoperability with other editing suites",url:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html"},
+    {name:"Auto Reframe to a defined resolution — specify resolution when auto-reframing",url:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html"},
+    {name:"Drag Adobe Stock clips directly to the Timeline or Project panel",url:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html"},
+    {name:"Audio channel label on timeline — show/hide from the timeline wrench menu",url:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html"},
+    {name:"Scripting API for Preset object and ProjectConverter export/import",url:"https://helpx.adobe.com/premiere/desktop/whats-new/beta-features.html"},
   ]},
 ]},
 
 illustratorweb:{lastChecked:"2026-06-04",isBeta:true,releases:[
-  {version:"Web Beta",name:"Illustrator on the Web (bêta)",date:"En cours",isBeta:true,features:[
-    {name:"Espace de travail simplifié — interface moderne et accessible dans le navigateur",url:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html"},
-    {name:"Quick Pen Tool (bêta) — dessiner des formes personnalisées directement dans le navigateur",url:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html"},
-    {name:"Cloud documents .aic — sauvegarde automatique, accessible sur desktop, web et iPad",url:"https://helpx.adobe.com/illustrator/web/start-projects/access-files/cloud-documents-overview.html"},
-    {name:"Collaboration — partager un lien pour que les collaborateurs ouvrent et éditent sans installer l'appli",url:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html"},
-    {name:"Fidélité complète des documents — ouvrir et éditer des fichiers .aic sans perte",url:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html"},
-    {name:"Fonctionnalités desktop principales — logos, graphiques marketing, illustrations dans le navigateur",url:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html"},
+  {version:"Web Beta",name:"Illustrator on the Web (beta)",date:"Ongoing",isBeta:true,features:[
+    {name:"Simplified workspace — modern browser-based interface for Illustrator",url:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html"},
+    {name:"Quick Pen Tool (beta) — draw custom shapes directly in the browser",url:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html"},
+    {name:"Cloud documents (.aic) — auto-saved, accessible on desktop, web, and iPad",url:"https://helpx.adobe.com/illustrator/web/start-projects/access-files/cloud-documents-overview.html"},
+    {name:"Collaboration — share a link so collaborators can open and edit without installing the app",url:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html"},
+    {name:"Full document fidelity — open and edit .aic files without loss",url:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html"},
+    {name:"Core desktop features in the browser — logos, marketing graphics, and illustrations",url:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html"},
   ]},
 ]},
 };
@@ -602,16 +724,42 @@ let activeApp = "illustrator";
 const openReleases = new Set();
 function hex(c,a){return c+Math.round(a*255).toString(16).padStart(2,"0");}
 
-function buildSidebar(){
-  const el = document.getElementById("sidebar-apps");
+// ── Drawer ────────────────────────────────────────────────────────────────
+function openDrawer(){
+  document.getElementById("mobile-drawer").classList.add("open");
+  document.getElementById("drawer-overlay").classList.add("open");
+  document.body.style.overflow="hidden";
+}
+function closeDrawer(){
+  document.getElementById("mobile-drawer").classList.remove("open");
+  document.getElementById("drawer-overlay").classList.remove("open");
+  document.body.style.overflow="";
+}
+document.getElementById("hamburger-btn").addEventListener("click", openDrawer);
+document.getElementById("chip-change-btn").addEventListener("click", openDrawer);
+document.getElementById("drawer-overlay").addEventListener("click", closeDrawer);
+
+// ── Active chip update ────────────────────────────────────────────────────
+function updateChip(){
+  const app = APPS[activeApp];
+  const icon = document.getElementById("chip-icon");
+  const name = document.getElementById("chip-name");
+  icon.textContent = app.icon;
+  icon.style.background = hex(app.color, 0.2);
+  icon.style.color = app.color;
+  name.textContent = app.name;
+  name.style.color = app.color;
+}
+
+// ── Build drawer app list ─────────────────────────────────────────────────
+function buildDrawer(){
+  const el = document.getElementById("drawer-apps");
   el.innerHTML = "";
-  GROUPS.forEach((group,gi) => {
-    if(gi > 0){const d=document.createElement("div");d.className="sidebar-divider";d.style.margin="6px 16px";el.appendChild(d);}
+  GROUPS.forEach((group, gi) => {
+    if(gi > 0){ const d=document.createElement("div"); d.className="sidebar-divider"; d.style.margin="4px 16px"; el.appendChild(d); }
     const lbl = document.createElement("div");
-    lbl.className = "section-label" + (group.isBeta ? " beta-label" : "");
-    lbl.innerHTML = group.isBeta
-      ? `<span class="beta-dot"></span>${group.label}`
-      : group.label;
+    lbl.className = "section-label" + (group.isBeta?" beta-label":"");
+    lbl.innerHTML = group.isBeta ? `<span class="beta-dot"></span>${group.label}` : group.label;
     el.appendChild(lbl);
     group.ids.forEach(id => {
       const app = APPS[id];
@@ -621,7 +769,38 @@ function buildSidebar(){
       btn.className = "app-btn" + (id===activeApp?" active":"") + (app.isBeta?" beta-btn":"");
       btn.style.borderLeftColor = id===activeApp ? app.color : "transparent";
       btn.innerHTML = `<span class="app-icon" style="background:${hex(app.color,id===activeApp?0.2:0.1)};color:${app.color}">${app.icon}</span>${app.name}<span class="rel-count">${total}</span>`;
-      btn.addEventListener("click",()=>{activeApp=id;buildSidebar();buildMain();});
+      btn.addEventListener("click",()=>{
+        activeApp=id;
+        buildSidebar();
+        buildDrawer();
+        buildMain();
+        updateChip();
+        closeDrawer();
+        window.scrollTo({top:0,behavior:"smooth"});
+      });
+      el.appendChild(btn);
+    });
+  });
+}
+
+function buildSidebar(){
+  const el = document.getElementById("sidebar-apps");
+  el.innerHTML = "";
+  GROUPS.forEach((group,gi) => {
+    if(gi > 0){const d=document.createElement("div");d.className="sidebar-divider";d.style.margin="6px 16px";el.appendChild(d);}
+    const lbl = document.createElement("div");
+    lbl.className = "section-label" + (group.isBeta ? " beta-label" : "");
+    lbl.innerHTML = group.isBeta ? `<span class="beta-dot"></span>${group.label}` : group.label;
+    el.appendChild(lbl);
+    group.ids.forEach(id => {
+      const app = APPS[id];
+      const d = DATA[id];
+      const total = d.releases.reduce((a,r)=>a+r.features.length,0);
+      const btn = document.createElement("button");
+      btn.className = "app-btn" + (id===activeApp?" active":"") + (app.isBeta?" beta-btn":"");
+      btn.style.borderLeftColor = id===activeApp ? app.color : "transparent";
+      btn.innerHTML = `<span class="app-icon" style="background:${hex(app.color,id===activeApp?0.2:0.1)};color:${app.color}">${app.icon}</span>${app.name}<span class="rel-count">${total}</span>`;
+      btn.addEventListener("click",()=>{activeApp=id;buildSidebar();buildDrawer();buildMain();updateChip();});
       el.appendChild(btn);
     });
   });
@@ -632,39 +811,36 @@ function buildMain(){
   const d = DATA[activeApp];
   const total = d.releases.reduce((a,r)=>a+r.features.length,0);
   const newCt = d.releases.reduce((a,r)=>a+(r.isNew?r.features.length:0),0);
-
   const betaNoticeHTML = app.isBeta ? `
     <div class="beta-notice">
       <svg class="beta-notice-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <span>Cette page couvre les <strong>fonctionnalités bêta</strong> — elles peuvent changer ou ne jamais atteindre la version stable. Les sorties hebdomadaires des builds bêta peuvent contenir des bugs. Utiliser la version stable pour tout travail de production.</span>
+      <span>This page covers <strong>beta features</strong> — they may change or never reach stable release. Weekly beta builds may contain bugs. Use the stable version for all production work.</span>
     </div>` : "";
-
   document.getElementById("main-content").innerHTML = `
     <div class="app-header">
       <div class="app-header-left">
         <div class="app-icon-lg" style="background:${hex(app.color,0.15)};color:${app.color};border:1.5px solid ${hex(app.color,0.25)}">${app.icon}</div>
         <div>
-          <div class="app-name">${app.name}${app.isBeta?'<span class="beta-badge-title">BÊTA</span>':''}</div>
-          <div class="app-meta">Dernière vérif. : ${d.lastChecked} · ${d.releases.length} version${d.releases.length>1?"s":""} suivie${d.releases.length>1?"s":""}</div>
+          <div class="app-name">${app.name}${app.isBeta?'<span class="beta-badge-title">BETA</span>':''}</div>
+          <div class="app-meta">Last checked: ${d.lastChecked} · ${d.releases.length} release${d.releases.length>1?"s":""} tracked</div>
         </div>
       </div>
       <a href="${app.url}" target="_blank" class="btn">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        Page officielle
+        Official page
       </a>
     </div>
     ${betaNoticeHTML}
     <div class="stats-row">
-      <div class="stat-card"><div class="stat-label">Versions suivies</div><div class="stat-value" style="color:${app.color}">${d.releases.length}</div></div>
-      <div class="stat-card"><div class="stat-label">Fonctionnalités totales</div><div class="stat-value">${total}</div></div>
-      <div class="stat-card"><div class="stat-label">Nouveautés détectées</div><div class="stat-value" style="color:${newCt>0?"#4ade80":"var(--muted)"}">${newCt}</div></div>
+      <div class="stat-card"><div class="stat-label">Tracked releases</div><div class="stat-value" style="color:${app.color}">${d.releases.length}</div></div>
+      <div class="stat-card"><div class="stat-label">Total features</div><div class="stat-value">${total}</div></div>
+      <div class="stat-card"><div class="stat-label">New since last check</div><div class="stat-value" style="color:${newCt>0?"#4ade80":"var(--muted)"}">${newCt}</div></div>
     </div>
     <div class="releases-list" id="releases-list"></div>
     <div class="info-bar">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:2px;color:var(--hint)"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <span>Cliquez sur une version pour afficher les fonctionnalités. Les liens renvoient vers la documentation officielle Adobe Help Center ou Experience League. Mise à jour hebdomadaire en demandant à Claude.</span>
+      <span>Click a release to expand its features. Links open the official Adobe Help Center or Experience League documentation. Update weekly by asking Claude.</span>
     </div>`;
-
   const list = document.getElementById("releases-list");
   d.releases.forEach((rel,i) => {
     const key = `${activeApp}-${i}`;
@@ -677,8 +853,8 @@ function buildMain(){
         <div class="release-header-left">
           <span class="v-badge" style="background:${hex(app.color,0.12)};color:${app.color}">v${rel.version}</span>
           <span class="rel-name">${rel.name}</span>
-          ${rel.isNew?'<span class="new-badge">NOUVEAU</span>':""}
-          ${isBetaCard?'<span class="beta-tag">BÊTA</span>':""}
+          ${rel.isNew?'<span class="new-badge">NEW</span>':""}
+          ${isBetaCard?'<span class="beta-tag">BETA</span>':""}
         </div>
         <div class="release-header-right">
           <span class="rel-date">${rel.date}</span>
@@ -687,7 +863,7 @@ function buildMain(){
       </div>
       <div class="features-list ${isOpen?"open":""}" id="fl-${key}">
         ${rel.features.map(f=>`<div class="feature-item"><svg class="f-arrow" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg><a href="${f.url}" target="_blank" class="f-link">${f.name}</a></div>`).join("")}
-        ${app.releaseNotesUrl ? `<div class="relnotes-item"><a href="${app.releaseNotesUrl}" target="_blank" class="relnotes-link"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Notes de version complètes →</a></div>` : ""}
+        ${app.releaseNotesUrl?`<div class="relnotes-item"><a href="${app.releaseNotesUrl}" target="_blank" class="relnotes-link"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Full release notes →</a></div>`:""}
       </div>`;
     card.querySelector(".release-header").addEventListener("click",()=>{
       openReleases.has(key)?openReleases.delete(key):openReleases.add(key);
@@ -699,7 +875,9 @@ function buildMain(){
 }
 
 buildSidebar();
+buildDrawer();
 buildMain();
+updateChip();
 </script>
 </body>
 </html>
