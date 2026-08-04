@@ -193,10 +193,10 @@ main { padding:28px 32px 48px; max-width:880px; }
   <div class="header-title">
     <div class="logo">ART</div>
     <h1>Adobe Release Tracker</h1>
-    <span class="header-sub">26 apps · weekly tracker</span>
+    <span class="header-sub">27 apps · weekly tracker</span>
   </div>
   <div style="display:flex;align-items:center;gap:8px;">
-    <span class="tag-updated">updated 2026-07-29</span>
+    <span class="tag-updated">updated 2026-08-04</span>
     <button class="hamburger" id="hamburger-btn" aria-label="Open app list">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
@@ -241,7 +241,7 @@ main { padding:28px 32px 48px; max-width:880px; }
 const GROUPS = [
   { label:"Graphic Design",   ids:["illustrator","photoshop","indesign","fresco","express"] },
   { label:"Video & Audio",    ids:["premiere","aftereffects","audition","mediaencoder","characteranimator"] },
-  { label:"Photo & DAM",      ids:["lightroom","lightroomclassic","bridge","acrobat"] },
+  { label:"Photo & DAM",      ids:["lightroom","lightroomclassic","cameraraw","bridge","acrobat"] },
   { label:"Generative AI",    ids:["firefly"] },
   { label:"Substance 3D",     ids:["substance3dpainter","substance3ddesigner","substance3dstager","substance3dsampler"] },
   { label:"Beta & Preview",   ids:["illustratorbeta","photoshopbeta","indesignbeta","premierebeta","aftereffectsbeta","lightroomclassicbeta","illustratorweb"], isBeta:true },
@@ -713,6 +713,10 @@ const APPS = {
     </g>
   </g>
 </svg>`, url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html",                                                         releaseNotesUrl:"https://helpx.adobe.com/lightroom-cc/using/release-notes.html"},
+  cameraraw:           {name:"Camera Raw",            color:"#dbdcdd",fgColor:"#510f17",icon:"CR",svg:`<svg style="width:100%;height:100%;display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 233.998">
+  <path d="M42.501,0h155.002c23.469,0,42.497,19.032,42.497,42.501v148.996c0,23.473-19.028,42.501-42.497,42.501H42.501c-23.469,0-42.501-19.027-42.501-42.501V42.501C0,19.032,19.032,0,42.501,0" fill="#dbdcdd"/>
+  <path d="M115.612,143.719l28.031,48.555c23.351-7.41,41.925-25.496,49.969-48.555h-78ZM120,39.93c-4.875,0-9.652.439-14.283,1.316l39.145,67.86,27.984-48.506c-13.894-12.821-32.468-20.67-52.845-20.67ZM179.232,67.279l-38.952,67.567h55.867c1.219-5.46,1.853-11.115,1.853-16.916,0-19.305-7.02-37.001-18.768-50.651ZM95.625,126.851l-28.178,48.75c13.845,12.626,32.321,20.329,52.553,20.329,5.021,0,9.945-.488,14.723-1.414l-39.098-67.665ZM43.853,101.062c-1.219,5.411-1.853,11.066-1.853,16.868,0,19.5,7.166,37.342,19.061,50.993l39.146-67.86h-56.354ZM96.698,43.489c-23.497,7.312-42.217,25.545-50.309,48.701h78.487l-28.178-48.701Z" fill="#510f17"/>
+</svg>`, url:"https://helpx.adobe.com/camera-raw/using/whats-new.html",                             releaseNotesUrl:"https://helpx.adobe.com/camera-raw/using/whats-new.html"},
   lightroomclassic:   {name:"Lightroom Classic",     color:"#001E36",fgColor:"#31A8FF",icon:"Lc",svg:`<svg style="width:100%;height:100%;display:block" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 240 234">
   <defs>
     <style>
@@ -1436,7 +1440,7 @@ const APPS = {
 
 const DATA = {
 
-illustrator:{lastChecked:"2026-07-29",releases:[
+illustrator:{lastChecked:"2026-08-04",releases:[
   {version:"30.6",name:"July 2026 release",date:"Jul. 2026",isNew:true,features:[
     {name:"Relink across all instances — when replacing a linked image, choose to apply the change everywhere that image appears in the document, across multiple artboards and repeated layouts",url:"https://helpx.adobe.com/illustrator/desktop/new-features/whats-new.html"},
     {name:"Auto grid placement — place multiple files in a grid layout with a single drag gesture; use arrow keys to adjust rows/columns on the fly",url:"https://helpx.adobe.com/illustrator/desktop/new-features/whats-new.html"},
@@ -1505,7 +1509,7 @@ illustrator:{lastChecked:"2026-07-29",releases:[
   ]},
 ]},
 
-photoshop:{lastChecked:"2026-07-29",releases:[
+photoshop:{lastChecked:"2026-08-04",releases:[
   {version:"27.8",name:"June 2026 release",date:"Jun. 18, 2026",isNew:true,features:[
     {name:"🆕 Choose AI models in Generate Image — select from Firefly Image 5, Flux.2 Pro, and Gemini to explore different visual styles and achieve stronger photorealism",url:"https://community.adobe.com/announcements-710/photoshop-version-27-8-is-live-more-image-models-smoother-workflows-1626971"},
     {name:"🆕 AI Assistant (public beta) — orchestrate multi-step creative workflows in natural language across Photoshop",url:"https://news.adobe.com/news/2026/06/adobe-unveils-major-expansion"},
@@ -1557,7 +1561,7 @@ photoshop:{lastChecked:"2026-07-29",releases:[
   ]},
 ]},
 
-indesign:{lastChecked:"2026-07-29",releases:[
+indesign:{lastChecked:"2026-08-04",releases:[
   {version:"21.x",name:"July 2026 release",date:"Jul. 28, 2026",isNew:true,features:[
     {name:"Table accessibility in PDF and EPUB — specify Header Rows and Header Columns when creating or editing tables so screen readers correctly read row and column headings in exported documents",url:"https://helpx.adobe.com/indesign/desktop/add-tables-and-data/create-tables/create-and-import-tables.html"},
     {name:"Search in Keyboard Shortcuts dialog — locate any command or shortcut instantly by typing a keyword",url:"https://helpx.adobe.com/indesign/desktop/whats-new/whats-new.html"},
@@ -1577,7 +1581,7 @@ indesign:{lastChecked:"2026-07-29",releases:[
   ]},
 ]},
 
-fresco:{lastChecked:"2026-07-29",releases:[
+fresco:{lastChecked:"2026-08-04",releases:[
   {version:"7.5",name:"July 2026 release",date:"Jul. 2026",isNew:true,features:[
     {name:"Export motion projects to Adobe Premiere — export Fresco motion projects as MP4 files directly to Premiere from the Share sheet",url:"https://helpx.adobe.com/fresco/using/whats-new.html"},
     {name:"Bug fixes and performance improvements based on community feedback",url:"https://helpx.adobe.com/fresco/using/whats-new.html"},
@@ -1596,7 +1600,7 @@ fresco:{lastChecked:"2026-07-29",releases:[
   ]},
 ]},
 
-express:{lastChecked:"2026-07-29",releases:[
+express:{lastChecked:"2026-08-04",releases:[
   {version:"2026.x",name:"2026 updates",date:"2026",isNew:false,features:[
     {name:"Generate presentation (Acrobat × Express) — create slides from an AI prompt",url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
     {name:"Animation tab — new Animation section in Express projects",url:"https://helpx.adobe.com/express/web/whats-new/whats-new.html"},
@@ -1611,7 +1615,7 @@ express:{lastChecked:"2026-07-29",releases:[
   ]},
 ]},
 
-premiere:{lastChecked:"2026-07-29",releases:[
+premiere:{lastChecked:"2026-08-04",releases:[
   {version:"26.3",name:"June 2026 release",date:"Jun. 18, 2026",isNew:true,features:[
     {name:"🆕 Single-Word Captions — generate one-word-at-a-time captions directly from transcript, synchronized to audio; ideal for Reels, Shorts, and TikTok",url:"https://community.adobe.com/announcements-727/what-s-new-in-adobe-premiere-26-3-june-2026-1628369"},
     {name:"🆕 Global Audio Mute — silence all audio monitoring in one click (playback only, does not affect exports)",url:"https://community.adobe.com/announcements-727/what-s-new-in-adobe-premiere-26-3-june-2026-1628369"},
@@ -1652,7 +1656,7 @@ premiere:{lastChecked:"2026-07-29",releases:[
   ]},
 ]},
 
-aftereffects:{lastChecked:"2026-07-29",releases:[
+aftereffects:{lastChecked:"2026-08-04",releases:[
   {version:"26.3",name:"June 2026 release",date:"Jun. 15, 2026",isNew:true,features:[
     {name:"🆕 Object Matte — replaces brush-only Roto Brush with 4 AI tools: Object Selection, Quick Selection, Selection Brush, and Refine Edge; single-click isolation with intelligent frame propagation",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
     {name:"🆕 Displacement Maps for 3D — add surface depth to 3D models, meshes, text, and shape layers",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
@@ -1684,7 +1688,7 @@ aftereffects:{lastChecked:"2026-07-29",releases:[
   ]},
 ]},
 
-audition:{lastChecked:"2026-07-29",releases:[
+audition:{lastChecked:"2026-08-04",releases:[
   {version:"26.3",name:"June 2026 release",date:"Jun. 2026",isNew:true,features:[
     {name:"🆕 Windows ARM native support — Audition now runs natively on Windows ARM systems (Qualcomm Snapdragon) for improved performance and efficiency",url:"https://helpx.adobe.com/audition/using/whats-new.html"},
     {name:"🆕 Reliability improvements and platform support updates",url:"https://helpx.adobe.com/audition/using/whats-new.html"},
@@ -1699,7 +1703,7 @@ audition:{lastChecked:"2026-07-29",releases:[
   ]},
 ]},
 
-mediaencoder:{lastChecked:"2026-07-29",releases:[
+mediaencoder:{lastChecked:"2026-08-04",releases:[
   {version:"26.3",name:"June 2026 release",date:"Jun. 2026",isNew:true,features:[
     {name:"🆕 Improvements and fixes (see official release notes for details)",url:"https://helpx.adobe.com/media-encoder/release-notes.html"},
   ]},
@@ -1713,7 +1717,7 @@ mediaencoder:{lastChecked:"2026-07-29",releases:[
   ]},
 ]},
 
-characteranimator:{lastChecked:"2026-07-29",releases:[
+characteranimator:{lastChecked:"2026-08-04",releases:[
   {version:"26.0",name:"January 2026 release",date:"Jan. 2026",isNew:false,features:[
     {name:"Stability improvements — no new features in this release",url:"https://helpx.adobe.com/adobe-character-animator/using/whats-new.html"},
   ]},
@@ -1723,7 +1727,42 @@ characteranimator:{lastChecked:"2026-07-29",releases:[
   ]},
 ]},
 
-lightroom:{lastChecked:"2026-07-29",releases:[
+cameraraw:{lastChecked:"2026-08-04",releases:[
+  {version:"18.4.1",name:"July 2026 release",date:"Jul. 19, 2026",isNew:true,features:[
+    {name:"Generative Expand — expand your photo's canvas and fill new areas with AI-generated content that blends naturally with the original",url:"https://helpx.adobe.com/camera-raw/using/generative-expand.html"},
+    {name:"Fullscreen Presentation mode — showcase photos in a distraction-free view, navigate with arrow keys, customize background color and layout",url:"https://helpx.adobe.com/camera-raw/using/introduction-camera-raw.html#header-bar"},
+    {name:"View Autofocus Points — visualize camera autofocus points on the photo preview for supported Canon, Nikon, and Sony RAW files",url:"https://helpx.adobe.com/camera-raw/using/introduction-camera-raw.html#preview"},
+    {name:"New lens profiles support",url:"https://helpx.adobe.com/camera-raw/kb/supported-lenses.html"},
+  ]},
+  {version:"18.4",name:"June 2026 release",date:"Jun. 2026",isNew:false,features:[
+    {name:"Improved subject masking — enhanced subject detection and more accurate selections for faster, cleaner masks",url:"https://helpx.adobe.com/camera-raw/using/masking.html"},
+    {name:"Vectorscope — visualize hue and saturation distributions for accurate tonal adjustments and color grading",url:"https://helpx.adobe.com/camera-raw/using/make-color-tonal-adjustments-camera.html#vectorscope"},
+    {name:"Bidirectional gradient mask — two-sided gradient masks for smoother transitions and more precise adjustments",url:"https://helpx.adobe.com/camera-raw/using/masking.html#linear-gradient"},
+    {name:"New camera and lens support",url:"https://helpx.adobe.com/camera-raw/kb/camera-raw-plug-supported-cameras.html"},
+  ]},
+  {version:"18.3.1",name:"May 2026 release",date:"May 2026",isNew:false,features:[
+    {name:"Masking refinement — new Feather and Edge sliders for AI Masks for smoother transitions and better creative control",url:"https://helpx.adobe.com/camera-raw/using/masking.html#local_adjustments"},
+    {name:"Color Grading in Masking — three-way color wheels inside Masking for complex color effects",url:"https://helpx.adobe.com/camera-raw/using/masking.html#local_adjustments"},
+    {name:"Extended White Balance range — Temperature slider now goes down to 1500K for candlelit scenes",url:"https://helpx.adobe.com/camera-raw/using/make-color-tonal-adjustments-camera.html#color"},
+  ]},
+  {version:"18.3",name:"April 2026 release",date:"Apr. 2026",isNew:false,features:[
+    {name:"Film-Inspired Presets — 12+ new film-inspired presets in the Style presets group",url:"https://helpx.adobe.com/camera-raw/using/presets.html"},
+    {name:"Anamorphic Desqueeze — fix aspect ratio of anamorphic lens photos, supports squeeze factors up to 2.0",url:"https://helpx.adobe.com/camera-raw/using/rotate-crop-retouch-images-camera.html#anamorphic"},
+    {name:"Projection correction — fix stretched faces near edges and corners of wide-angle group photos",url:"https://helpx.adobe.com/camera-raw/using/automatic-perspective-correction-camera-raw.html#perspective"},
+    {name:"Depth range mask — apply Range mask to any photo to select regions by depth",url:"https://helpx.adobe.com/camera-raw/using/masking.html"},
+  ]},
+  {version:"18.2",name:"February 2026 release",date:"Feb. 2026",isNew:false,features:[
+    {name:"WebP file format support — import, edit, and sync WebP files",url:"https://helpx.adobe.com/lightroom-classic/help/supported-file-formats.html"},
+  ]},
+]},
+
+lightroom:{lastChecked:"2026-08-04",releases:[
+  {version:"Desktop 9.4.1",name:"August 2026 update",date:"Aug. 2026",isNew:true,features:[
+    {name:"Assisted Culling improvements — smarter subject identification and eye-open detection for faster photo selection",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
+    {name:"Copy photos directly to an album when moving from Local to Cloud",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
+    {name:"Improved Denoise quality for Ricoh and Pentax cameras",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
+    {name:"Interactive performance improvements for Crop, Masking, Remove, and Red Eye tools",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
+  ]},
   {version:"Desktop 9.4",name:"June 2026 release",date:"Jun. 15, 2026",isNew:true,features:[
     {name:"🆕 Photo to Video — convert a still photo into an AI-generated animated clip (B-roll, short reels) powered by Adobe Firefly and Google Veo; guide motion with smart or custom prompts",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
     {name:"🆕 AI Sharpen — Topaz Labs' Noise-Aware Sharpen model integrated directly into Lightroom; recover fine details like hair, petals, and foliage without exporting to third-party software",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new.html"},
@@ -1752,7 +1791,7 @@ lightroom:{lastChecked:"2026-07-29",releases:[
   ]},
 ]},
 
-lightroomclassic:{lastChecked:"2026-07-29",releases:[
+lightroomclassic:{lastChecked:"2026-08-04",releases:[
   {version:"15.5",name:"June 2026 release",date:"Jun. 15, 2026",isNew:true,features:[
     {name:"🆕 AI Sharpen — Topaz Labs' Noise-Aware Sharpen model integrated directly; recover fine details without exporting to third-party plug-ins",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
     {name:"🆕 Assisted Culling (GA) — Face View, Stacking for similar bursts; identifies subjects, eye sharpness, and open eyes",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new.html"},
@@ -1788,7 +1827,7 @@ lightroomclassic:{lastChecked:"2026-07-29",releases:[
   ]},
 ]},
 
-bridge:{lastChecked:"2026-07-29",releases:[
+bridge:{lastChecked:"2026-08-04",releases:[
   {version:"16.0.6",name:"July 2026 security update",date:"Jul. 2026",isNew:true,features:[
     {name:"Security fixes and key bug fixes: thumbnails/previews lost with special characters in HEIC/HEIF filenames; portrait image dimensions swapped on JPEG export; incorrect 'Show in Explorer' button label in Media Cache preferences",url:"https://community.adobe.com/product-updates"},
   ]},
@@ -1815,7 +1854,7 @@ bridge:{lastChecked:"2026-07-29",releases:[
   ]},
 ]},
 
-acrobat:{lastChecked:"2026-07-29",releases:[
+acrobat:{lastChecked:"2026-08-04",releases:[
   {version:"Continuous Jun. 2026",name:"June 2026 updates",date:"Jun. 1, 2026",isNew:false,features:[
     {name:"Featured Templates — enterprise admins can add org-specific templates to a dedicated section in the Express templates library",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
     {name:"Translate PDFs in Reader — detects language mismatch, prompts translation, saves to Adobe Cloud and opens in Express",url:"https://helpx.adobe.com/acrobat/desktop/whats-new/whats-new-acrobat-desktop.html"},
@@ -1849,7 +1888,7 @@ acrobat:{lastChecked:"2026-07-29",releases:[
   ]},
 ]},
 
-firefly:{lastChecked:"2026-07-29",releases:[
+firefly:{lastChecked:"2026-08-04",releases:[
   {version:"2026 (Jun.)",name:"June 2026 — Creative Agent expansion",date:"Jun. 18, 2026",isNew:true,features:[
     {name:"🆕 Major Creative Agent expansion — AI Assistant rolling out in public beta across Premiere, Photoshop, Illustrator, InDesign and Frame.io",url:"https://news.adobe.com/news/2026/06/adobe-unveils-major-expansion"},
     {name:"🆕 Upgraded Firefly creative AI studio — unified generation and editing space combining Home, New, Image, Video, Audio, Boards, Timeline, Graph, AI Assistant, Custom Models, and Files",url:"https://news.adobe.com/news/2026/06/adobe-unveils-major-expansion"},
@@ -1881,7 +1920,7 @@ firefly:{lastChecked:"2026-07-29",releases:[
   ]},
 ]},
 
-substance3dpainter:{lastChecked:"2026-07-29",releases:[
+substance3dpainter:{lastChecked:"2026-08-04",releases:[
   {version:"12.0",name:"Painter 12.0 — GDC 2026",date:"Mar. 2026",isNew:false,features:[
     {name:"Warp to Geometry — apply decals on complex geometry and irregular surfaces",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-0"},
     {name:"Flatten Layers — flatten layers directly in the layer stack",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/version-12-0"},
@@ -1903,7 +1942,7 @@ substance3dpainter:{lastChecked:"2026-07-29",releases:[
   ]},
 ]},
 
-substance3ddesigner:{lastChecked:"2026-07-29",releases:[
+substance3ddesigner:{lastChecked:"2026-08-04",releases:[
   {version:"16.0",name:"Designer 16.0 — Mar. 2026",date:"Mar. 2026",isNew:false,features:[
     {name:"Shape Splatter v2 — scatter 3D (SDF) shapes instead of 2D",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
     {name:"New SDF tools — create custom 3D shapes using Signed Distance Fields",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
@@ -1918,7 +1957,7 @@ substance3ddesigner:{lastChecked:"2026-07-29",releases:[
   ]},
 ]},
 
-substance3dstager:{lastChecked:"2026-07-29",releases:[
+substance3dstager:{lastChecked:"2026-08-04",releases:[
   {version:"3.1.x",name:"Version 3.1.x — 2025",date:"Jan.–Nov. 2025",isNew:false,features:[
     {name:"Security vulnerability fixes (versions 3.1.4, 3.1.2, 3.1.1)",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/all-changes.html"},
     {name:"Creative Cloud Libraries support will be discontinued in a future version",url:"https://helpx.adobe.com/substance-3d-stager/release-notes/all-changes.html"},
@@ -1934,7 +1973,7 @@ substance3dstager:{lastChecked:"2026-07-29",releases:[
   ]},
 ]},
 
-substance3dsampler:{lastChecked:"2026-07-29",releases:[
+substance3dsampler:{lastChecked:"2026-08-04",releases:[
   {version:"6.0.1",name:"Sampler 6.0.1",date:"May 21, 2026",isNew:false,features:[
     {name:"Version 6 — major new release with fully redesigned UI and 3D/2D view displayed by default",url:"https://experienceleague.adobe.com/en/docs/substance-3d-sampler/using/release-notes/all-changes"},
     {name:"Captis: UI updated and adapted to small screens; disconnect warning before closing; USB-2 warning deduplication",url:"https://experienceleague.adobe.com/en/docs/substance-3d-sampler/using/release-notes/all-changes"},
@@ -1966,7 +2005,7 @@ substance3dsampler:{lastChecked:"2026-07-29",releases:[
 ]},
 
 // ─── BETA ─────────────────────────────────────────────────────────────────────
-illustratorbeta:{lastChecked:"2026-07-29",isBeta:true,releases:[
+illustratorbeta:{lastChecked:"2026-08-04",isBeta:true,releases:[
   {version:"30.6.27",name:"Beta build 30.6.27",date:"Jul. 2026",isNew:true,isBeta:true,features:[
     {name:"🆕 GenText — Rewrite (generate headlines, taglines, body copy from a prompt), Fit Text (adjust copy to fit a frame automatically), Proofread (fix grammar, spelling, and punctuation in one click), Translate (with automatic Adobe Fonts support for missing glyphs)",url:"https://community.adobe.com/product-updates"},
   ]},
@@ -1990,7 +2029,7 @@ illustratorbeta:{lastChecked:"2026-07-29",isBeta:true,releases:[
   ]},
 ]},
 
-photoshopbeta:{lastChecked:"2026-07-29",isBeta:true,releases:[
+photoshopbeta:{lastChecked:"2026-08-04",isBeta:true,releases:[
   {version:"Release Notes May 2026",name:"Beta — May 2026",date:"May 2026",isNew:false,isBeta:true,features:[
     {name:"🆕 On-Device Remove Tool — download a ~4 GB AI model to run generative removals offline; uses GPU acceleration on NVIDIA systems",url:"https://community.adobe.com/announcements-698/release-notes-may-2026-1625212"},
     {name:"🆕 Live Filter Layers — non-destructive filter layers applied directly in the layer stack",url:"https://community.adobe.com/announcements-698/release-notes-may-2026-1625212"},
@@ -2014,7 +2053,7 @@ photoshopbeta:{lastChecked:"2026-07-29",isBeta:true,releases:[
   ]},
 ]},
 
-indesignbeta:{lastChecked:"2026-07-29",isBeta:true,releases:[
+indesignbeta:{lastChecked:"2026-08-04",isBeta:true,releases:[
   {version:"21.4 Beta",name:"InDesign 21.4 Beta",date:"May 2026",isNew:false,isBeta:true,features:[
     {name:"🆕 AI Assistant (public beta) — conversational partner built into InDesign: ask questions, automate multi-step workflows, apply bulk text/image/style edits with a single prompt",url:"https://community.adobe.com/announcements-670/ai-assistant-is-now-live-in-indesign-21-4-beta-1557550"},
   ]},
@@ -2029,7 +2068,7 @@ indesignbeta:{lastChecked:"2026-07-29",isBeta:true,releases:[
   ]},
 ]},
 
-premierebeta:{lastChecked:"2026-07-29",isBeta:true,releases:[
+premierebeta:{lastChecked:"2026-08-04",isBeta:true,releases:[
   {version:"26.5 Build 12",name:"Auto-update Keyframes for Audio Ducking",date:"Jul. 9, 2026",isNew:true,isBeta:true,features:[
     {name:"🆕 Auto-update Keyframes for Audio Ducking — ducking keyframes in the Essential Sound panel now stay in sync automatically as you trim, move, or swap clips; enabled by default, toggle off to drive manually",url:"https://community.adobe.com/announcements-732/now-in-beta-auto-update-keyframes-for-audio-ducking-in-premiere-1625227"},
   ]},
@@ -2054,7 +2093,7 @@ premierebeta:{lastChecked:"2026-07-29",isBeta:true,releases:[
   ]},
 ]},
 
-aftereffectsbeta:{lastChecked:"2026-07-29",isBeta:true,releases:[
+aftereffectsbeta:{lastChecked:"2026-08-04",isBeta:true,releases:[
   {version:"26.3.x",name:"After Effects Beta 26.3",date:"May–Jun. 2026",isNew:false,isBeta:true,features:[
     {name:"🆕 Modernized Effect Controls Panel — rebuilt from scratch on a new UX framework; look is nearly identical but lays foundation for incremental UX improvements",url:"https://community.adobe.com/announcements-532/new-in-beta-modernized-effect-controls-panel-1556351"},
   ]},
@@ -2066,7 +2105,7 @@ aftereffectsbeta:{lastChecked:"2026-07-29",isBeta:true,releases:[
   ]},
 ]},
 
-lightroomclassicbeta:{lastChecked:"2026-07-29",isBeta:true,releases:[
+lightroomclassicbeta:{lastChecked:"2026-08-04",isBeta:true,releases:[
   {version:"Desktop 9.3.2",name:"Lightroom 9.3.2",date:"Jun. 2026",isNew:false,isBeta:true,features:[
     {name:"🆕 New camera and lens support",url:"https://community.adobe.com/announcements-678/explore-what-s-new-in-lightroom-desktop-9-3-2-1625553"},
     {name:"🆕 Bug fixes from the community",url:"https://community.adobe.com/announcements-678/explore-what-s-new-in-lightroom-desktop-9-3-2-1625553"},
@@ -2085,7 +2124,7 @@ lightroomclassicbeta:{lastChecked:"2026-07-29",isBeta:true,releases:[
   ]},
 ]},
 
-illustratorweb:{lastChecked:"2026-07-29",isBeta:true,releases:[
+illustratorweb:{lastChecked:"2026-08-04",isBeta:true,releases:[
   {version:"Web Beta",name:"Illustrator on the Web (beta)",date:"Ongoing",isBeta:true,features:[
     {name:"Simplified workspace — modern browser-based interface for Illustrator",url:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html"},
     {name:"Quick Pen Tool (beta) — draw custom shapes directly in the browser",url:"https://helpx.adobe.com/illustrator/web/get-set-up/learn-the-basics/overview.html"},
