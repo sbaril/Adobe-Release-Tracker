@@ -78,7 +78,8 @@ aside { border-right:1px solid var(--border); padding:14px 0 24px; background:va
 
 /* Main content */
 main { padding:28px 32px 48px; max-width:880px; }
-.app-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:20px; gap:16px; }
+.app-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:20px; gap:16px; position:sticky; top:var(--header-h); z-index:10; background:var(--bg); padding:16px 0; }
+.app-header::before { content:''; position:absolute; left:0; right:0; top:-100%; height:100%; background:var(--bg); }
 .app-header-left { display:flex; align-items:center; gap:12px; }
 .app-icon-lg { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-family:'DM Sans',sans-serif; font-size:22px; font-weight:700; flex-shrink:0; letter-spacing:-0.03em; overflow:hidden; }
 .app-name { font-size:17px; font-weight:500; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
@@ -122,10 +123,11 @@ main { padding:28px 32px 48px; max-width:880px; }
 
 /* ── Search ─────────────────────────────────────────────────────────────── */
 .search-wrap { padding:10px 12px 6px; position:sticky; top:0; background:var(--bg); z-index:5; border-bottom:1px solid var(--border); }
+.search-wrap::before { content:''; position:absolute; left:0; right:0; top:-100%; height:100%; background:var(--bg); }
 .search-input { width:100%; background:var(--bg2); border:1px solid var(--border2); border-radius:8px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:12px; padding:6px 10px 6px 30px; outline:none; transition:border-color .15s; }
 .search-input:focus { border-color:rgba(255,255,255,0.28); }
 .search-input::placeholder { color:var(--hint); }
-.search-icon { position:absolute; left:21px; top:50%; transform:translateY(-50%); color:var(--hint); pointer-events:none; }
+.search-icon { position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--hint); pointer-events:none; }
 .search-wrap-inner { position:relative; }
 .search-clear { position:absolute; right:8px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--hint); cursor:pointer; font-size:14px; padding:2px 4px; display:none; }
 .search-clear.visible { display:block; }
@@ -167,7 +169,8 @@ mark { background:transparent; color:var(--text); font-weight:600; border-bottom
 .app-search-icon-btn { background:var(--bg2); border:1px solid var(--border); border-radius:8px; color:var(--muted); cursor:pointer; padding:6px 10px; display:flex; align-items:center; gap:5px; font-family:'DM Sans',sans-serif; font-size:12px; transition:color .12s,background .12s; flex-shrink:0; }
 .app-search-icon-btn:hover { color:var(--text); background:var(--bg3); }
 .app-search-icon-btn.active { color:var(--text); border-color:var(--border2); }
-.app-search-floating-icon { position:absolute; left:48px; top:50%; transform:translateY(-50%); color:var(--hint); pointer-events:none; opacity:0; transition:opacity .2s; }
+.app-search-input-wrap { position:relative; display:flex; align-items:center; }
+.app-search-floating-icon { position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--hint); pointer-events:none; opacity:0; transition:opacity .2s; }
 .app-search-floating-icon.visible { opacity:1; }
 .search-count { font-size:11px; color:var(--muted); padding:4px 0 8px 0; }
 .release-card.search-hidden { display:none; }
@@ -3011,8 +3014,10 @@ function buildMain(){
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             Search
           </button>
-          <svg class="app-search-floating-icon" id="app-search-floating-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input class="app-search-input" id="app-search-input" type="text" placeholder="Search features…" autocomplete="off">
+          <div class="app-search-input-wrap">
+            <svg class="app-search-floating-icon" id="app-search-floating-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input class="app-search-input" id="app-search-input" type="text" placeholder="Search features…" autocomplete="off">
+          </div>
         </div>
         <button class="app-search-icon-btn" id="expand-all-btn" title="Expand or collapse all releases">
           <svg id="expand-all-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
