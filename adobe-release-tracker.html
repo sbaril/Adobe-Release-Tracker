@@ -119,6 +119,59 @@ main { padding:28px 32px 48px; max-width:880px; }
 .relnotes-link { font-size:12px; color:var(--hint); text-decoration:none; display:flex; align-items:center; gap:5px; font-style:italic; transition:color .1s; }
 .relnotes-link:hover { color:var(--muted); }
 
+
+/* ── Search ─────────────────────────────────────────────────────────────── */
+.search-wrap { padding:10px 12px 6px; position:sticky; top:0; background:var(--bg); z-index:5; border-bottom:1px solid var(--border); }
+.search-input { width:100%; background:var(--bg2); border:1px solid var(--border2); border-radius:8px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:12px; padding:6px 10px 6px 30px; outline:none; transition:border-color .15s; }
+.search-input:focus { border-color:rgba(255,255,255,0.28); }
+.search-input::placeholder { color:var(--hint); }
+.search-icon { position:absolute; left:21px; top:50%; transform:translateY(-50%); color:var(--hint); pointer-events:none; }
+.search-wrap-inner { position:relative; }
+.search-clear { position:absolute; right:8px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--hint); cursor:pointer; font-size:14px; padding:2px 4px; display:none; }
+.search-clear.visible { display:block; }
+
+/* ── Search results panel ────────────────────────────────────────────────── */
+.search-results { display:none; padding:8px 0; }
+.search-results.open { display:block; }
+.search-result-group { margin-bottom:4px; }
+.search-result-app { font-size:10px; font-weight:500; color:var(--hint); letter-spacing:.06em; text-transform:uppercase; padding:6px 16px 3px; }
+.search-result-item { display:flex; align-items:flex-start; gap:8px; padding:5px 16px; cursor:pointer; transition:background .1s; }
+.search-result-item:hover { background:var(--bg2); }
+.search-result-dot { width:4px; height:4px; border-radius:50%; background:var(--hint); flex-shrink:0; margin-top:6px; }
+.search-result-text { font-size:11.5px; color:var(--muted); line-height:1.4; }
+.search-result-text mark { background:transparent; color:var(--text); font-weight:500; }
+
+/* ── Feature sections inside release card ───────────────────────────────────── */
+.feat-section-label { font-size:10px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; padding:8px 20px 4px; color:var(--hint); display:flex; align-items:center; gap:6px; }
+.feat-section-label.new-label { color:var(--muted); }
+.feat-section-label svg { flex-shrink:0; }
+.feat-section-divider { height:1px; background:var(--border); margin:4px 20px; }
+mark { background:transparent; color:var(--text); font-weight:600; border-bottom:1px solid currentColor; }
+.f-link mark { color:inherit; }
+.search-no-results { padding:16px; font-size:12px; color:var(--hint); text-align:center; }
+
+/* ── Bug fix releases ────────────────────────────────────────────────────── */
+.release-card.bugfix-card { opacity:0.7; }
+.release-card.bugfix-card:hover { opacity:1; }
+.release-card.bugfix-card .release-header { padding:8px 15px; }
+.bugfix-tag { font-size:10px; font-weight:500; padding:1px 5px; border-radius:4px; background:rgba(255,255,255,0.06); color:var(--hint); border:1px solid var(--border); }
+.rel-name.bugfix-name { color:var(--muted); font-weight:400; font-size:12px; }
+
+
+/* ── In-app feature search ──────────────────────────────────────────────────── */
+.app-search-wrap { position:relative; display:flex; align-items:center; }
+.app-search-input { width:0; opacity:0; background:var(--bg2); border:1px solid var(--border2); border-radius:8px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:12px; padding:6px 10px 6px 30px; outline:none; transition:width .2s ease, opacity .2s ease, border-color .15s; pointer-events:none; }
+.app-search-input.expanded { width:180px; opacity:1; pointer-events:auto; }
+.app-search-input:focus { border-color:rgba(255,255,255,0.28); }
+.app-search-input::placeholder { color:var(--hint); }
+.app-search-icon-btn { background:var(--bg2); border:1px solid var(--border); border-radius:8px; color:var(--muted); cursor:pointer; padding:6px 10px; display:flex; align-items:center; gap:5px; font-family:'DM Sans',sans-serif; font-size:12px; transition:color .12s,background .12s; flex-shrink:0; }
+.app-search-icon-btn:hover { color:var(--text); background:var(--bg3); }
+.app-search-icon-btn.active { color:var(--text); border-color:var(--border2); }
+.app-search-floating-icon { position:absolute; left:48px; top:50%; transform:translateY(-50%); color:var(--hint); pointer-events:none; opacity:0; transition:opacity .2s; }
+.app-search-floating-icon.visible { opacity:1; }
+.search-count { font-size:11px; color:var(--muted); padding:4px 0 8px 0; }
+.release-card.search-hidden { display:none; }
+
 ::-webkit-scrollbar { width:4px; }
 ::-webkit-scrollbar-track { background:transparent; }
 ::-webkit-scrollbar-thumb { background:var(--border2); border-radius:4px; }
@@ -230,6 +283,14 @@ main { padding:28px 32px 48px; max-width:880px; }
 </div>
 
 <aside>
+  <div class="search-wrap">
+    <div class="search-wrap-inner">
+      <svg class="search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="search-input" id="sidebar-search" type="text" placeholder="Search apps & features…" autocomplete="off">
+      <button class="search-clear" id="search-clear">✕</button>
+    </div>
+  </div>
+  <div id="search-results-panel" class="search-results"></div>
   <div id="sidebar-apps"></div>
   <div class="sidebar-divider"></div>
   <div class="sidebar-footer">
@@ -247,6 +308,13 @@ main { padding:28px 32px 48px; max-width:880px; }
 <div class="mobile-drawer" id="mobile-drawer">
   <div class="drawer-handle"></div>
   <div class="drawer-title">Select an app</div>
+  <div style="padding:0 12px 8px;">
+    <div class="search-wrap-inner" style="position:relative;">
+      <svg class="search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="search-input" id="drawer-search" type="text" placeholder="Search apps & features…" autocomplete="off">
+    </div>
+  </div>
+  <div id="drawer-search-results" class="search-results"></div>
   <div id="drawer-apps"></div>
   <div style="height:16px"></div>
 </div>
@@ -345,7 +413,7 @@ const APPS = {
       </g>
     </g>
   </g>
-</svg>`, url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html",                   releaseNotesUrl:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
+</svg>`, url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html",                   releaseNotesUrl:"https://helpx.adobe.com/ie/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
   indesign:           {name:"InDesign",              color:"#49021F",fgColor:"#FF3366",icon:"Id",svg:`<svg style="width:100%;height:100%;display:block" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 240 234">
   <defs>
     <style>
@@ -1784,6 +1852,9 @@ illustrator:{lastChecked:"2026-09-10",releases:[
     {name:"Auto-find missing links from same folder — when relinking a missing image, automatically relink all other missing links whose filenames match files in the same folder",url:"https://helpx.adobe.com/illustrator/desktop/new-features/release-notes.html"},
     {name:"Drop shadow click-through — clicking the soft area of a drop shadow no longer accidentally selects the object casting it; click through to objects behind the effect",url:"https://helpx.adobe.com/illustrator/desktop/new-features/release-notes.html"},
     {name:"CC Libraries gradient support — refreshed CC Libraries content with improved gradient handling",url:"https://helpx.adobe.com/illustrator/desktop/new-features/release-notes.html"},
+    {name:"Fix: objects with Perceptual Gradients (no Dither) were fully rasterized on PDF export instead of becoming clipped rasters",url:"https://helpx.adobe.com/illustrator/desktop/new-features/release-notes.html"},
+    {name:"Fix: UV issues — images placed in Illustrator were being rotated due to embedded metadata",url:"https://helpx.adobe.com/illustrator/desktop/new-features/release-notes.html"},
+    {name:"Fix: Pasting an object with a perceptual gradient expanded it into an image unexpectedly",url:"https://helpx.adobe.com/illustrator/desktop/new-features/release-notes.html"},
   ]},
   {version:"30.7",name:"July 2026 release",date:"Jul. 2026",isNew:false,features:[
     {name:"Firefly directly from the Home screen — explore Generate Vectors, Prompt to Image, and Firefly Boards from dedicated tabs on the Illustrator home screen without opening a document first",url:"https://helpx.adobe.com/illustrator/desktop/new-features/release-notes.html"},
@@ -1810,7 +1881,14 @@ illustrator:{lastChecked:"2026-09-10",releases:[
     {name:"Use Gemini 3 (Nano Banana Pro) and Imagen 4 in Text to Vector Graphic (unavailable in mainland China)",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/generate-scenes-subjects-and-icons.html"},
     {name:"Export artboards and assets in TIFF format using Export for Screens",url:"https://helpx.adobe.com/illustrator/desktop/save-and-export/export-files-to-different-formats/export-for-screens.html"},
     {name:"Apply proportional or exact scaling using Relative and Absolute options in Transform Each",url:"https://helpx.adobe.com/illustrator/desktop/manage-objects/reshape-transform-objects/scale-objects.html"},
-  ]},
+  
+    {name:"Fix: Gradient previews didn't update while moving objects (30.0 and 30.1 regression)",url:"https://helpx.adobe.com/illustrator/desktop/new-features/release-notes.html"},
+    {name:"Fix: Symbols got replaced or disappeared unexpectedly (29.8.1 regression)",url:"https://helpx.adobe.com/illustrator/desktop/new-features/release-notes.html"},
+    {name:"Fix: Rasterizing inside a clipping mask caused objects to disappear",url:"https://helpx.adobe.com/illustrator/desktop/new-features/release-notes.html"},
+    {name:"Fix: Color Mixer sliders vanished when navigating with Tab",url:"https://helpx.adobe.com/illustrator/desktop/new-features/release-notes.html"},
+    {name:"Fix: CMYK document showed embedded RGB images with incorrect color labels",url:"https://helpx.adobe.com/illustrator/desktop/new-features/release-notes.html"},
+    {name:"Fix: Live text converted to outlines when pasting across documents",url:"https://helpx.adobe.com/illustrator/desktop/new-features/release-notes.html"},
+    {name:"Fix: Unknown error occurred while saving an existing file",url:"https://helpx.adobe.com/illustrator/desktop/new-features/release-notes.html"},]},
   {version:"30.3",name:"March 2026 release",date:"Mar. 2026",isNew:false,features:[
     {name:"Turntable — view 2D objects from new angles, export as GIF",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/view-artwork-from-any-angle.html"},
     {name:"Auto Select — intelligent model recommendation with up to 4 variations per prompt",url:"https://helpx.adobe.com/illustrator/desktop/use-generative-ai/use-auto-select.html"},
@@ -1872,6 +1950,11 @@ photoshop:{lastChecked:"2026-09-10",releases:[
     {name:"Firefly Boards integration improvements — enhanced workflow between Photoshop and Firefly Boards for exploring and organizing ideas",url:"https://community.adobe.com/product-updates"},
     {name:"New Remove tool controls — expanded options for object removal",url:"https://community.adobe.com/product-updates"},
     {name:"Natural language search for cloud assets — find cloud documents and assets using plain language descriptions",url:"https://community.adobe.com/product-updates"},
+    {name:"Fix: Generate Similar in Generative Fill and Expand now uses the updated Firefly Fill & Expand model",url:"https://helpx.adobe.com/ie/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
+    {name:"Fix: Gradient tool in Multiply mode on a layer mask did not work as expected",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
+    {name:"Fix: Select People did not create a selection for CMYK images",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
+    {name:"Fix: Documents opened in floating tabs moved unexpectedly to the front after saving",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
+    {name:"Fix: Upgraded installations retained Firefly Image 3 as default model instead of updating to the latest",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
   ]},
   {version:"27.8",name:"June 2026 release",date:"Jun. 18, 2026",isNew:false,features:[
     {name:"🆕 Choose AI models in Generate Image — select from Firefly Image 5, Flux.2 Pro, and Gemini to explore different visual styles and achieve stronger photorealism",url:"https://community.adobe.com/announcements-710/photoshop-version-27-8-is-live-more-image-models-smoother-workflows-1626971"},
@@ -1887,7 +1970,9 @@ photoshop:{lastChecked:"2026-09-10",releases:[
     {name:"Start new documents without a default background layer",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
     {name:"Canvas HUD diagnostics moved to the View menu for a cleaner canvas",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
     {name:"Performance improved by reducing telemetry overhead",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
-  ]},
+  
+    {name:"Fix: Pattern Overlay layer styles set to Linear Light reverted to Normal when opened in older versions",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},
+    {name:"Fix: Typing 'P' in Image > Variables dialog toggled Preview checkbox instead of entering the character",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/photoshop-on-desktop-release-notes.html"},]},
   {version:"27.6",name:"April 2026 release",date:"Apr. 2026",isNew:false,features:[
     {name:"Real-time co-editing — edit the same Photoshop file simultaneously with collaborators via Creative Cloud",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
     {name:"Rotate Object — rotate and tilt pixel layers into new perspectives using on-canvas controls",url:"https://helpx.adobe.com/photoshop/desktop/whats-new/whats-new-in-adobe-photoshop-on-desktop.html"},
@@ -1925,13 +2010,20 @@ photoshop:{lastChecked:"2026-09-10",releases:[
 ]},
 
 indesign:{lastChecked:"2026-09-10",releases:[
+  {version:"21.5.1",name:"Bug fix release",isBugFix:true,date:"Aug. 2026",isNew:false,features:[
+    {name:"Fix: (Windows only) InDesign 21.5.0 crashes when using customer plug-ins that rely on table APIs built against older SDK versions",url:"https://helpx.adobe.com/indesign/desktop/whats-new/release-notes.html"},
+    {name:"Fix: HTML previews now generate without the HTML Preview plugin — no longer displays an error if the plugin isn't installed",url:"https://helpx.adobe.com/indesign/desktop/whats-new/release-notes.html"},
+  ]},
   {version:"21.4",name:"August 2026 release",date:"Aug. 7, 2026",isNew:false,features:[
     {name:"Rewrite — layout-aware AI text rewriting; fit copy, adjust length and tone, or add realistic placeholder text without breaking your layout flow",url:"https://helpx.adobe.com/indesign/desktop/whats-new/whats-new.html"},
     {name:"Edit with Adobe Express — remove backgrounds or adjust images directly inside InDesign without switching apps",url:"https://helpx.adobe.com/indesign/desktop/whats-new/whats-new.html"},
     {name:"Alt Text improvements — now powered by GPT-4.1 for more accurate image descriptions; enterprise admin controls added",url:"https://helpx.adobe.com/indesign/desktop/whats-new/whats-new.html"},
     {name:"Upload or request custom fonts to resolve missing fonts and keep documents consistent",url:"https://helpx.adobe.com/indesign/desktop/whats-new/whats-new.html"},
     {name:"Upload local files and download cloud documents directly from the Home screen",url:"https://helpx.adobe.com/indesign/desktop/whats-new/whats-new.html"},
-    {name:"Bug fixes — Share for Review 'Update Content' failure on large documents; Times New Roman/Calibri font detection after Windows 11 update",url:"https://helpx.adobe.com/indesign/desktop/whats-new/release-notes.html"},
+    {name:"Fix: Share for Review 'Update Content' failure on large documents",url:"https://helpx.adobe.com/indesign/desktop/whats-new/release-notes.html"},
+    {name:"Fix: Times New Roman/Calibri font incorrectly detected as missing after Windows 11 update",url:"https://helpx.adobe.com/indesign/desktop/whats-new/release-notes.html"},
+    {name:"Fix: primaryTextFrame property could not be set on a MasterSpread via InDesign scripting",url:"https://helpx.adobe.com/indesign/desktop/whats-new/release-notes.html"},
+    {name:"Fix: Incorrect handling of Ampersands (&) in font family names and OpenType Stylistic Sets",url:"https://helpx.adobe.com/indesign/desktop/whats-new/release-notes.html"},
   ]},
   {version:"21.x",name:"July 2026 release",date:"Jul. 28, 2026",isNew:false,features:[
     {name:"Table accessibility in PDF and EPUB — specify Header Rows and Header Columns when creating or editing tables so screen readers correctly read row and column headings in exported documents",url:"https://helpx.adobe.com/indesign/desktop/add-tables-and-data/create-tables/create-and-import-tables.html"},
@@ -2040,7 +2132,12 @@ premiere:{lastChecked:"2026-09-10",releases:[
     {name:"Sequence Index panel — searchable spreadsheet-style layout for navigating complex sequences",url:"https://helpx.adobe.com/premiere/desktop/whats-new/release-notes.html"},
     {name:"New Timeline preference to control automatic track creation when editing clips into a sequence",url:"https://helpx.adobe.com/premiere/desktop/whats-new/release-notes.html"},
     {name:"Native Windows on ARM (ARM64) — Premiere now runs natively on Qualcomm Snapdragon X Series for improved performance",url:"https://helpx.adobe.com/premiere/desktop/whats-new/release-notes.html"},
-  ]},
+  
+    {name:"Fix: Program Monitor could remain unresponsive and freeze during AVCHD (MTS) playback",url:"https://helpx.adobe.com/premiere/desktop/whats-new/release-notes.html"},
+    {name:"Fix: Crash when importing 6.2K HEVC 4:2:2 10-bit media on NVIDIA Blackwell GPUs",url:"https://helpx.adobe.com/premiere/desktop/whats-new/release-notes.html"},
+    {name:"Fix: Premiere took much longer than expected to import long (1+ hour) compressed media",url:"https://helpx.adobe.com/premiere/desktop/whats-new/release-notes.html"},
+    {name:"Fix: Crash when unlinking Track Items with a Video Transition selected",url:"https://helpx.adobe.com/premiere/desktop/whats-new/release-notes.html"},
+    {name:"Fix: Object Mask write failures when selecting multiple objects simultaneously",url:"https://helpx.adobe.com/premiere/desktop/whats-new/release-notes.html"},]},
   {version:"25.x (NAB)",name:"NAB 2026 update",date:"Apr. 2026",isNew:false,features:[
     {name:"Color Mode — dedicated color grading mode, a ground-up rebuild of the color experience",url:"https://helpx.adobe.com/premiere/desktop/whats-new/whats-new.html"},
     {name:"Frame.io Drive — mount Frame.io projects as a local drive, stream media on demand",url:"https://helpx.adobe.com/premiere/desktop/whats-new/whats-new.html"},
@@ -2071,6 +2168,13 @@ aftereffects:{lastChecked:"2026-09-10",releases:[
     {name:"Scripting APIs for Parametric Meshes",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
     {name:"Native Windows on ARM (ARM64) — runs natively on Qualcomm Snapdragon X Series",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
     {name:"AI Assistant (private beta) — agentic workflows coming to After Effects",url:"https://news.adobe.com/news/2026/06/adobe-unveils-major-expansion"},
+    {name:"Fix: After Effects project files created on Windows were deleted when edited and saved on Mac via Dynamic Link with Premiere",url:"https://helpx.adobe.com/after-effects/release-note/release-notes-after-effects.html"},
+    {name:"Fix: Animation presets were not applied correctly when Advanced 3D render was enabled",url:"https://helpx.adobe.com/after-effects/release-note/release-notes-after-effects.html"},
+    {name:"Fix: Mask Feather Boundaries option was incorrectly disabled when Masks was turned off in View Options",url:"https://helpx.adobe.com/after-effects/kb/fixed-issues.html"},
+    {name:"Fix: Premiere projects exported from After Effects now open without errors using ProRes editing mode",url:"https://helpx.adobe.com/after-effects/kb/fixed-issues.html"},
+    {name:"Fix: Dialogs now always open on the same monitor as the main application window",url:"https://helpx.adobe.com/after-effects/kb/fixed-issues.html"},
+    {name:"Fix: Transparency Color thumbnails correctly retain their original color when changes are canceled in Preferences",url:"https://helpx.adobe.com/after-effects/kb/fixed-issues.html"},
+    {name:"Fix: Memory leaks caused application memory exhausted errors with mask path animations",url:"https://helpx.adobe.com/after-effects/release-note/release-notes-after-effects.html"},
   ]},
   {version:"26.2.1",name:"April 2026 release",date:"Apr. 2026",isNew:false,features:[
     {name:"Quick Apply — instantly search and apply effects, presets, or menu commands",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
@@ -2078,7 +2182,12 @@ aftereffects:{lastChecked:"2026-09-10",releases:[
     {name:"Displacement support for 3D materials — push a 3D mesh using height data",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
     {name:"Proportional Scrubbing — proportionally adjust multiple layers by dragging a value",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
     {name:"Bug fixes and stability improvements (26.2.1 patch)",url:"https://helpx.adobe.com/after-effects/release-note/release-notes-after-effects.html"},
-  ]},
+  
+    {name:"Fix: Object Matte no longer crashes when errors encountered during After Effects launch",url:"https://helpx.adobe.com/after-effects/release-note/release-notes-after-effects.html"},
+    {name:"Fix: After Effects stopped previewing frames and could not be closed",url:"https://helpx.adobe.com/after-effects/release-note/release-notes-after-effects.html"},
+    {name:"Fix: Projects with missing or offline SVG files now open without crashing",url:"https://helpx.adobe.com/after-effects/release-note/release-notes-after-effects.html"},
+    {name:"Fix: Aerender failed to render compositions containing an Object Matte",url:"https://helpx.adobe.com/after-effects/release-note/release-notes-after-effects.html"},
+    {name:"Fix: Hardware configs incompatible with Compressed Disk Caching now automatically fall back to Uncompressed",url:"https://helpx.adobe.com/after-effects/release-note/release-notes-after-effects.html"},]},
   {version:"26.0",name:"After Effects 2026 — MAX",date:"Oct. 2025",isNew:false,features:[
     {name:"Frame.io Drive integration — stream media on demand directly from After Effects",url:"https://helpx.adobe.com/after-effects/using/whats-new.html"},
     {name:"Native SVG support — import as native shape layers (logos, icons)",url:"https://helpx.adobe.com/after-effects/using/import-svg-files.html"},
@@ -2128,6 +2237,12 @@ characteranimator:{lastChecked:"2026-09-10",releases:[
   ]},
   {version:"24.x",name:"Character Animator 2025",date:"Oct. 2024",isNew:false,features:[
     {name:"Custom background — use a custom image as the scene background",url:"https://helpx.adobe.com/adobe-character-animator/using/whats-new.html"},
+    {name:"Fix: Audio Clip Mixer showed only one stereo channel after reverting Modify Audio Channel changes",url:"https://helpx.adobe.com/premiere/desktop/whats-new/release-notes.html"},
+    {name:"Fix: Gain changes applied to multi-mono clips in Source Monitor were not reflected in audio waveform until re-opened",url:"https://helpx.adobe.com/premiere/desktop/whats-new/release-notes.html"},
+    {name:"Fix: Audio Track Mixer could appear blank after switching workspaces",url:"https://helpx.adobe.com/premiere/desktop/whats-new/release-notes.html"},
+    {name:"Fix: Clip volume/gain changes in a nested sequence did not update the waveform in the main sequence",url:"https://helpx.adobe.com/premiere/desktop/whats-new/release-notes.html"},
+    {name:"Fix: Importing 708/608 captions resulted in missing, wrong, or duplicated characters in some cases",url:"https://helpx.adobe.com/premiere/desktop/whats-new/release-notes.html"},
+    {name:"Fix: Crash from Find dialog when Project in Icon view contained hidden clips",url:"https://helpx.adobe.com/premiere/desktop/whats-new/release-notes.html"},
     {name:"Editable replays — automatically update all replay instances",url:"https://helpx.adobe.com/adobe-character-animator/using/whats-new.html"},
   ]},
 ]},
@@ -2176,7 +2291,7 @@ cameraraw:{lastChecked:"2026-09-10",releases:[
 ]},
 
 lightroom:{lastChecked:"2026-09-10",releases:[
-  {version:"Desktop 9.5.1",name:"Bug fix update",date:"Aug. 26, 2026",isNew:false,features:[
+  {version:"Desktop 9.5.1",name:"Bug fix update",isBugFix:true,date:"Aug. 26, 2026",isNew:false,features:[
     {name:"Critical bug fixes — no new features in this release",url:"https://helpx.adobe.com/lightroom-cc/using/whats-new/release-notes.html"},
   ]},
   {version:"Desktop 9.5",name:"August 2026 release",date:"Aug. 3, 2026",isNew:false,features:[
@@ -2219,7 +2334,7 @@ lightroom:{lastChecked:"2026-09-10",releases:[
 ]},
 
 lightroomclassic:{lastChecked:"2026-09-10",releases:[
-  {version:"15.5.1",name:"Bug fix update",date:"Aug. 26, 2026",isNew:false,features:[
+  {version:"15.5.1",name:"Bug fix update",isBugFix:true,date:"Aug. 26, 2026",isNew:false,features:[
     {name:"Critical bug fixes — no new features in this release",url:"https://helpx.adobe.com/lightroom-classic/help/whats-new/release-notes.html"},
   ]},
   {version:"15.5",name:"August 2026 release",date:"Aug. 3, 2026",isNew:false,features:[
@@ -2263,7 +2378,7 @@ lightroomclassic:{lastChecked:"2026-09-10",releases:[
 ]},
 
 bridge:{lastChecked:"2026-09-10",releases:[
-  {version:"16.0.6",name:"July 2026 security update",date:"Jul. 2026",isNew:false,features:[
+  {version:"16.0.6",name:"July 2026 security update",isBugFix:true,date:"Jul. 2026",isNew:false,features:[
     {name:"Security fixes and key bug fixes: thumbnails/previews lost with special characters in HEIC/HEIF filenames; portrait image dimensions swapped on JPEG export; incorrect 'Show in Explorer' button label in Media Cache preferences",url:"https://community.adobe.com/product-updates"},
   ]},
   {version:"16.1.x",name:"Substance Stager integration",date:"Jul. 2026",isNew:false,features:[
@@ -2366,10 +2481,10 @@ firefly:{lastChecked:"2026-09-10",releases:[
 ]},
 
 substance3dpainter:{lastChecked:"2026-09-10",releases:[
-  {version:"12.1.4",name:"Bug fix release",date:"Sep. 7, 2026",isNew:false,features:[
+  {version:"12.1.4",name:"Bug fix release",isBugFix:true,date:"Sep. 7, 2026",isNew:false,features:[
     {name:"Bug fixes only — see complete release notes for details",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
   ]},
-  {version:"12.1.3",name:"Bug fix release",date:"Aug. 27, 2026",isNew:false,features:[
+  {version:"12.1.3",name:"Bug fix release",isBugFix:true,date:"Aug. 27, 2026",isNew:false,features:[
     {name:"Bug fixes only — see complete release notes for details",url:"https://experienceleague.adobe.com/en/docs/substance-3d-painter/using/release-notes/all-changes"},
   ]},
   {version:"12.1",name:"Painter 12.1",date:"Jun. 22, 2026",isNew:false,features:[
@@ -2400,7 +2515,7 @@ substance3dpainter:{lastChecked:"2026-09-10",releases:[
 ]},
 
 substance3ddesigner:{lastChecked:"2026-09-10",releases:[
-  {version:"16.0.5",name:"Bug fix release",date:"Aug. 27, 2026",isNew:false,features:[
+  {version:"16.0.5",name:"Bug fix release",isBugFix:true,date:"Aug. 27, 2026",isNew:false,features:[
     {name:"Bug fixes only — see complete release notes for details",url:"https://experienceleague.adobe.com/en/docs/substance-3d-designer/using/release-notes/all-changes"},
   ]},
   {version:"16.0",name:"Designer 16.0 — Mar. 2026",date:"Mar. 2026",isNew:false,features:[
@@ -2434,7 +2549,7 @@ substance3dstager:{lastChecked:"2026-09-10",releases:[
 ]},
 
 substance3dsampler:{lastChecked:"2026-09-10",releases:[
-  {version:"6.0.3",name:"Bug fix release",date:"Aug. 27, 2026",isNew:false,features:[
+  {version:"6.0.3",name:"Bug fix release",isBugFix:true,date:"Aug. 27, 2026",isNew:false,features:[
     {name:"Bug fixes only — see complete release notes for details",url:"https://experienceleague.adobe.com/en/docs/substance-3d-sampler/using/release-notes/all-changes"},
   ]},
   {version:"6.0.1",name:"Sampler 6.0.1",date:"May 21, 2026",isNew:false,features:[
@@ -2814,7 +2929,7 @@ function buildDrawer(){
     group.ids.forEach(id => {
       const app = APPS[id];
       const d = DATA[id];
-      const total = d.releases.reduce((a,r)=>a+r.features.length,0);
+      const total = d.releases.reduce((a,r)=>a+(r.isBugFix?0:r.features.length),0);
       const btn = document.createElement("button");
       btn.className = "app-btn" + (id===activeApp?" active":"") + (app.isBeta?" beta-btn":"") + (app.isSubPlatform?" sub-platform":"");
       btn.style.borderLeftColor = id===activeApp ? (app.fgColor||app.color) : "transparent";
@@ -2846,7 +2961,7 @@ function buildSidebar(){
     group.ids.forEach(id => {
       const app = APPS[id];
       const d = DATA[id];
-      const total = d.releases.reduce((a,r)=>a+r.features.length,0);
+      const total = d.releases.reduce((a,r)=>a+(r.isBugFix?0:r.features.length),0);
       const btn = document.createElement("button");
       btn.className = "app-btn" + (id===activeApp?" active":"") + (app.isBeta?" beta-btn":"") + (app.isSubPlatform?" sub-platform":"");
       btn.style.borderLeftColor = id===activeApp ? (app.fgColor||app.color) : "transparent";
@@ -2861,7 +2976,7 @@ function buildSidebar(){
 function buildMain(){
   const app = APPS[activeApp];
   const d = DATA[activeApp];
-  const total = d.releases.reduce((a,r)=>a+r.features.length,0);
+  const total = d.releases.reduce((a,r)=>a+(r.isBugFix?0:r.features.length),0);
   const newCt = d.releases.reduce((a,r)=>a+(r.isNew?r.features.length:0),0);
   const betaNoticeHTML = app.isBeta ? `
     <div class="beta-notice">
@@ -2890,10 +3005,24 @@ function buildMain(){
           <div class="app-meta">Last checked: ${d.lastChecked} · ${d.releases.length} release${d.releases.length>1?"s":""} tracked</div>
         </div>
       </div>
-      <a href="${app.url}" target="_blank" class="btn">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        Official page
-      </a>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="app-search-wrap">
+          <button class="app-search-icon-btn" id="app-search-toggle" title="Search features">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Search
+          </button>
+          <svg class="app-search-floating-icon" id="app-search-floating-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input class="app-search-input" id="app-search-input" type="text" placeholder="Search features…" autocomplete="off">
+        </div>
+        <button class="app-search-icon-btn" id="expand-all-btn" title="Expand or collapse all releases">
+          <svg id="expand-all-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          <span id="expand-all-label">Expand all</span>
+        </button>
+        <a href="${app.url}" target="_blank" class="btn">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Official page
+        </a>
+      </div>
     </div>
     ${betaNoticeHTML}
     <div class="stats-row">
@@ -2909,20 +3038,22 @@ function buildMain(){
   // Place the pre-built icon into its slot
   document.getElementById("main-app-icon-slot").replaceWith(iconEl);
   if(app.svg) setIconImg(iconEl, activeApp, 48);
+  initAppSearch();
+  initExpandAll();
   const list = document.getElementById("releases-list");
   d.releases.forEach((rel,i) => {
     const key = `${activeApp}-${i}`;
     const isOpen = openReleases.has(key);
     const isBetaCard = rel.isBeta || app.isBeta;
+    const isBugFix = rel.isBugFix === true;
     const card = document.createElement("div");
-    card.className = "release-card" + (isBetaCard?" beta-card":"");
+    card.className = "release-card" + (isBetaCard?" beta-card":"") + (isBugFix?" bugfix-card":"");
     card.innerHTML = `
       <div class="release-header">
         <div class="release-header-left">
           <span class="v-badge" style="background:${hex(app.fgColor||'#ffffff',0.15)};color:${app.fgColor||'#ffffff'}">v${rel.version}</span>
-          <span class="rel-name">${rel.name}</span>
-          ${rel.isNew?'<span class="new-badge">NEW</span>':""}
-          ${isBetaCard?'<span class="beta-tag">BETA</span>':""}
+          <span class="rel-name${isBugFix?' bugfix-name':''}">${rel.name}</span>
+          ${rel.isNew?'<span class="new-badge">NEW</span>':""}${isBugFix?'<span class="bugfix-tag">Bug fixes</span>':""}${isBetaCard?'<span class="beta-tag">BETA</span>':""}
         </div>
         <div class="release-header-right">
           <span class="rel-date">${rel.date}</span>
@@ -2930,7 +3061,42 @@ function buildMain(){
         </div>
       </div>
       <div class="features-list ${isOpen?"open":""}" id="fl-${key}">
-        ${rel.features.map(f=>`<div class="feature-item"><svg class="f-arrow" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg><a href="${f.url}" target="_blank" class="f-link">${f.name}</a></div>`).join("")}
+        ${(() => {
+          const hasAnyNew = rel.features.some(f => f.name.startsWith('🆕'));
+          // If no 🆕 prefix at all, treat all features as new (all are from this release)
+          const newFeats = hasAnyNew
+            ? rel.features.filter(f => f.name.startsWith('🆕'))
+            : rel.features;
+          const existingFeats = hasAnyNew
+            ? rel.features.filter(f => !f.name.startsWith('🆕'))
+            : [];
+          const accentColor = app.fgColor || '#ffffff';
+
+          function renderFeat(f, isNew) {
+            const displayName = f.name.replace(/^🆕 /, '');
+            const accentStyle = isNew ? `border-left-color:${accentColor}44;` : '';
+            return `<div class="feature-item ${isNew ? 'is-new' : 'is-existing'}" style="${accentStyle}">
+              <div class="feat-new-dot ${isNew ? '' : 'hidden'}" style="${isNew ? `background:${accentColor};` : ''}"></div>
+              <svg class="f-arrow" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="${isNew ? '' : 'color:var(--hint)'}"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              <a href="${f.url}" target="_blank" class="f-link" style="${isNew ? '' : 'color:var(--muted)'}">${displayName}</a>
+            </div>`;
+          }
+
+          let html = '';
+          if (newFeats.length > 0) {
+            if (existingFeats.length > 0) {
+              html += `<div class="feat-section-label new-label"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>New in this release</div>`;
+            }
+            html += newFeats.map(f => renderFeat(f, true)).join('');
+          }
+          if (existingFeats.length > 0) {
+            if (newFeats.length > 0) {
+              html += `<div class="feat-section-divider"></div><div class="feat-section-label"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/></svg>Also in this release</div>`;
+            }
+            html += existingFeats.map(f => renderFeat(f, false)).join('');
+          }
+          return html;
+        })()}
         ${app.releaseNotesUrl?`<div class="relnotes-item"><a href="${app.releaseNotesUrl}" target="_blank" class="relnotes-link"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Full release notes →</a></div>`:""}
       </div>`;
     card.querySelector(".release-header").addEventListener("click",()=>{
@@ -2942,6 +3108,331 @@ function buildMain(){
   });
 }
 
+
+
+
+
+// ── Expand / Collapse All ─────────────────────────────────────────────────────
+function initExpandAll() {
+  const btn = document.getElementById('expand-all-btn');
+  const label = document.getElementById('expand-all-label');
+  const icon = document.getElementById('expand-all-icon');
+  if (!btn) return;
+
+  // Determine initial state: are any cards open?
+  function allExpanded() {
+    const cards = document.querySelectorAll('#releases-list .release-card:not(.search-hidden)');
+    return [...cards].every(c => c.querySelector('.features-list')?.classList.contains('open'));
+  }
+
+  function syncButton() {
+    const expanded = allExpanded();
+    label.textContent = expanded ? 'Collapse all' : 'Expand all';
+    // Rotate chevron 180° when expanded
+    icon.style.transform = expanded ? 'rotate(180deg)' : 'rotate(0deg)';
+    icon.style.transition = 'transform .2s';
+  }
+
+  btn.addEventListener('click', () => {
+    const shouldExpand = !allExpanded();
+    const cards = document.querySelectorAll('#releases-list .release-card:not(.search-hidden)');
+    cards.forEach((card, i) => {
+      const key = `${activeApp}-${i}`;
+      const fl = card.querySelector('.features-list');
+      const chev = card.querySelector('.chevron');
+      if (!fl) return;
+      if (shouldExpand) {
+        fl.classList.add('open');
+        if (chev) chev.classList.add('open');
+        openReleases.add(key);
+      } else {
+        fl.classList.remove('open');
+        if (chev) chev.classList.remove('open');
+        openReleases.delete(key);
+      }
+    });
+    syncButton();
+  });
+
+  // Also sync whenever individual cards are toggled
+  document.getElementById('releases-list')?.addEventListener('click', e => {
+    if (e.target.closest('.release-header')) {
+      setTimeout(syncButton, 10);
+    }
+  });
+
+  syncButton();
+}
+
+// ── In-app feature search ─────────────────────────────────────────────────────
+function initAppSearch() {
+  const toggleBtn = document.getElementById('app-search-toggle');
+  const input = document.getElementById('app-search-input');
+  const floatingIcon = document.getElementById('app-search-floating-icon');
+  if (!toggleBtn || !input) return;
+
+  let expanded = false;
+
+  function runFilter() {
+    const tokens = tokenize(input.value);
+    const cards = document.querySelectorAll('#releases-list .release-card');
+    let shown = 0;
+    cards.forEach((card, i) => {
+      // Restore all original texts first
+      card.querySelectorAll('.f-link[data-orig]').forEach(el => {
+        el.innerHTML = el.dataset.orig;
+        delete el.dataset.orig;
+      });
+      card.querySelectorAll('.rel-name[data-orig]').forEach(el => {
+        el.textContent = el.dataset.orig;
+        delete el.dataset.orig;
+      });
+
+      if (tokens.length === 0) {
+        card.classList.remove('search-hidden');
+        const fl = card.querySelector('.features-list');
+        const chev = card.querySelector('.chevron');
+        if (fl && card.dataset.wasOpen !== 'true') {
+          fl.classList.remove('open');
+          if (chev) chev.classList.remove('open');
+        }
+        shown++;
+        return;
+      }
+
+      const text = card.textContent;
+      if (matchesAllTokens(text, tokens)) {
+        card.classList.remove('search-hidden');
+
+        // Highlight in feature link texts
+        card.querySelectorAll('.f-link').forEach(el => {
+          if (matchesAllTokens(el.textContent, tokens)) {
+            el.dataset.orig = el.innerHTML;
+            el.innerHTML = highlightMatch(el.innerHTML, tokens);
+          }
+        });
+
+        // Highlight in release name
+        const relName = card.querySelector('.rel-name');
+        if (relName && matchesAllTokens(relName.textContent, tokens)) {
+          relName.dataset.orig = relName.textContent;
+          relName.innerHTML = highlightMatch(relName.textContent, tokens);
+        }
+
+        // Auto-expand
+        const fl = card.querySelector('.features-list');
+        const chev = card.querySelector('.chevron');
+        if (fl && !fl.classList.contains('open')) {
+          card.dataset.wasOpen = 'false';
+          fl.classList.add('open');
+          if (chev) chev.classList.add('open');
+        } else if (fl) {
+          card.dataset.wasOpen = 'true';
+        }
+        shown++;
+      } else {
+        card.classList.add('search-hidden');
+      }
+    });
+    // Update count hint
+    let countEl = document.getElementById('app-search-count');
+    if (!countEl) {
+      countEl = document.createElement('div');
+      countEl.id = 'app-search-count';
+      countEl.className = 'search-count';
+      const list = document.getElementById('releases-list');
+      if (list) list.parentNode.insertBefore(countEl, list);
+    }
+    if (tokens.length > 0) {
+      countEl.textContent = shown + ' release' + (shown !== 1 ? 's' : '') + ' match' + (shown === 1 ? 'es' : '');
+    } else {
+      countEl.textContent = '';
+    }
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    expanded = !expanded;
+    input.classList.toggle('expanded', expanded);
+    floatingIcon.classList.toggle('visible', expanded);
+    toggleBtn.classList.toggle('active', expanded);
+    if (expanded) {
+      setTimeout(() => input.focus(), 50);
+    } else {
+      input.value = '';
+      runFilter();
+    }
+  });
+
+  input.addEventListener('input', runFilter);
+
+  // Esc to close
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      expanded = false;
+      input.classList.remove('expanded');
+      floatingIcon.classList.remove('visible');
+      toggleBtn.classList.remove('active');
+      input.value = '';
+      runFilter();
+    }
+  });
+}
+
+// ── Search ────────────────────────────────────────────────────────────────────
+function tokenize(query) {
+  return query.toLowerCase().trim().split(/\s+/).filter(t => t.length > 0);
+}
+
+function matchesAllTokens(text, tokens) {
+  const t = text.toLowerCase();
+  return tokens.every(tok => t.includes(tok));
+}
+
+function highlightMatch(text, tokens) {
+  if (!tokens || tokens.length === 0) return text;
+  let result = text;
+  // Sort tokens longest first to avoid double-wrapping
+  const sorted = [...tokens].sort((a,b) => b.length - a.length);
+  for (const tok of sorted) {
+    const re = new RegExp(tok.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+    result = result.replace(re, m => '<mark>' + m + '</mark>');
+  }
+  return result;
+}
+
+function buildSearchResults(query, targetPanel, onSelect) {
+  if (!query || query.trim().length < 2) {
+    targetPanel.classList.remove('open');
+    return;
+  }
+  const tokens = tokenize(query);
+  const results = [];
+
+  // Search app names + feature names across all DATA
+  for (const [appId, data] of Object.entries(DATA)) {
+    const app = APPS[appId];
+    if (!app) continue;
+    const appMatches = [];
+
+    // App name match
+    if (matchesAllTokens(app.name, tokens)) {
+      appMatches.push({ text: app.name, isApp: true, appId });
+    }
+
+    // Feature name matches
+    for (const rel of data.releases) {
+      if (rel.isBugFix) continue;
+      for (const feat of rel.features) {
+        const name = feat.name.replace(/^🆕 /, '');
+        if (matchesAllTokens(name, tokens)) {
+          appMatches.push({ text: name, url: feat.url, appId, version: rel.version });
+        }
+      }
+    }
+
+    if (appMatches.length > 0) results.push({ app, appId, matches: appMatches });
+  }
+
+  targetPanel.innerHTML = '';
+  if (results.length === 0) {
+    targetPanel.innerHTML = '<div class="search-no-results">No results for "' + query + '"</div>';
+    targetPanel.classList.add('open');
+    return;
+  }
+
+  for (const { app, appId, matches } of results.slice(0, 8)) {
+    const group = document.createElement('div');
+    group.className = 'search-result-group';
+    const label = document.createElement('div');
+    label.className = 'search-result-app';
+    label.textContent = app.name;
+    group.appendChild(label);
+
+    for (const match of matches.slice(0, 4)) {
+      const item = document.createElement('div');
+      item.className = 'search-result-item';
+      const dot = document.createElement('div');
+      dot.className = 'search-result-dot';
+      const text = document.createElement('div');
+      text.className = 'search-result-text';
+      text.innerHTML = highlightMatch(match.text.length > 90 ? match.text.slice(0, 90) + '…' : match.text, tokens);
+      item.appendChild(dot);
+      item.appendChild(text);
+      item.addEventListener('click', () => {
+        onSelect(appId, match.url);
+      });
+      group.appendChild(item);
+    }
+    targetPanel.appendChild(group);
+  }
+  targetPanel.classList.add('open');
+}
+
+function initSearch() {
+  const input = document.getElementById('sidebar-search');
+  const clearBtn = document.getElementById('search-clear');
+  const resultsPanel = document.getElementById('search-results-panel');
+  const sidebarApps = document.getElementById('sidebar-apps');
+
+  if (!input) return;
+
+  input.addEventListener('input', () => {
+    const q = input.value.trim();
+    clearBtn.classList.toggle('visible', q.length > 0);
+
+    if (q.length < 2) {
+      resultsPanel.classList.remove('open');
+      sidebarApps.style.display = '';
+      return;
+    }
+    sidebarApps.style.display = 'none';
+    buildSearchResults(q, resultsPanel, (appId, url) => {
+      activeApp = appId;
+      buildSidebar();
+      buildDrawer();
+      buildMain();
+      updateChip();
+      input.value = '';
+      clearBtn.classList.remove('visible');
+      resultsPanel.classList.remove('open');
+      sidebarApps.style.display = '';
+      if (url) window.open(url, '_blank');
+    });
+  });
+
+  clearBtn.addEventListener('click', () => {
+    input.value = '';
+    clearBtn.classList.remove('visible');
+    resultsPanel.classList.remove('open');
+    sidebarApps.style.display = '';
+  });
+
+  // Drawer search
+  const drawerInput = document.getElementById('drawer-search');
+  const drawerResults = document.getElementById('drawer-search-results');
+  const drawerApps = document.getElementById('drawer-apps');
+  if (drawerInput) {
+    drawerInput.addEventListener('input', () => {
+      const q = drawerInput.value.trim();
+      if (q.length < 2) {
+        drawerResults.classList.remove('open');
+        drawerApps.style.display = '';
+        return;
+      }
+      drawerApps.style.display = 'none';
+      buildSearchResults(q, drawerResults, (appId) => {
+        activeApp = appId;
+        buildSidebar();
+        buildDrawer();
+        buildMain();
+        updateChip();
+        closeDrawer();
+        drawerInput.value = '';
+        window.scrollTo({top:0,behavior:'smooth'});
+      });
+    });
+  }
+}
 
 // ── SVG rasterization cache ───────────────────────────────────────────────────
 // Convert each SVG to a PNG data URL once at startup via Canvas
@@ -2982,6 +3473,7 @@ buildSidebar();
 buildDrawer();
 buildMain();
 updateChip();
+initSearch();
 </script>
 </body>
 </html>
