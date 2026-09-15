@@ -31,7 +31,7 @@ header h1 { font-size:14px; font-weight:500; white-space:nowrap; }
 .hamburger:hover { color:var(--text); background:var(--bg2); }
 
 /* Desktop sidebar */
-aside { border-right:1px solid var(--border); padding:14px 0 24px; background:var(--bg); position:sticky; top:var(--header-h); height:calc(100vh - var(--header-h)); overflow-y:auto; }
+aside { border-right:1px solid var(--border); padding:0 0 24px; background:var(--bg); position:sticky; top:var(--header-h); height:calc(100vh - var(--header-h)); overflow-y:auto; }
 .section-label { font-size:10px; font-weight:500; color:var(--hint); letter-spacing:.08em; text-transform:uppercase; padding:10px 16px 4px; display:flex; align-items:center; gap:6px; }
 .section-label.beta-label { color:#92620a; }
 .beta-dot { width:6px; height:6px; border-radius:50%; background:var(--beta); flex-shrink:0; }
@@ -145,11 +145,12 @@ main { padding:28px 32px 48px; max-width:880px; }
 .home-new-badge { font-size:9px; font-weight:700; padding:1px 5px; border-radius:3px; background:#22c55e22; color:#22c55e; border:1px solid #22c55e44; letter-spacing:.04em; }
 
 /* ── Search ─────────────────────────────────────────────────────────────── */
-.search-wrap { padding:10px 12px 6px; position:sticky; top:0; background:var(--bg); z-index:5; border-bottom:1px solid var(--border); }
-.search-input { width:100%; background:var(--bg2); border:1px solid var(--border2); border-radius:8px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:12px; padding:6px 10px 6px 30px; outline:none; transition:border-color .15s; }
+.sidebar-sticky-header { position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--border); margin-top:-1px; padding-top:1px; }
+.search-wrap { padding:10px 12px 6px; background:var(--bg); }
+.search-input { width:100%; background:var(--bg2); border:1px solid var(--border2); border-radius:8px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:12px; padding:6px 10px 6px 34px; outline:none; transition:border-color .15s; }
 .search-input:focus { border-color:rgba(255,255,255,0.28); }
 .search-input::placeholder { color:var(--hint); }
-.search-icon { position:absolute; left:21px; top:50%; transform:translateY(-50%); color:var(--hint); pointer-events:none; }
+.search-icon { position:absolute; left:11px; top:50%; transform:translateY(-50%); color:var(--hint); pointer-events:none; }
 .search-wrap-inner { position:relative; }
 .search-clear { position:absolute; right:8px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--hint); cursor:pointer; font-size:14px; padding:2px 4px; display:none; }
 .search-clear.visible { display:block; }
@@ -172,7 +173,7 @@ main { padding:28px 32px 48px; max-width:880px; }
 .feat-section-divider { height:1px; background:var(--border); margin:4px 20px; }
 
 /* ── Home view ───────────────────────────────────────────────────────────────── */
-.home-btn { display:flex; align-items:center; gap:7px; width:100%; padding:8px 16px; background:none; border:none; border-left:2px solid transparent; color:var(--muted); cursor:pointer; font-family:'DM Sans',sans-serif; font-size:12.5px; font-weight:500; text-align:left; transition:color .12s, background .12s; margin-bottom:4px; }
+.home-btn { display:flex; align-items:center; gap:7px; width:100%; padding:7px 16px; background:none; border:none; border-left:2px solid transparent; color:var(--muted); cursor:pointer; font-family:'DM Sans',sans-serif; font-size:12.5px; font-weight:500; text-align:left; transition:color .12s, background .12s; }
 .home-btn:hover { color:var(--text); background:var(--bg2); }
 .home-btn.active { color:var(--text); border-left-color:var(--text); background:var(--bg2); }
 .home-view { padding:0; max-width:900px; display:flex; flex-direction:column; height:100%; }
@@ -344,12 +345,7 @@ mark { background:transparent; color:var(--text); font-weight:600; border-bottom
 </div>
 
 <aside>
-  <div style="padding:6px 0 2px;">
-    <button class="home-btn active" id="home-btn">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Recent updates
-    </button>
-  </div>
+  <div class="sidebar-sticky-header">
   <div class="search-wrap">
     <div class="search-wrap-inner">
       <svg class="search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -357,6 +353,13 @@ mark { background:transparent; color:var(--text); font-weight:600; border-bottom
       <button class="search-clear" id="search-clear">✕</button>
     </div>
   </div>
+  <div style="padding:2px 0;">
+    <button class="home-btn active" id="home-btn">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Recent updates
+    </button>
+  </div>
+  </div><!-- /sidebar-sticky-header -->
   <div id="search-results-panel" class="search-results"></div>
   <div id="sidebar-apps"></div>
   <div class="sidebar-divider"></div>
