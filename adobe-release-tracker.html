@@ -230,7 +230,7 @@ main.tl-active { padding:0; max-width:none; overflow:hidden; }
 .tl-group-label { font-size:9px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--hint); padding:6px 28px 2px; position:sticky; left:0; }
 
 /* Popover */
-.tl-pop { position:fixed; z-index:100; background:var(--bg2); border:1px solid var(--border2); border-radius:10px; padding:10px 12px; box-shadow:0 8px 24px rgba(0,0,0,.5); max-width:280px; pointer-events:none; opacity:0; transition:opacity .12s; }
+.tl-pop { position:fixed; z-index:100; background:var(--bg2); border:1px solid var(--border2); border-radius:10px; padding:10px 12px; box-shadow:0 8px 32px rgba(0,0,0,.6); max-width:280px; pointer-events:none; opacity:0; transition:opacity .15s; touch-action:auto; }
 .tl-pop.visible { opacity:1; pointer-events:auto; }
 .tl-pop-header { display:flex; align-items:center; gap:7px; margin-bottom:6px; }
 .tl-pop-name { font-size:12px; font-weight:600; color:var(--text); }
@@ -251,10 +251,14 @@ main.tl-active { padding:0; max-width:none; overflow:hidden; }
   .tl-mobile { display:block; }
   .tl-m-month { font-size:11px; font-weight:600; color:var(--text); padding:14px 0 6px; border-bottom:1px solid var(--border); margin-bottom:8px; letter-spacing:.03em; }
   .tl-m-month:first-child { padding-top:8px; }
-  .tl-m-entry { display:flex; gap:10px; align-items:flex-start; padding:5px 0; cursor:pointer; }
-  .tl-m-entry:hover .tl-m-name { color:var(--text); }
-  .tl-m-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:4px; }
-  .tl-m-app { font-size:11px; color:var(--hint); min-width:80px; flex-shrink:0; }
+  .tl-m-entry { display:flex; gap:10px; align-items:flex-start; padding:9px 0; cursor:pointer; border-bottom:1px solid var(--border); transition:background .1s; }
+  .tl-m-entry:last-child { border-bottom:none; }
+  .tl-m-entry:active { background:var(--bg2); border-radius:8px; }
+  .tl-m-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:6px; }
+  .tl-m-content { flex:1; min-width:0; }
+  .tl-m-top { display:flex; align-items:center; gap:5px; margin-bottom:2px; }
+  .tl-m-feats { font-size:10.5px; color:var(--hint); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .tl-m-app { font-size:11px; color:var(--hint); font-weight:500; }
   .tl-m-name { font-size:11.5px; color:var(--muted); line-height:1.4; }
   .tl-m-name.is-new { color:var(--text); font-weight:500; }
 }
@@ -442,6 +446,16 @@ mark { background:transparent; color:var(--text); font-weight:600; border-bottom
 <!-- Mobile bottom drawer -->
 <div class="mobile-drawer" id="mobile-drawer">
   <div class="drawer-handle"></div>
+  <div style="padding:4px 0 2px; border-bottom:1px solid var(--border); margin-bottom:4px;">
+    <button class="home-btn" id="drawer-home-btn" onclick="activeView='home';closeDrawer();document.getElementById('home-btn').classList.add('active');document.getElementById('timeline-btn').classList.remove('active');buildSidebar();buildHome();">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Recent updates
+    </button>
+    <button class="home-btn" id="drawer-timeline-btn" onclick="activeView='timeline';closeDrawer();document.getElementById('timeline-btn').classList.add('active');document.getElementById('home-btn').classList.remove('active');buildSidebar();buildTimeline();">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/><circle cx="8" cy="6" r="2" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="10" cy="18" r="2" fill="currentColor" stroke="none"/></svg>
+      Timeline
+    </button>
+  </div>
   <div class="drawer-title">Select an app</div>
   <div style="padding:0 12px 8px;">
     <div class="search-wrap-inner" style="position:relative;">
@@ -3196,6 +3210,10 @@ function updateChip(){
 
 // ── Build drawer app list ─────────────────────────────────────────────────
 function buildDrawer(){
+  const dhb = document.getElementById("drawer-home-btn");
+  const dtb = document.getElementById("drawer-timeline-btn");
+  if(dhb) dhb.classList.toggle("active", activeView==="home");
+  if(dtb) dtb.classList.toggle("active", activeView==="timeline");
   const el = document.getElementById("drawer-apps");
   el.innerHTML = "";
   GROUPS.forEach((group, gi) => {
@@ -3605,10 +3623,26 @@ function buildTimeline() {
       const accentColor = app.fgColor || '#ffffff';
       const isBeta = rel.isBeta || app.isBeta;
       const dotColor = isBeta ? '#9B8FFF' : accentColor;
-      mobileHTML += `<div class="tl-m-entry" onclick="activeApp='${appId}';activeView='app';document.getElementById('home-btn').classList.remove('active');document.getElementById('timeline-btn').classList.remove('active');buildSidebar();buildDrawer();buildMain();updateChip();">
+      const popDataM = encodeURIComponent(JSON.stringify({
+        appId,
+        appName: app.name,
+        rels: [{ version: rel.version, name: rel.name, date: rel.date, isNew: rel.isNew,
+          feats: rel.features.slice(0,4).map(f => ({
+            name: f.name.replace(/^🆕 /,'').replace(/^Fix: /,'Fix: '),
+            isNew: f.name.startsWith('🆕')
+          })), total: rel.features.length }]
+      }));
+      mobileHTML += `<div class="tl-m-entry" data-pop="${popDataM}" onclick="tlShowPopTouch(this,event)">
         <div class="tl-m-dot${rel.isNew?' is-new':''}" style="background:${dotColor}"></div>
-        <span class="tl-m-app">${app.name}</span>
-        <span class="tl-m-name${rel.isNew?' is-new':''}">${rel.name}</span>
+        <div class="tl-m-content">
+          <div class="tl-m-top">
+            <span class="tl-m-app">${app.name}</span>
+            ${rel.isNew ? '<span class="new-badge" style="font-size:8px;padding:1px 4px">NEW</span>' : ''}
+            <span class="tl-m-ver" style="font-size:9px;color:var(--hint);margin-left:auto">v${rel.version.split(' ')[0].substring(0,8)}</span>
+          </div>
+          <div class="tl-m-name${rel.isNew?' is-new':''}">${rel.name}</div>
+        </div>
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;color:var(--hint)"><polyline points="9 18 15 12 9 6"/></svg>
       </div>`;
     });
   });
@@ -3667,6 +3701,64 @@ function tlEnsurePop() {
     document.body.appendChild(tlPopEl);
   }
   return tlPopEl;
+}
+
+
+function tlShowPopTouch(entry, event) {
+  event.stopPropagation();
+  const pop = tlEnsurePop();
+  const data = JSON.parse(decodeURIComponent(entry.dataset.pop));
+
+  // Reuse same HTML builder as hover popover
+  let html = '';
+  data.rels.forEach(r => {
+    html += `<div class="tl-pop-header">
+      <span class="v-badge" style="font-size:9px;padding:1px 5px">${r.version.substring(0,10)}</span>
+      <span class="tl-pop-name">${r.name}</span>
+      ${r.isNew ? '<span class="new-badge" style="font-size:8px;padding:1px 4px">NEW</span>' : ''}
+      <span class="tl-pop-date">${r.date}</span>
+    </div>
+    <ul class="tl-pop-feats">`;
+    r.feats.forEach(f => {
+      const name = f.name.length > 60 ? f.name.slice(0,60)+'…' : f.name;
+      html += `<li class="${f.isNew?'is-new-feat':''}">${name}</li>`;
+    });
+    html += '</ul>';
+    if (r.total > r.feats.length) html += `<div class="tl-pop-more">+${r.total - r.feats.length} more features</div>`;
+  });
+  html += `<div class="tl-pop-viewall" data-appid="${data.appId}">View all in ${data.appName} →</div>`;
+  pop.innerHTML = html;
+
+  pop.querySelector('.tl-pop-viewall').addEventListener('click', (e) => {
+    e.stopPropagation();
+    tlChipClick(data.appId, null);
+    pop.classList.remove('visible');
+  });
+
+  // Position: centred above/below the tapped entry
+  const rect = entry.getBoundingClientRect();
+  const pw = Math.min(300, window.innerWidth - 24);
+  let left = (window.innerWidth - pw) / 2;
+  let top = rect.bottom + 8;
+  if (top + 280 > window.innerHeight - 8) top = rect.top - 280 - 8;
+  if (top < 8) top = 8;
+  pop.style.left = left + 'px';
+  pop.style.top = top + 'px';
+  pop.style.width = pw + 'px';
+  pop.classList.add('visible');
+
+  // Dismiss on outside tap
+  const dismiss = (e) => {
+    if (!pop.contains(e.target) && e.target !== entry) {
+      pop.classList.remove('visible');
+      document.removeEventListener('touchstart', dismiss);
+      document.removeEventListener('mousedown', dismiss);
+    }
+  };
+  setTimeout(() => {
+    document.addEventListener('touchstart', dismiss, { once: false, passive: true });
+    document.addEventListener('mousedown', dismiss, { once: false });
+  }, 50);
 }
 
 function tlShowPop(chip, event) {
