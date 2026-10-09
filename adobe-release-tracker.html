@@ -78,6 +78,7 @@ aside { border-right:1px solid var(--border); padding:0 0 24px; background:var(-
 
 /* Main content */
 main { padding:28px 32px 48px; max-width:880px; }
+main.tl-active { padding:0; max-width:none; overflow:hidden; }
 .app-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:20px; gap:16px; }
 .app-header-left { display:flex; align-items:center; gap:12px; }
 .app-icon-lg { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-family:'DM Sans',sans-serif; font-size:22px; font-weight:700; flex-shrink:0; letter-spacing:-0.03em; overflow:hidden; }
@@ -201,6 +202,66 @@ main { padding:28px 32px 48px; max-width:880px; }
 .home-days-btn:hover { color:var(--text); border-color:var(--border2); background:var(--bg2); }
 .home-days-btn.active { background:var(--bg2); color:var(--text); border-color:var(--border2); font-weight:500; }
 .home-new-dot { width:5px; height:5px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+
+/* ── Timeline view ─────────────────────────────────────────────────────────── */
+.tl-wrap { padding:0; display:flex; flex-direction:column; height:calc(100vh - var(--header-h)); }
+.tl-sticky { position:sticky; top:0; background:var(--bg); z-index:4; padding:20px 28px 12px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.tl-title { font-size:16px; font-weight:600; color:var(--text); letter-spacing:-.01em; flex:1; min-width:120px; }
+.tl-filter { display:flex; gap:6px; flex-wrap:wrap; }
+.tl-filter-btn { background:none; border:1px solid var(--border); border-radius:6px; color:var(--muted); cursor:pointer; font-family:'DM Sans',sans-serif; font-size:11px; padding:4px 10px; transition:all .12s; }
+.tl-filter-btn:hover { color:var(--text); border-color:var(--border2); background:var(--bg2); }
+.tl-filter-btn.active { background:var(--bg2); color:var(--text); border-color:var(--border2); font-weight:500; }
+.tl-scroll { overflow:auto; flex:1; padding:0; }
+
+/* Desktop: horizontal swimlanes */
+.tl-grid { display:grid; min-width:max-content; }
+.tl-header-row { display:contents; }
+.tl-corner { position:sticky; left:0; background:var(--bg); z-index:3; padding:8px 12px 8px 16px; border-bottom:1px solid var(--border); border-right:1px solid var(--border); width:140px; min-width:140px; max-width:140px; box-sizing:border-box; }
+.tl-month-cell { padding:6px 4px; text-align:center; font-size:10px; color:var(--hint); letter-spacing:.04em; text-transform:uppercase; border-bottom:1px solid var(--border); border-right:1px solid var(--border); min-width:44px; font-variant-numeric:tabular-nums; white-space:nowrap; overflow:hidden; }
+.tl-month-cell.current-month { color:var(--text); font-weight:600; }
+.tl-row-label { position:sticky; left:0; background:var(--bg); z-index:2; display:flex; align-items:center; gap:7px; padding:0 12px 0 16px; border-right:1px solid var(--border); border-bottom:1px solid var(--border); min-height:40px; cursor:pointer; transition:background .1s; width:140px; min-width:140px; max-width:140px; overflow:hidden; box-sizing:border-box; }
+.tl-row-label:hover { background:var(--bg2); }
+.tl-row-label-name { font-size:11px; color:var(--muted); font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:88px; }
+.tl-cell { border-right:1px solid var(--border); border-bottom:1px solid var(--border); min-width:44px; min-height:40px; display:flex; align-items:center; justify-content:center; padding:4px 3px; position:relative; }
+.tl-cell.current-month { background:rgba(255,255,255,0.015); }
+.tl-chip { display:inline-flex; align-items:center; justify-content:center; border-radius:12px; font-size:9.5px; font-weight:600; padding:2px 6px; cursor:pointer; transition:opacity .1s, transform .1s; white-space:nowrap; letter-spacing:.02em; border:1px solid transparent; }
+.tl-chip:hover { opacity:.8; transform:scale(1.08); }
+.tl-chip.is-new { box-shadow:0 0 0 1.5px currentColor; }
+.tl-group-label { font-size:9px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--hint); padding:6px 28px 2px; position:sticky; left:0; }
+
+/* Popover */
+.tl-pop { position:fixed; z-index:100; background:var(--bg2); border:1px solid var(--border2); border-radius:10px; padding:10px 12px; box-shadow:0 8px 24px rgba(0,0,0,.5); max-width:280px; pointer-events:none; opacity:0; transition:opacity .12s; }
+.tl-pop.visible { opacity:1; pointer-events:auto; }
+.tl-pop-header { display:flex; align-items:center; gap:7px; margin-bottom:6px; }
+.tl-pop-name { font-size:12px; font-weight:600; color:var(--text); }
+.tl-pop-date { font-size:10px; color:var(--hint); margin-left:auto; }
+.tl-pop-feats { list-style:none; padding:0; margin:0; }
+.tl-pop-feats li { font-size:11px; color:var(--muted); padding:2px 0; border-top:1px solid var(--border); display:flex; gap:5px; align-items:flex-start; }
+.tl-pop-feats li::before { content:"→"; color:var(--hint); flex-shrink:0; }
+.tl-pop-feats li.is-new-feat { color:var(--text); }
+.tl-pop-more { font-size:10px; color:var(--hint); margin-top:4px; }
+.tl-pop-viewall { display:block; margin-top:8px; font-size:11px; color:var(--hint); text-align:right; cursor:pointer; }
+.tl-pop-viewall:hover { color:var(--text); }
+
+/* Mobile: vertical timeline */
+@media (max-width:640px) {
+  .tl-sticky { padding:14px 16px 10px; }
+  .tl-scroll { padding:0 12px 24px; }
+  .tl-grid { display:none; }
+  .tl-mobile { display:block; }
+  .tl-m-month { font-size:11px; font-weight:600; color:var(--text); padding:14px 0 6px; border-bottom:1px solid var(--border); margin-bottom:8px; letter-spacing:.03em; }
+  .tl-m-month:first-child { padding-top:8px; }
+  .tl-m-entry { display:flex; gap:10px; align-items:flex-start; padding:5px 0; cursor:pointer; }
+  .tl-m-entry:hover .tl-m-name { color:var(--text); }
+  .tl-m-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:4px; }
+  .tl-m-app { font-size:11px; color:var(--hint); min-width:80px; flex-shrink:0; }
+  .tl-m-name { font-size:11.5px; color:var(--muted); line-height:1.4; }
+  .tl-m-name.is-new { color:var(--text); font-weight:500; }
+}
+@media (min-width:641px) {
+  .tl-mobile { display:none; }
+}
+
 .home-empty { color:var(--hint); font-size:13px; padding:24px 0; }
 .home-view-all { background:none; border:1px solid var(--border); border-radius:6px; color:var(--muted); cursor:pointer; font-family:'DM Sans',sans-serif; font-size:11px; padding:3px 9px; transition:all .12s; white-space:nowrap; display:flex; align-items:center; gap:4px; flex-shrink:0; }
 .home-view-all:hover { color:var(--text); border-color:var(--border2); background:var(--bg2); }
@@ -357,6 +418,10 @@ mark { background:transparent; color:var(--text); font-weight:600; border-bottom
     <button class="home-btn active" id="home-btn">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       Recent updates
+    </button>
+    <button class="home-btn" id="timeline-btn" onclick="activeView='timeline';document.getElementById('home-btn').classList.remove('active');this.classList.add('active');buildTimeline();">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/><circle cx="8" cy="6" r="2" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="10" cy="18" r="2" fill="currentColor" stroke="none"/></svg>
+      Timeline
     </button>
   </div>
   </div><!-- /sidebar-sticky-header -->
@@ -3170,6 +3235,8 @@ function buildSidebar(){
       hb.classList.toggle("active", activeView==="home");
       hb.onclick = ()=>{activeView="home";buildSidebar();buildDrawer();buildHome();};
     }
+    const tb = document.getElementById("timeline-btn");
+    if(tb) tb.classList.toggle("active", activeView==="timeline");
   },0);
   const el = document.getElementById("sidebar-apps");
   el.innerHTML = "";
@@ -3187,7 +3254,7 @@ function buildSidebar(){
       btn.className = "app-btn" + (id===activeApp&&activeView!=="home"?" active":"") + (app.isBeta?" beta-btn":"") + (app.isSubPlatform?" sub-platform":"");
       btn.style.borderLeftColor = id===activeApp ? (app.fgColor||app.color) : "transparent";
       btn.innerHTML = `${app.svg ? `<span class="app-icon" id="icon-${id}" style="border-radius:7px;overflow:hidden;background:transparent;width:28px;height:28px;flex-shrink:0;display:flex;align-items:center;justify-content:center;"></span>` : `<span class="app-icon${app.isBeta?" beta-icon":""}" style="background:${iconSmallBg(app,id,id===activeApp)};color:${iconSmallFg(app,id)}">${app.icon}</span>`}${app.name}<span class="rel-count">${total}</span>`;
-      btn.addEventListener("click",()=>{activeApp=id;activeView="app";document.getElementById("home-btn").classList.remove("active");buildSidebar();buildDrawer();buildMain();updateChip();});
+      btn.addEventListener("click",()=>{activeApp=id;activeView="app";document.getElementById("home-btn").classList.remove("active");const _tb=document.getElementById("timeline-btn");if(_tb)_tb.classList.remove("active");buildSidebar();buildDrawer();buildMain();updateChip();});
       el.appendChild(btn);
       if(app.svg){ const slot=document.getElementById('icon-'+id); if(slot) setIconImg(slot,id,28); }
     });
@@ -3195,6 +3262,8 @@ function buildSidebar(){
 }
 
 function buildMain(){
+  if(tlPopEl){tlPopEl.classList.remove("visible");}
+  const _mc=document.getElementById("main-content");if(_mc)_mc.classList.remove("tl-active");
   const app = APPS[activeApp];
   const d = DATA[activeApp];
   const total = d.releases.reduce((a,r)=>a+(r.isBugFix?0:r.features.length),0);
@@ -3332,6 +3401,334 @@ function buildMain(){
 
 
 
+
+// ── Timeline view ─────────────────────────────────────────────────────────────
+let tlFilter = 'core'; // 'core' | 'beta' | 'mobile'
+
+const TL_GROUPS = {
+  core: {
+    label: 'Core apps',
+    ids: ['illustrator','photoshop','indesign','premiere','aftereffects','audition','fresco','express',
+          'lightroom','lightroomclassic','cameraraw','bridge','acrobat','firefly','mediaencoder',
+          'characteranimator','frameio','substance3dpainter','substance3ddesigner','substance3dstager','substance3dsampler']
+  },
+  beta: {
+    label: 'Beta & Preview',
+    ids: ['illustratorbeta','photoshopbeta','indesignbeta','premierebeta','aftereffectsbeta','lightroomclassicbeta','illustratorweb']
+  },
+  mobile: {
+    label: 'Mobile & Web',
+    ids: ['illustratoripad','photoshopipad','photoshopmobile','photoshopweb','acrobatmobile','acrobatweb','expressmobile','frameiodrive']
+  }
+};
+
+function tlParseDate(str) {
+  if (!str) return null;
+  const M = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+  let m = str.match(/([A-Z][a-z]{2})\.\s*(\d+),\s*(\d{4})/);
+  if (m) return new Date(+m[3], M[m[1]], +m[2]);
+  m = str.match(/([A-Z][a-z]{2})\.\s*(\d{4})/);
+  if (m) return new Date(+m[2], M[m[1]], 1);
+  m = str.match(/([A-Z][a-z]{2})\./);
+  if (m) { const yr = str.match(/(\d{4})/); if (yr) return new Date(+yr[1], M[m[1]], 1); }
+  m = str.match(/^(\d{4})$/);
+  if (m) return new Date(+m[1], 0, 1);
+  return null;
+}
+
+function buildTimeline() {
+  const mc = document.getElementById("main-content");
+  mc.classList.add("tl-active");
+  const appIds = TL_GROUPS[tlFilter].ids.filter(id => APPS[id] && DATA[id]);
+
+  // Collect all releases with parsed dates
+  const allReleases = [];
+  appIds.forEach(appId => {
+    DATA[appId].releases.forEach(rel => {
+      if (rel.isBugFix) return;
+      const d = tlParseDate(rel.date);
+      if (!d) return;
+      allReleases.push({ appId, rel, d });
+    });
+  });
+
+  if (allReleases.length === 0) {
+    mc.innerHTML = '<div style="padding:40px 28px;color:var(--hint)">No releases to display.</div>';
+    return;
+  }
+
+  // Date range: oldest release → today + 1 month
+  const today = new Date();
+  // Start at most 18 months back — keeps the grid focused and readable
+  const cutoffDate = new Date(today.getFullYear(), today.getMonth() - 17, 1);
+  const minDate = allReleases.reduce((a,b) => b.d < a ? b.d : a, allReleases[0].d);
+  const effectiveStart = minDate > cutoffDate ? minDate : cutoffDate;
+  const startY = effectiveStart.getFullYear(), startM = effectiveStart.getMonth();
+  // End exactly at current month — no future columns
+  const endY = today.getFullYear(), endM = today.getMonth();
+
+  // Build months array
+  const months = [];
+  let y = startY, mo = startM;
+  while (y < endY || (y === endY && mo <= endM)) {
+    months.push({ y, m: mo, key: `${y}-${String(mo).join ? mo : mo}` });
+    mo++;
+    if (mo > 11) { mo = 0; y++; }
+  }
+  const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  // Group releases by appId + month key
+  const grouped = {}; // grouped[appId][monthKey] = [releases]
+  allReleases.forEach(({ appId, rel, d }) => {
+    const key = `${d.getFullYear()}-${d.getMonth()}`;
+    if (!grouped[appId]) grouped[appId] = {};
+    if (!grouped[appId][key]) grouped[appId][key] = [];
+    grouped[appId][key].push({ rel, d });
+  });
+
+  // Filter buttons HTML
+  const filterBtns = Object.entries(TL_GROUPS).map(([k,v]) =>
+    `<button class="tl-filter-btn${k===tlFilter?' active':''}" data-filter="${k}">${v.label}</button>`
+  ).join('');
+
+  // ── Desktop grid ──────────────────────────────────────────────────────────
+  const colCount = months.length + 1; // +1 for label column
+  let gridHTML = `<div class="tl-grid" style="grid-template-columns:140px repeat(${months.length},minmax(54px,1fr));width:100%;">`;
+
+  // Header row
+  gridHTML += '<div class="tl-corner"></div>';
+  months.forEach(({ y, m }) => {
+    const isCur = (y === today.getFullYear() && m === today.getMonth());
+    const label = m === 0 ? `${MON[m]}<br><span style="font-size:9px;opacity:.7">${y}</span>` :
+                  (m % 3 === 0 ? `${MON[m]}<br><span style="font-size:9px;opacity:.5">${String(y).slice(2)}</span>` : MON[m]);
+    gridHTML += `<div class="tl-month-cell${isCur?' current-month':''}">${label}</div>`;
+  });
+
+  // App rows
+  appIds.forEach(appId => {
+    const app = APPS[appId];
+    const accentColor = app.fgColor || '#ffffff';
+    const iconId = `tl-icon-${appId}`;
+    const iconHTML = app.svg
+      ? `<div id="${iconId}" style="width:18px;height:18px;flex-shrink:0;border-radius:4px;overflow:hidden;background:transparent;"></div>`
+      : `<div style="width:18px;height:18px;flex-shrink:0;border-radius:4px;font-size:7px;display:flex;align-items:center;justify-content:center;background:${iconBg(app,appId)};color:${iconFg(app,appId)};font-weight:700">${app.icon}</div>`;
+
+    const TL_SHORT_NAMES = {
+      lightroomclassic: 'Lr Classic',
+      substance3dpainter: 'Sb Painter',
+      substance3ddesigner: 'Sb Designer',
+      substance3dstager: 'Sb Stager',
+      substance3dsampler: 'Sb Sampler',
+      characteranimator: 'Ch Animator',
+      mediaencoder: 'Md Encoder',
+      photoshopipad: 'Ps iPad',
+      photoshopmobile: 'Ps Mobile',
+      photoshopweb: 'Ps Web',
+      illustratoripad: 'Ai iPad',
+      acrobatmobile: 'Ac Mobile',
+      acrobatweb: 'Ac Web',
+      expressmobile: 'Ex Mobile',
+      frameiodrive: 'Fr.io Drive',
+      illustratorbeta: 'Ai Beta',
+      photoshopbeta: 'Ps Beta',
+      indesignbeta: 'Id Beta',
+      premierebeta: 'Pr Beta',
+      aftereffectsbeta: 'Ae Beta',
+      lightroomclassicbeta: 'Lr Cl. Beta',
+      illustratorweb: 'Ai Web',
+    };
+    const tlDisplayName = TL_SHORT_NAMES[appId] || app.name;
+    gridHTML += `<div class="tl-row-label" onclick="activeApp='${appId}';activeView='app';document.getElementById('home-btn').classList.remove('active');document.getElementById('timeline-btn').classList.remove('active');buildSidebar();buildDrawer();buildMain();updateChip();">
+      ${iconHTML}
+      <span class="tl-row-label-name" title="${app.name}">${tlDisplayName}</span>
+    </div>`;
+
+    months.forEach(({ y, m }) => {
+      const key = `${y}-${m}`;
+      const isCur = (y === today.getFullYear() && m === today.getMonth());
+      const rels = grouped[appId] && grouped[appId][key] ? grouped[appId][key] : [];
+
+      if (rels.length === 0) {
+        gridHTML += `<div class="tl-cell${isCur?' current-month':''}"></div>`;
+        return;
+      }
+
+      const hasNew = rels.some(r => r.rel.isNew);
+      const isBeta = rels[0].rel.isBeta || app.isBeta;
+      const chipLabel = rels.length > 1 ? `×${rels.length}` : `v${rels[0].rel.version.split(' ')[0].substring(0,6)}`;
+      const chipBg = isBeta ? 'rgba(155,143,255,0.15)' : `${accentColor}22`;
+      const chipColor = isBeta ? '#9B8FFF' : accentColor;
+
+      // Encode release data for popover
+      const popData = encodeURIComponent(JSON.stringify({
+        appId,
+        appName: app.name,
+        rels: rels.map(({rel}) => ({
+          version: rel.version,
+          name: rel.name,
+          date: rel.date,
+          isNew: rel.isNew,
+          feats: rel.features.slice(0,4).map(f => ({
+            name: f.name.replace(/^🆕 /,'').replace(/^Fix: /,'Fix: '),
+            isNew: f.name.startsWith('🆕')
+          })),
+          total: rel.features.length
+        }))
+      }));
+
+      gridHTML += `<div class="tl-cell${isCur?' current-month':''}">
+        <span class="tl-chip${hasNew?' is-new':''}" style="background:${chipBg};color:${chipColor};border-color:${chipColor}33"
+          data-pop="${popData}"
+          onmouseenter="tlShowPop(this,event)"
+          onmouseleave="tlHidePop()"
+        >${chipLabel}</span>
+      </div>`;
+    });
+  });
+  gridHTML += '</div>';
+
+  // ── Mobile vertical timeline ──────────────────────────────────────────────
+  // Group by month, then by app
+  const byMonth = {};
+  allReleases.forEach(({ appId, rel, d }) => {
+    const key = `${d.getFullYear()}-${String(d.getMonth()).padStart(2,'0')}`;
+    if (!byMonth[key]) byMonth[key] = { y: d.getFullYear(), m: d.getMonth(), entries: [] };
+    byMonth[key].entries.push({ appId, rel });
+  });
+
+  let mobileHTML = '<div class="tl-mobile">';
+  Object.keys(byMonth).sort().reverse().forEach(key => {
+    const { y, m, entries } = byMonth[key];
+    mobileHTML += `<div class="tl-m-month">${MON[m]} ${y}</div>`;
+    entries.forEach(({ appId, rel }) => {
+      const app = APPS[appId];
+      const accentColor = app.fgColor || '#ffffff';
+      const isBeta = rel.isBeta || app.isBeta;
+      const dotColor = isBeta ? '#9B8FFF' : accentColor;
+      mobileHTML += `<div class="tl-m-entry" onclick="activeApp='${appId}';activeView='app';document.getElementById('home-btn').classList.remove('active');document.getElementById('timeline-btn').classList.remove('active');buildSidebar();buildDrawer();buildMain();updateChip();">
+        <div class="tl-m-dot${rel.isNew?' is-new':''}" style="background:${dotColor}"></div>
+        <span class="tl-m-app">${app.name}</span>
+        <span class="tl-m-name${rel.isNew?' is-new':''}">${rel.name}</span>
+      </div>`;
+    });
+  });
+  mobileHTML += '</div>';
+
+  mc.innerHTML = `<div class="tl-wrap">
+    <div class="tl-sticky">
+      <div class="tl-title">Timeline</div>
+      <div class="tl-filter">${filterBtns}</div>
+    </div>
+    <div class="tl-scroll">
+      ${gridHTML}
+      ${mobileHTML}
+    </div>
+  </div>`;
+
+  // Rasterize SVG icons in row labels
+  appIds.forEach(appId => {
+    const app = APPS[appId];
+    if (!app || !app.svg) return;
+    const el = document.getElementById(`tl-icon-${appId}`);
+    if (el) setIconImg(el, appId, 18);
+  });
+
+  // Wire filter buttons
+  mc.querySelectorAll('.tl-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => { tlFilter = btn.dataset.filter; buildTimeline(); });
+  });
+
+  // Hide popover on scroll
+  const tlScrollEl = mc.querySelector('.tl-scroll');
+  if (tlScrollEl) tlScrollEl.addEventListener('scroll', () => { if(tlPopEl) tlPopEl.classList.remove('visible'); }, {passive:true});
+
+  // Scroll to current month
+  setTimeout(() => {
+    const scroll = mc.querySelector('.tl-scroll');
+    const curCell = mc.querySelector('.tl-month-cell.current-month');
+    if (scroll && curCell) {
+      const labelW = 140;
+      scroll.scrollLeft = Math.max(0, curCell.offsetLeft - labelW - 60);
+    }
+  }, 50);
+}
+
+// ── Popover ───────────────────────────────────────────────────────────────────
+let tlPopEl = null;
+let tlPopTimeout = null;
+
+function tlEnsurePop() {
+  if (!tlPopEl) {
+    tlPopEl = document.createElement('div');
+    tlPopEl.className = 'tl-pop';
+    tlPopEl.id = 'tl-popover';
+    tlPopEl.addEventListener('mouseenter', () => clearTimeout(tlPopTimeout));
+    tlPopEl.addEventListener('mouseleave', tlHidePop);
+    document.body.appendChild(tlPopEl);
+  }
+  return tlPopEl;
+}
+
+function tlShowPop(chip, event) {
+  clearTimeout(tlPopTimeout);
+  const pop = tlEnsurePop();
+  const data = JSON.parse(decodeURIComponent(chip.dataset.pop));
+
+  let html = '';
+  data.rels.forEach(r => {
+    html += `<div class="tl-pop-header">
+      <span class="v-badge" style="font-size:9px;padding:1px 5px">${r.version.substring(0,10)}</span>
+      <span class="tl-pop-name">${r.name}</span>
+      ${r.isNew ? '<span class="new-badge" style="font-size:8px;padding:1px 4px">NEW</span>' : ''}
+      <span class="tl-pop-date">${r.date}</span>
+    </div>
+    <ul class="tl-pop-feats">`;
+    r.feats.forEach(f => {
+      const name = f.name.length > 60 ? f.name.slice(0,60)+'…' : f.name;
+      html += `<li class="${f.isNew?'is-new-feat':''}">${name}</li>`;
+    });
+    html += '</ul>';
+    if (r.total > r.feats.length) html += `<div class="tl-pop-more">+${r.total - r.feats.length} more</div>`;
+  });
+  html += `<div class="tl-pop-viewall" data-appid="${data.appId}">View all in ${data.appName} →</div>`;
+  pop.innerHTML = html;
+
+  pop.querySelector('.tl-pop-viewall').addEventListener('click', () => {
+    tlChipClick(data.appId, null);
+    tlHidePop();
+  });
+
+  // Position popover — use event coords for reliability inside overflow:auto
+  const pw = 280;
+  let left = event.clientX - pw / 2;
+  let top = event.clientY + 16;
+  if (left + pw > window.innerWidth - 8) left = window.innerWidth - pw - 8;
+  if (left < 8) left = 8;
+  if (top + 240 > window.innerHeight - 8) top = event.clientY - 260;
+  pop.style.left = left + 'px';
+  pop.style.top = top + 'px';
+  pop.style.width = pw + 'px';
+  pop.classList.add('visible');
+}
+
+function tlHidePop() {
+  tlPopTimeout = setTimeout(() => {
+    if (tlPopEl) tlPopEl.classList.remove('visible');
+  }, 200);
+}
+
+function tlChipClick(appId, event) {
+  if (event) event.stopPropagation();
+  activeApp = appId;
+  activeView = 'app';
+  document.getElementById('home-btn').classList.remove('active');
+  document.getElementById('timeline-btn').classList.remove('active');
+  buildSidebar();
+  buildDrawer();
+  buildMain();
+  updateChip();
+}
+
 // ── Home / Recent updates ─────────────────────────────────────────────────────
 let homeDays = 30;
 
@@ -3350,6 +3747,8 @@ function parseReleaseDate(str) {
 }
 
 function buildHome() {
+  if(tlPopEl){tlPopEl.classList.remove("visible");}
+  const _mc=document.getElementById("main-content");if(_mc)_mc.classList.remove("tl-active");
   const cutoff = new Date();
   cutoff.setDate(cutoff.getDate() - homeDays);
   const mc = document.getElementById("main-content");
