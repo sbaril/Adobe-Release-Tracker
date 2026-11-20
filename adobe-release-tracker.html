@@ -391,7 +391,7 @@ mark { background:transparent; color:var(--text); font-weight:600; border-bottom
   </g>
 </svg></div>
     <h1>Adobe Release Tracker</h1>
-    <span class="header-sub">36 apps · weekly tracker</span>
+    <span class="header-sub">37 apps · weekly tracker</span>
     <span class="header-sub" style="margin-left:auto;font-size:10.5px;color:var(--hint);font-weight:400;white-space:normal;text-align:right;">Personal project · tracks public release notes from Adobe Creative solutions · not affiliated with Adobe</span>
   </div>
   <div style="display:flex;align-items:center;gap:8px;">
@@ -476,7 +476,7 @@ mark { background:transparent; color:var(--text); font-weight:600; border-bottom
 <script>
 const GROUPS = [
   { label:"Graphic Design",   ids:["illustrator","illustratoripad","photoshop","photoshopipad","photoshopmobile","photoshopweb","indesign","fresco","express","expressmobile"] },
-  { label:"Video & Audio",    ids:["premiere","aftereffects","audition","mediaencoder","characteranimator","frameio","frameiodrive"] },
+  { label:"Video & Audio",    ids:["premiere","aftereffects","audition","mediaencoder","animate","characteranimator","frameio","frameiodrive"] },
   { label:"Photo & DAM",      ids:["lightroom","lightroomclassic","cameraraw","bridge","acrobat","acrobatmobile","acrobatweb"] },
   { label:"Generative AI",    ids:["firefly"] },
   { label:"Substance 3D",     ids:["substance3dpainter","substance3ddesigner","substance3dstager","substance3dsampler"] },
@@ -867,6 +867,23 @@ const APPS = {
     </g>
   </g>
 </svg>`, url:"https://helpx.adobe.com/media-encoder/using/whats-new.html",                                                         releaseNotesUrl:"https://helpx.adobe.com/media-encoder/release-note/release-notes-media-encoder.html"},
+  animate:            {name:"Animate",               color:"#00005B",fgColor:"#9999FF",icon:"An",svg:`<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 240 234">
+  <defs>
+    <style>
+      .animate-cls-1 { fill: none; }
+      .animate-cls-2 { clip-path: url(#animate-clippath-1); }
+      .animate-cls-3 { fill: #99f; }
+      .animate-cls-4 { fill: #00005b; }
+      .animate-cls-5 { clip-path: url(#animate-clippath); }
+    </style>
+    <clipPath id="animate-clippath"><rect class="animate-cls-1" width="240" height="234"/></clipPath>
+    <clipPath id="animate-clippath-1"><rect class="animate-cls-1" width="240" height="234"/></clipPath>
+  </defs>
+  <g id="Logos"><g id="Animate"><g class="animate-cls-5"><g class="animate-cls-2">
+    <path class="animate-cls-4" d="M42.5,0h155c23.47,0,42.5,19.03,42.5,42.5v149c0,23.47-19.03,42.5-42.5,42.5H42.5c-23.47,0-42.5-19.03-42.5-42.5V42.5C0,19.03,19.03,0,42.5,0"/>
+    <path class="animate-cls-3" d="M61.28,58.37l-40.32,107.2h27.2l6.4-18.72h42.4l6.4,18.72h28.32l-39.52-107.2h-30.88ZM62.56,123.66l13.28-39.04,13.28,39.04h-26.56ZM177.6,80.78c-15.52,0-29.6,4-39.36,8.32v76.48h25.28v-61.76c3.2-1.6,6.4-2.24,11.04-2.24,10.56,0,14.4,5.76,14.4,15.52v48.48h25.12v-49.92c0-22.4-12.32-34.72-36.48-34.88"/>
+  </g></g></g></g>
+</svg>`, url:"https://helpx.adobe.com/animate/desktop/introduction-to-animate/whats-new.html",                                        releaseNotesUrl:"https://helpx.adobe.com/animate/desktop/introduction-to-animate/release-notes.html"},
   characteranimator:  {name:"Character Animator",    color:"#0D0033",fgColor:"#9999FF",icon:"Ch",svg:`<svg style="width:100%;height:100%;display:block" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 240 234">
   <defs>
     <style>
@@ -2509,6 +2526,20 @@ mediaencoder:{lastChecked:"2026-11-20",releases:[
   ]},
 ]},
 
+animate:{lastChecked:"2026-11-20",releases:[
+  {version:"27.0",name:"November 2026 — MAX release",date:"Nov. 10, 2026",isNew:true,features:[
+    {name:"Turntable — explore new angles and refine designs without redrawing; view 2D artwork from multiple perspectives (first AI-powered feature in Animate since maintenance mode)",url:"https://helpx.adobe.com/animate/desktop/introduction-to-animate/whats-new.html"},
+    {name:"Content Credentials — assets containing generative AI content now include Content Credentials to keep AI-generated content identifiable",url:"https://helpx.adobe.com/animate/desktop/introduction-to-animate/release-notes.html"},
+    {name:"Unified Account Management — explore account details and track AI credits usage without leaving Animate",url:"https://helpx.adobe.com/animate/desktop/introduction-to-animate/release-notes.html"},
+    {name:"Foundational improvements — updated libraries, UI refresh, and significant stability improvements",url:"https://helpx.adobe.com/animate/desktop/introduction-to-animate/release-notes.html"},
+  ]},
+  {version:"26.0",name:"January 2026 release",date:"Jan. 2026",isNew:false,features:[
+    {name:"Stability and performance improvements only",url:"https://helpx.adobe.com/animate/desktop/introduction-to-animate/release-notes.html"},
+  ]},
+  {version:"25.6",name:"November 2025 release",date:"Nov. 2025",isNew:false,features:[
+    {name:"Stability and performance improvements only",url:"https://helpx.adobe.com/animate/desktop/introduction-to-animate/release-notes.html"},
+  ]},
+]},
 characteranimator:{lastChecked:"2026-11-20",releases:[
   {version:"27.0",name:"November 2026 — MAX release",isBugFix:true,date:"Nov. 10, 2026",isNew:false,features:[
     {name:"Stability and performance improvements only — no new features in this release",url:"https://helpx.adobe.com/adobe-character-animator/release-notes.html"},
